@@ -1,13 +1,10 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package Model;
 
-/**
- *
- * @author hieul
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,33 +15,40 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author hieul
+ * @author ACER
  */
 public class DBConnect {
-
-    Connection connection = null;
-
+    Connection connection=null;
     public DBConnect(String url, String user, String pass) {
         try {
-            //call driver
+            //call drive
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //connect
-            connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Connected");
+            connection=DriverManager.getConnection(url,user,pass);
+            System.out.println("connected");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public DBConnect() {
-        this("jdbc:sqlserver://localhost:1433;databaseName=OnlineQuiz", "sa", "123456");
+    public DBConnect(){
+        this("jdbc:sqlserver://localhost:1433;databaseName=QuizOnline","sa","123456");
     }
-
-//    public static void main(String[] args) {
-//        new DBConnect();
-//    }
-    // Comment 1 phat cho vui ne
+    public ResultSet getResultSet(String sql) {
+        ResultSet rs = null;
+        Statement state;
+        try {
+            state = connection.createStatement(
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = state.executeQuery(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    public static void main(String[] args){
+        new DBConnect();
+    }
 }
-
