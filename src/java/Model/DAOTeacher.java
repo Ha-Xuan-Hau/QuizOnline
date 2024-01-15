@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author hieul
  */
-public class TeacherDAO extends DBConnect {
+public class DAOTeacher extends DBConnect {
 
     public int insertTeacher(Teacher obj) {
         int n = 0;
@@ -31,13 +31,13 @@ public class TeacherDAO extends DBConnect {
             pre.setString(3, obj.getPhone());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
                     pre.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -58,7 +58,7 @@ public class TeacherDAO extends DBConnect {
             pre.setInt(3, obj.getAccountId());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
@@ -81,13 +81,13 @@ public class TeacherDAO extends DBConnect {
             pre.setString(1, id);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
                     pre.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

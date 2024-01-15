@@ -6,7 +6,7 @@ package Controller;
 
 
 import Entity.TakeExam;
-import Model.TakeExamDAO;
+import Model.DAOTakeExam;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,7 +38,7 @@ public class TakeExamController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            TakeExamDAO dao = new TakeExamDAO();
+            DAOTakeExam dao = new DAOTakeExam();
             String service = request.getParameter("go");
             if (service == null){
                 service = "listAllTakeExam";

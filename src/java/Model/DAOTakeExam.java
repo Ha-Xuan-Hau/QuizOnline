@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author hieul
  */
-public class TakeExamDAO extends DBConnect {
+public class DAOTakeExam extends DBConnect {
 
     public int insertTakeExam(TakeExam obj) {
         int n = 0;
@@ -41,13 +41,13 @@ public class TakeExamDAO extends DBConnect {
             pre.setString(6, obj.getEndDate());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
                     pre.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TakeExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOTakeExam.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class TakeExamDAO extends DBConnect {
             pre.setInt(7, obj.getTakeExamId());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(TakeExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOTakeExam.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
@@ -100,13 +100,13 @@ public class TakeExamDAO extends DBConnect {
             pre.setString(1, takeExamId);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
                     pre.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TakeExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOTakeExam.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

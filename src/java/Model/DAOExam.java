@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author hieul
  */
-public class ExamDAO extends DBConnect {
+public class DAOExam extends DBConnect {
 
     public int insertExam(Exam obj) {
         int n = 0;
@@ -48,7 +48,7 @@ public class ExamDAO extends DBConnect {
             pre.setBoolean(10, true);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(ExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOExam.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
@@ -91,7 +91,7 @@ public class ExamDAO extends DBConnect {
             pre.setInt(11, obj.getExamId());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(ExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOExam.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
@@ -114,13 +114,13 @@ public class ExamDAO extends DBConnect {
             pre.setString(1, examId);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(ExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOExam.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (pre != null) {
                 try {
                     pre.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(ExamDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOExam.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
