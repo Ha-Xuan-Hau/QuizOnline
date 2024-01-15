@@ -3,15 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Controller/TakeExamController.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Model/DBConnect.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Entity/Teacher.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Model/TakeExamDAO.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Entity/Exam.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Entity/TakeExam.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Controller/ExamController.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Controller/TeacherController.java</file>
-            <file>file:/C:/Users/hieul/Documents/NetBeansProjects/OnlineQuiz/src/java/Model/TeacherDAO.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/QuizOnline/src/java/Model/DBConnect.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/QuizOnline/web/index.html</file>
         </group>
     </open-files>
 </project-private>
