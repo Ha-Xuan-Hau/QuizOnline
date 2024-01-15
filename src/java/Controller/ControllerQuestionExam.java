@@ -5,7 +5,7 @@
 package Controller;
 
 import Model.DBConnect;
-import entity.quetionExam;
+import Entity.questionExam;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,6 +15,6 @@ import java.util.ArrayList;
  *
  * @author ACER
  */
-public class ControllerQuetionExam extends DBConnect{
+public class ControllerQuestionExam extends DBConnect{
     
 }

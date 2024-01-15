@@ -4,7 +4,7 @@
  */
 package Model;
 
-import entity.quetionExam;
+import Entity.questionExam;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,9 +17,9 @@ import java.util.logging.Logger;
  *
  * @author ACER
  */
-public class DAOQuetionExam extends DBConnect {
+public class DAOQuestionExam extends DBConnect {
 
-    public int insertQuetionExam(quetionExam obj) {
+    public int insertQuetionExam(questionExam obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[QuestionExam]\n"
                 + "           ([ExamId]\n"
@@ -36,14 +36,15 @@ public class DAOQuetionExam extends DBConnect {
             System.out.println(sql);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOQuetionExam.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOQuestionExam.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //run
         //run
 
         return n;
     }
 
-    public int updateQuetionExam(quetionExam obj) {
+    public int updateQuetionExam(questionExam obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[QuestionExam]\n"
                 + "   SET [ExamId] = ?\n"
@@ -61,7 +62,7 @@ public class DAOQuetionExam extends DBConnect {
             System.out.println(sql);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOQuetionExam.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOQuestionExam.class.getName()).log(Level.SEVERE, null, ex);
         }
         return n;
     }
@@ -73,13 +74,13 @@ public class DAOQuetionExam extends DBConnect {
             Statement state = connnection.createStatement();
             n = state.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(DAOQuetionExam.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOQuestionExam.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return n;
     }
-    public ArrayList<quetionExam> getData(String sql) {
-        ArrayList<quetionExam> List = new ArrayList<>();
+    public ArrayList<questionExam> getData(String sql) {
+        ArrayList<questionExam> List = new ArrayList<>();
         Statement state;
         try {
             state = connnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -90,7 +91,7 @@ public class DAOQuetionExam extends DBConnect {
                 int QuesId = rs.getInt(2);
                 String Content = rs.getString(3);
                 double Score = rs.getDouble(4);
-                quetionExam obj = new quetionExam(ExamId, QuesId, Content, Score);
+                questionExam obj = new questionExam(ExamId, QuesId, Content, Score);
 
                 List.add(obj);
             }

@@ -8,16 +8,16 @@ package Entity;
  *
  * @author ACER
  */
-public class quetionExam {
+public class questionExam {
     private int ExamId;
     private int QuesId;
     private String Content;
     private double Score;
 
-    public quetionExam() {
+    public questionExam() {
     }
 
-    public quetionExam(int ExamId, int QuesId, String Content, double Score) {
+    public questionExam(int ExamId, int QuesId, String Content, double Score) {
         this.ExamId = ExamId;
         this.QuesId = QuesId;
         this.Content = Content;

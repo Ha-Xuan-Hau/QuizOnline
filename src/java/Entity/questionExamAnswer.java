@@ -8,17 +8,17 @@ package Entity;
  *
  * @author ACER
  */
-public class quetionExamAnswer {
+public class questionExamAnswer {
     private int AnswerId;
     private int QuesId;
     private String Content;
     private boolean Correct;
     private double Percent;
 
-    public quetionExamAnswer() {
+    public questionExamAnswer() {
     }
 
-    public quetionExamAnswer(int AnswerId, int QuesId, String Content, boolean Correct, double Percent) {
+    public questionExamAnswer(int AnswerId, int QuesId, String Content, boolean Correct, double Percent) {
         this.AnswerId = AnswerId;
         this.QuesId = QuesId;
         this.Content = Content;

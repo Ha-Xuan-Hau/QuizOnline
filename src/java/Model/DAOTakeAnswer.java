@@ -1,6 +1,6 @@
 package Model;
 
-import entity.takeAnswer;
+import Entity.takeAnswer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

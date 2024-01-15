@@ -1,6 +1,6 @@
 package Model;
 
-import entity.quetionExamAnswer;
+import Entity.questionExamAnswer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DAOQuetionExamAnswer extends DBConnect {
+public class DAOQuestionExamAnswer extends DBConnect {
 
-    public int insertQuetionExamAnswer(quetionExamAnswer obj) {
+    public int insertQuetionExamAnswer(questionExamAnswer obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[QuestionExamAnswer]\n"
                 + "           ([QuesId]\n"
@@ -29,13 +29,13 @@ public class DAOQuetionExamAnswer extends DBConnect {
             pre.setDouble(4, obj.getPercent());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOQuetionExamAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOQuestionExamAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return n;
     }
 
-    public int updateQuetionExamAnswer(quetionExamAnswer obj) {
+    public int updateQuetionExamAnswer(questionExamAnswer obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[QuestionExamAnswer]\n"
                 + "   SET [QuesId] = ?\n"
@@ -52,7 +52,7 @@ public class DAOQuetionExamAnswer extends DBConnect {
             pre.setInt(5, obj.getAnswerId());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOQuetionExamAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOQuestionExamAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return n;
     }
@@ -64,14 +64,14 @@ public class DAOQuetionExamAnswer extends DBConnect {
             Statement state = connnection.createStatement();
             n = state.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(DAOQuetionExamAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOQuestionExamAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return n;
     }
 
-    public ArrayList<quetionExamAnswer> getData(String sql) {
-        ArrayList<quetionExamAnswer> List = new ArrayList<>();
+    public ArrayList<questionExamAnswer> getData(String sql) {
+        ArrayList<questionExamAnswer> List = new ArrayList<>();
         Statement state;
         try {
             state = connnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -83,7 +83,7 @@ public class DAOQuetionExamAnswer extends DBConnect {
                 String Content = rs.getString(3);
                 boolean Correct = rs.getBoolean(4);
                 double Percent = rs.getDouble(5);
-                quetionExamAnswer obj = new quetionExamAnswer(AnswerId, QuesId, Content, Correct, Percent);
+                questionExamAnswer obj = new questionExamAnswer(AnswerId, QuesId, Content, Correct, Percent);
 
                 List.add(obj);
             }
