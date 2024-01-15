@@ -25,7 +25,7 @@ public class TeacherDAO extends DBConnect {
                 + "VALUES (?, ?, ?)";
         PreparedStatement pre = null;
         try {
-            pre = conn.prepareStatement(sql);
+            pre = connection.prepareStatement(sql);
             pre.setInt(1, obj.getAccountId());
             pre.setString(2, obj.getTeacherName());
             pre.setString(3, obj.getPhone());
@@ -52,7 +52,7 @@ public class TeacherDAO extends DBConnect {
                 + "      ,[phone] = ?\n"
                 + " WHERE [AccountId] = ?";
         try {
-            pre = conn.prepareStatement(sql);
+            pre = connection.prepareStatement(sql);
             pre.setString(1, obj.getTeacherName());
             pre.setString(2, obj.getPhone());
             pre.setInt(3, obj.getAccountId());
@@ -77,7 +77,7 @@ public class TeacherDAO extends DBConnect {
         PreparedStatement pre = null;
         String sql = "DELETE FROM Teacher WHERE [AccountId] = ?";
         try {
-            pre = conn.prepareStatement(sql);
+            pre = connection.prepareStatement(sql);
             pre.setString(1, id);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
@@ -99,7 +99,7 @@ public class TeacherDAO extends DBConnect {
         Statement statement = null;
         ResultSet rs = null;
         try {
-            statement = conn.createStatement(
+            statement = connection.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE, //hỗ trợ Thread Safe
                     ResultSet.CONCUR_UPDATABLE);
             rs = statement.executeQuery(sql);
@@ -130,4 +130,18 @@ public class TeacherDAO extends DBConnect {
         }
         return list;
     }
+        public ResultSet getTeacherDB(String sql) {
+        ResultSet rs = null;
+        Statement state;
+        try {
+            state = connection.createStatement(
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = state.executeQuery(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
 }

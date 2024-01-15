@@ -22,14 +22,14 @@ import java.util.logging.Logger;
  */
 public class DBConnect {
 
-    Connection conn = null;
+    Connection connection = null;
 
     public DBConnect(String url, String user, String pass) {
         try {
             //call driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //connect
-            conn = DriverManager.getConnection(url, user, pass);
+            connection = DriverManager.getConnection(url, user, pass);
             System.out.println("Connected");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
@@ -42,22 +42,8 @@ public class DBConnect {
         this("jdbc:sqlserver://localhost:1433;databaseName=OnlineQuiz", "sa", "123456");
     }
 
-    public ResultSet getDataDB(String sql) {
-        ResultSet rs = null;
-        Statement state;
-        try {
-            state = conn.createStatement(
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            rs = state.executeQuery(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return rs;
-    }
-
-    public static void main(String[] args) {
-        new DBConnect();
-    }
+//    public static void main(String[] args) {
+//        new DBConnect();
+//    }
 }
 
