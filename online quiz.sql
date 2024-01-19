@@ -75,6 +75,13 @@ create table [QuestionSet](
 	[QuesId] int references [NormalQuestion](QuesId),
 	[SetVote] int 
  	)
+create table UserSetSaved(
+	[UserId] int,
+	[SetId] int,
+	Primary key(UserId, SetId),
+	FOREIGN KEY (UserId) REFERENCES [User](AccountId) on delete cascade,
+	FOREIGN KEY (SetId) REFERENCES QuestionSet(SetId) on delete cascade
+)	
 create table [ClassQuestionSet](
 	[ClassSetId] int identity primary key,
 	[ClassId] int references [Class](ClassId),
