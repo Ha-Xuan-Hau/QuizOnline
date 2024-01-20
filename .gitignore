@@ -2,4 +2,6 @@ lib/
 nbproject/
 build.xml
 /build/
+web/META-INF/context.xml
 /dist/
+*.xml
