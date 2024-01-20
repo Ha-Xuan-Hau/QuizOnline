@@ -129,7 +129,11 @@ public class DAOTakeExam extends DBConnect {
                 Double score = rs.getDouble("Score");
                 String startDate = rs.getString("StartDate");
                 String endDate = rs.getString("EndDate");
+<<<<<<< HEAD
                 TakeExam obj = new TakeExam(takeExamId, studentAccountId, examId, status, 1, startDate, endDate);
+=======
+                TakeExam obj = new TakeExam(takeExamId, studentAccountId, examId, status, 0, startDate, endDate);
+>>>>>>> trongquan
                 list.add(obj);
             }
         } catch (SQLException ex) {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 lib/
 nbproject/
 build.xml
@@ -7,3 +8,7 @@ web/META-INF/context.xml
 /dist/
 =======
 >>>>>>> Stashed changes
+=======
+/build/
+/dist/
+>>>>>>> trongquan

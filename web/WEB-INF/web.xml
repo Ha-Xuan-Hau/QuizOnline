@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>ControllerClass</servlet-name>
@@ -13,4 +14,43 @@
             30
         </session-timeout>
     </session-config>
+=======
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+	 version="6.0">
+    <servlet>
+        <servlet-name>classrequest</servlet-name>
+        <servlet-class>Controller.classrequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>studentrequest</servlet-name>
+        <servlet-class>Controller.studentrequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>takeclassrequest</servlet-name>
+        <servlet-class>Controller.takeclassrequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>classquestionsetrequest</servlet-name>
+        <servlet-class>Controller.classquestionsetrequest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>classrequest</servlet-name>
+        <url-pattern>/classrequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>studentrequest</servlet-name>
+        <url-pattern>/studentrequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>takeclassrequest</servlet-name>
+        <url-pattern>/takeclassrequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>classquestionsetrequest</servlet-name>
+        <url-pattern>/classquestionsetrequest</url-pattern>
+    </servlet-mapping>
+>>>>>>> trongquan
 </web-app>
