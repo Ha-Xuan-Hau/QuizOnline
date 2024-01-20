@@ -80,8 +80,8 @@ create table UserSetSaved(
 	[SetId] int,
 	Primary key(UserId, SetId),
 	FOREIGN KEY (UserId) REFERENCES [User](AccountId) on delete cascade,
-	FOREIGN KEY (SetId) REFERENCES QuestionSet(SetId) on delete cascade
-)	
+    FOREIGN KEY (SetId) REFERENCES QuestionSet(SetId) on delete cascade
+)
 create table [ClassQuestionSet](
 	[ClassSetId] int identity primary key,
 	[ClassId] int references [Class](ClassId),
