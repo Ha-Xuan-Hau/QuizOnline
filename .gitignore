@@ -2,4 +2,8 @@ lib/
 nbproject/
 build.xml
 /build/
+web/META-INF/context.xml
+<<<<<<< Updated upstream
 /dist/
+=======
+>>>>>>> Stashed changes
