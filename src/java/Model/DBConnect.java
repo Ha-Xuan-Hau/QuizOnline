@@ -2,25 +2,41 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class DBConnect {
-
-    Connection connection = null;
-    String connectionString = "jdbc:sqlserver://localhost:1433;databaseName=OnlineQuiz;user=sa;password=12345";
-    public DBConnect(){
-       
+    Connection connection=null;
+    public DBConnect(String url, String user, String pass) {
         try {
+            //call drive
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(connectionString);
-            
-            if(connection != null){
-                System.out.println("Connected");
-            }
+            //connect
+            connection=DriverManager.getConnection(url,user,pass);
+            System.out.println("connected");
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex.toString());
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void main(String[] args) {
-        DBConnect a = new DBConnect();
- }
+    public DBConnect(){
+        this("jdbc:sqlserver://localhost:1433;databaseName=OnlineQuiz","sa","12345");
+    }
+        public ResultSet getResultSet(String sql) {
+        ResultSet rs = null;
+        Statement state;
+        try {
+            state = connection.createStatement(
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = state.executeQuery(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    public static void main(String[] args){
+        new DBConnect();
+    }
 }
