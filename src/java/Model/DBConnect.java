@@ -33,7 +33,7 @@ public class DBConnect {
         }
     }
     public DBConnect(){
-        this("jdbc:sqlserver://localhost:1433;databaseName=QuizOnline","sa","123456");
+        this("jdbc:sqlserver://localhost:1433;databaseName=OnlineQuiz","sa","123456");
     }
     public ResultSet getResultSet(String sql) {
         ResultSet rs = null;
