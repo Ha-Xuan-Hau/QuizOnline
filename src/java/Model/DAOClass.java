@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,34 +93,62 @@ public class DAOClass extends DBConnect {
         return null;
     }
 
-    public Vector<Class> getAll() {
-        Vector<Class> vector = new Vector<Class>();
+    public ArrayList<Class> getdata() {
+        ArrayList<Class> arrayList = new ArrayList<>();
         String sql = "select * from Class";
         Statement state;
+
         try {
             state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = state.executeQuery(sql);
+
             while (rs.next()) {
                 int ClassId = rs.getInt(1);
                 String ClassName = rs.getString(2);
                 int TeacherAccountId = rs.getInt(3);
                 String CreateDate = rs.getString(4);
+
                 Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
-                vector.add(obj);
+                arrayList.add(obj);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return vector;
-
+        return arrayList;
     }
-    public static void main(String[] args) {
-        DAOClass dao = new DAOClass();
-        int n =dao.UpdateClass(new Class(1012, "skjdh", 103, "2022-01-03"));
-        if(n!= 0){
-            System.out.println("ok");
+    
+    public ArrayList<Class> getDataByTeacherID(int teacherAccountId) {
+    ArrayList<Class> arrayList = new ArrayList<>();
+    String sql = "SELECT * FROM Class WHERE TeacherAccountId = " + teacherAccountId;
+    Statement state;
+
+    try {
+        state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = state.executeQuery(sql);
+
+        while (rs.next()) {
+            int ClassId = rs.getInt(1);
+            String ClassName = rs.getString(2);
+            int TeacherAccountId = rs.getInt(3);
+            String CreateDate = rs.getString(4);
+
+            Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
+            arrayList.add(obj);
         }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return arrayList;
+}
+
+        public static void main(String[] args) {
+        DAOClass dao = new DAOClass();
+        System.out.println(dao.getDataByTeacherID(1));
+        
     }
 
 }

@@ -12,6 +12,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import Entity.Class;
+import Model.DAOClass;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -34,7 +38,12 @@ public class ControllerClassList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
+            HttpSession session = request.getSession();
             if (service == null){
+                DAOClass dao = new DAOClass();
+//                int acc = (int) session.getAttribute("acc");
+                ArrayList<Class> classList = dao.getDataByTeacherID(1);
+                request.setAttribute("data", classList);
                 request.getRequestDispatcher("/Class/classList.jsp").forward(request, response);
             }
         }
