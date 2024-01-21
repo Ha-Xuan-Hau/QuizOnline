@@ -143,5 +143,24 @@ public class DAOTeacher extends DBConnect {
         }
         return rs;
     }
+        
+        public Teacher getTeacherByAccountId(int accountId) {
+    String sql = "SELECT * FROM Teacher WHERE AccountId = ?";
+       try {
+
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, accountId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                Teacher obj = new Teacher();
+                obj.setAccountId(rs.getInt(1));
+                obj.setTeacherName(rs.getString(2));
+                obj.setPhone(rs.getString(3));
+                return obj;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
     
 }
