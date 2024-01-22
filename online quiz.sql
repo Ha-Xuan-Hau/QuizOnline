@@ -121,3 +121,5 @@ create table [TakeAnswer](
 	[QuesId] int references [QuestionExam](QuesId),
 	[AnswerId] int references [QuestionExamAnswer](AnswerId)
 	)
+alter table [User]
+add email nvarchar(100)
