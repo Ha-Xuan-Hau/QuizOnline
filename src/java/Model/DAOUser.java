@@ -21,20 +21,22 @@ import java.util.logging.Logger;
 public class DAOUser extends DBConnect {
 
     public List<User> getAllUser() {
-        List<User> users = new ArrayList<>();
+        List<User> user = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM [User]";
+            String sql = "select *from [User]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                User user = fromResultSet(rs);
-                users.add(user);
+                User us = fromResultSet(rs);
+                user.add(us);
+
             }
         } catch (Exception e) {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
         }
-        return users;
+        return user;
+
     }
 
     public void insertUser(User user) {
@@ -54,15 +56,17 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public User getUserById(int AccountId) {
+    
+    public User getUserById(int AccountId){
         try {
-            String sql = "SELECT * FROM [User] WHERE AccountId = ?";
+            String sql= "select *from [User] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId);
+            stm.setInt(1, AccountId );
             ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return fromResultSet(rs);
+            while(rs.next()){
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getBoolean(6));
             }
+            
         } catch (Exception e) {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -91,36 +95,68 @@ public class DAOUser extends DBConnect {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void deleteUser(int AccountId) {
-        try {
-            String sql = "DELETE FROM [User] WHERE AccountId = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId);
-            stm.executeUpdate();
-        } catch (Exception e) {
-            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
+    public User getUser(String username, String pass) throws SQLException {
+        String sql = "select * from Users where [Username] = ? and [Password] = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, username);
+        ps.setString(2, pass);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return fromResultSet(rs);
         }
+        return null;
     }
-
+    
+    public List<User> checkUser(String username, String passWord) {
+        List<User> t = new ArrayList<>();
+        try {
+            String sql = "select * from Users where [Username] = ? and [Password] = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, passWord);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                t.add(fromResultSet(rs));
+            }
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return t;
+    }
     public User fromResultSet(ResultSet rs) throws SQLException {
-        int AccountId = rs.getInt(1);
-        String Username = rs.getString(2);
-        String Email = rs.getString(3);
-        String Password = rs.getString(4);
-        int RoleId = rs.getInt(5);
-        boolean isActive = rs.getBoolean(6);
-
-        return new User(AccountId, Username, Email, Password, RoleId, isActive);
+        return new User(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getInt(5),
+                rs.getBoolean(6)
+        );
     }
-
+    public void deleteUser(int AccountId ){
+          try {
+            String sql= "delete from [User] where AccountId = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, AccountId );
+            stm.executeUpdate();
+           
+            
+        } catch (Exception e) {
+        }
+    
+    }
+    
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
-        List<User> users = dao.getAllUser();
-        for (User user : users) {
-            System.out.println(user);
+        List<User> us = dao.getAllUser();
+        for (User u : us) {
+            System.out.println(u);
+
         }
-        User user = dao.getUserById(1);
-        System.out.println(user);
+        User u = dao.getUserById(1);
+        System.out.println(u);
     }
+
 }

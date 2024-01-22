@@ -67,7 +67,7 @@ public class LoginController extends HttpServlet {
                 if (!isUser.isEmpty()) {
                     try {
                         User user = DAOUser.getUser(email, eu.toMD5(password));
-                        if (user.isIsActive()) {
+                        if (user.isActive()) {
                             request.getSession().setAttribute("validate", "You have been restricted to use our service!");
                             response.sendRedirect("/login");
                             return;
