@@ -11,6 +11,7 @@ package Entity;
 public class User {
     private int AccountId;
     private String Username;
+    private String Email;
     private String Password;
     private int RoleId;
     private boolean isActive;
@@ -18,10 +19,10 @@ public class User {
     public User() {
     }
 
-    
-    public User(int AccountId, String Username, String Password, int RoleId, boolean isActive) {
+    public User(int AccountId, String Username, String Email, String Password, int RoleId, boolean isActive) {
         this.AccountId = AccountId;
         this.Username = Username;
+        this.Email = Email;
         this.Password = Password;
         this.RoleId = RoleId;
         this.isActive = isActive;
@@ -43,6 +44,14 @@ public class User {
         this.Username = Username;
     }
 
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
     public String getPassword() {
         return Password;
     }
@@ -59,18 +68,23 @@ public class User {
         this.RoleId = RoleId;
     }
 
-    public boolean isIsActive() {
+    public boolean isActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
 
     @Override
     public String toString() {
-        return "user{" + "AccountId=" + AccountId + ", Username=" + Username + ", Password=" + Password + ", RoleId=" + RoleId + ", isActive=" + isActive + '}';
+        return "User{" +
+                "AccountId=" + AccountId +
+                ", Username='" + Username + '\'' +
+                ", Email='" + Email + '\'' +
+                ", Password='" + Password + '\'' +
+                ", RoleId=" + RoleId +
+                ", isActive=" + isActive +
+                '}';
     }
-    
-    
 }
