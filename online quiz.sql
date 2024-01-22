@@ -91,7 +91,7 @@ create table [ClassQuestionSet](
 	
 create table [TakeClass](
 	[TakeClassId] int identity primary key,
-	[StudentAccountId] int references [Student](AccountId) on delete CASCADE,
+	[StudentAccountId] int references [User](AccountId) on delete CASCADE,
 	[ClassId] int references [Class](ClassId) on delete CASCADE
 	)
 create table [QuestionExam](
@@ -109,9 +109,9 @@ create table [QuestionExamAnswer](
 	)
 create table [TakeExam](
 	[TakeExamId] int identity primary key,
-	[StudentAccountId] int references [Student](AccountId) on delete CASCADE,
+	[StudentAccountId] int references [User](AccountId) on delete CASCADE,
 	[ExamId] int references [Exam](ExamId) on delete CASCADE,
-	[Status] nvarchar(20),
+	[Status] nvarchar(20),	
 	[Score] decimal(5,2),
 	[StartDate] Datetime,
 	[EndDate] Datetime
