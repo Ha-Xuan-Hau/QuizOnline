@@ -122,4 +122,4 @@ create table [TakeAnswer](
 	[AnswerId] int references [QuestionExamAnswer](AnswerId)
 	)
 alter table [User]
-add email nvarchar(100)
+add Email nvarchar(100)
