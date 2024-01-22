@@ -10,6 +10,7 @@ create table [Role]	(
 create table [User] (
 	[AccountId] int primary key,
 	[Username] nvarchar(50) not null,
+	[Email] nvarchar(100),
 	[Password] nvarchar(100) not null,
 	[RoleId] int references [Role](RoleId),
 	[IsActive] bit default 1
@@ -71,26 +72,26 @@ create table [NormalQuestionAnswer](
 create table [QuestionSet](
 	[SetId] int identity primary key,
 	[UserAccountId] int references [User](AccountId),
-	[SubjectId] int references [Subject](SubjectId), 
-	[QuesId] int references [NormalQuestion](QuesId),
+	[SubjectId] int references [Subject](SubjectId) on delete cascade, 
+	[QuesId] int references [NormalQuestion](QuesId) on delete cascade,
 	[SetVote] int 
  	)
-create table UserSetSaved(
-	[UserId] int,
-	[SetId] int,
-	Primary key(UserId, SetId),
-	FOREIGN KEY (UserId) REFERENCES [User](AccountId) on delete cascade,
-    FOREIGN KEY (SetId) REFERENCES QuestionSet(SetId) on delete cascade
-)
+create table UserSetSaved (
+    UserId int,
+    SetId int,
+    Primary key (UserId, SetId),
+    Foreign key (UserId) references [User] (AccountId),
+    Foreign key (SetId) references QuestionSet (SetId) on delete cascade
+);
 create table [ClassQuestionSet](
 	[ClassSetId] int identity primary key,
-	[ClassId] int references [Class](ClassId),
-	[SetId] int references [QuestionSet](SetId)
+	[ClassId] int references [Class](ClassId) on delete cascade,
+	[SetId] int references [QuestionSet](SetId) on delete cascade
 	)
 	
 create table [TakeClass](
 	[TakeClassId] int identity primary key,
-	[StudentAccountId] int references [Student](AccountId) on delete CASCADE,
+	[StudentAccountId] int references [User](AccountId) on delete CASCADE,
 	[ClassId] int references [Class](ClassId) on delete CASCADE
 	)
 create table [QuestionExam](
@@ -108,9 +109,9 @@ create table [QuestionExamAnswer](
 	)
 create table [TakeExam](
 	[TakeExamId] int identity primary key,
-	[StudentAccountId] int references [Student](AccountId) on delete CASCADE,
+	[StudentAccountId] int references [User](AccountId) on delete CASCADE,
 	[ExamId] int references [Exam](ExamId) on delete CASCADE,
-	[Status] nvarchar(20),
+	[Status] nvarchar(20),	
 	[Score] decimal(5,2),
 	[StartDate] Datetime,
 	[EndDate] Datetime
@@ -121,5 +122,3 @@ create table [TakeAnswer](
 	[QuesId] int references [QuestionExam](QuesId),
 	[AnswerId] int references [QuestionExamAnswer](AnswerId)
 	)
-alter table [User]
-add Email nvarchar(100)
