@@ -8,7 +8,7 @@ create table [Role]	(
 	[Role] nvarchar(20)
 );
 create table [User] (
-	[AccountId] int primary key,
+	[AccountId] int identity primary key,
 	[Username] nvarchar(50) not null,
 	[Email] nvarchar(100),
 	[Password] nvarchar(100) not null,

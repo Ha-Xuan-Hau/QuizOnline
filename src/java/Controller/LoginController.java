@@ -47,7 +47,7 @@ public class LoginController extends HttpServlet {
             if (service.equals("showLogin")) {
                 if (request.getSession().getAttribute("user") != null) {
                     User user = (User) request.getSession().getAttribute("user");
-                    request.setAttribute("email", user.getUsername());
+                    request.setAttribute("username", user.getUsername());
                     request.setAttribute("password", user.getPassword());
                 }
                 request.getRequestDispatcher("/login/login.jsp").forward(request, response);
@@ -57,7 +57,7 @@ public class LoginController extends HttpServlet {
                 }
             }
             if (service.equals("login")) {
-                String email = request.getParameter("email");
+                String email = request.getParameter("username");
                 String password = request.getParameter("password");
                 boolean remember = "".equals(request.getParameter("remember-account"));
                 String validate = "Email or password is incorrect.";
@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet {
                         e.printStackTrace();
                     }
                     if (!remember) {
-                        Cookie cEmail = new Cookie("email", email);
+                        Cookie cEmail = new Cookie("username", email);
                         Cookie cPassword = new Cookie("password", password);
                         cEmail.setMaxAge(60 * 60 * 24);
                         cPassword.setMaxAge(60 * 60 * 24);

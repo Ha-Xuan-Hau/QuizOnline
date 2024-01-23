@@ -41,7 +41,7 @@
                             <p class="right-desc">Fill your info</p>
                         </div>
                         <div class="form-group">
-                            <input id="email" name="email" value="${email==null?'admin@gmail.com':email}" type="text" placeholder="Email" class="form-control">
+                            <input id="username" name="username" value="${username==null?'admin':username}" type="text" placeholder="User Name" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
@@ -63,15 +63,15 @@
                 <div class="right-part_space"></div>
             </div>
         </div>
-        <script src="../assets/js/login.js"></script>
+        <script src="/assets/js/login.js"></script>
         <script>
             Validator({
                 form: "#form-1",
                 formGroupSelector: ".form-group",
                 querySelector: ".form-message",
                 rules: [
-                    Validator.isEmail("#email"),
-                    Validator.isRequired("#email"),
+                    //Validator.isEmail("#email"),
+                    Validator.isRequired("#username"),
                     Validator.isRequired("#password")
                 ]
             });

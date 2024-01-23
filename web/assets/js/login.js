@@ -16,7 +16,7 @@ function Validator(options) {
     function validate(inputElement, rule) {
         var errorElement = getParentElement(inputElement, options.formGroupSelector).querySelector(options.querySelector);
         var formSubmit = document.querySelector("#form-submit");
-        var emailValue = document.querySelector("#email").value;
+        var emailValue = document.querySelector("#username").value;
         var passwordValue = document.querySelector("#password").value;
         console.log(emailValue);
         console.log(typeof passwordValue);
