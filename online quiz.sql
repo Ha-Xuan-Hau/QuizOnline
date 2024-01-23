@@ -60,7 +60,7 @@ create table [Exam](
 	)
 create table [NormalQuestion](
 	[QuesId] int identity primary key,
-	[Content] nvarchar(max)
+	[Content] nvarchar(50)
 	)
 create table [NormalQuestionAnswer](
 	[AnswerId] int identity primary key,
