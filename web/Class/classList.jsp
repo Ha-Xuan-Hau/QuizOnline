@@ -36,7 +36,7 @@
             }
             .detail-box {
                 width: 100%;
-                background-image: url('${pageContext.request.contextPath}/Class/images/img_backtoschool.png');
+                background-image: url('${pageContext.request.contextPath}/Class/images/img_read.png');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -136,6 +136,156 @@
                 border-radius: 50%;
                 border-bottom: none;
             }
+            .Popup {
+                position: relative;
+                text-align: center;
+                width: 100%;
+            }
+            .behind {
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: rgba(255, 255, 255, 0.7);
+                z-index: 9;
+                display: none;
+            }
+            .formPopup {
+                display: none;
+                position: fixed;
+                left: 50%;
+                top: 10%;
+                transform: translate(-50%, 10%);
+                z-index: 10;
+                border-radius: 10px;
+            }
+            .formContainer {
+                width: 500px;
+                height: 400px;
+                padding: 20px;
+                background-color: rgb(25,25,25);
+                border-radius: 10px;
+                position: relative;
+                box-shadow: 0 0 10px rgba(207, 201, 201, 0.1);
+            }
+            .inputGroup {
+                display: flex;
+                flex-direction: column;
+                margin: 20px 10px;
+            }
+
+            .inputGroup input {
+                height: 60px;
+                border-top: none;
+                border-right: none;
+                border-left: none;
+                border-bottom: solid rgb(88, 88, 88) 1px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                padding: 0 16px;
+                font-size: 16px;
+            }
+
+            .inputGroup::before {
+                content: attr(title);
+                position: absolute;
+                top: 0;
+                left: 16px;
+                font-size: 14px;
+                color: rgb(88, 88, 88);
+                transform: translateY(50%);
+                background-color: #fff;
+                padding: 0 8px;
+            }
+
+            .inputGroup input:focus {
+                outline: none;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            }
+            .btn_cancel {
+                background-color: rgba(25,25,25,0);
+                width: 60px;
+                position: absolute;
+                bottom: 10px;
+                right:  14%;
+                border: none;
+                margin: 2px;
+                color: rgb(128,131,135);
+            }
+
+            .btn_add {
+                background-color: rgba(25,25,25,0);
+                width: 60px;
+                position: absolute;
+                bottom: 10px;
+                right: 1%;
+                border: none;
+                margin: 2px;
+                color: rgb(128,131,135);
+            }
+            .btn_cancel:active,
+            .btn_add:active {
+                background-color: rgba(25,25,25,0.5);
+                outline: none;
+                filter: brightness(150%);
+                margin: 2px;
+                color: rgb(128,131,135);
+            }
+            .btn_cancel:hover,
+            .btn_add:hover {
+                background-color: rgba(25,25,25,0.5);
+                outline: none;
+                filter: brightness(150%);
+                margin: 2px;
+                color: rgb(128,131,135);
+            }
+            .inputGroup {
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+            .inputGroup input {
+                width: 100%;
+                height: 60px;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                background-color: #f5f5f5;
+            }
+
+            .inputGroup input:focus {
+                outline: none;
+                border-bottom: 2px solid #3498db;
+            }
+
+            .title {
+                position: absolute;
+                top: 50%;
+                left: 16px;
+                font-size: 16px;
+                color: rgb(88, 88, 88);
+                pointer-events: none;
+                transition: top 0.3s, font-size 0.3s, color 0.3s;
+                transform: translateY(-50%);
+            }
+
+            .inputGroup input:placeholder-shown + .title {
+                top: 50%;
+                font-size: 16px;
+                color: rgb(88, 88, 88);
+                transform: translateY(-50%);
+            }
+
+            .inputGroup input:focus + .title {
+                top: 0;
+                font-size: 12px;
+                color: #3498db;
+                transform: translateY(0);
+            }
+
         </style>
     </head>
 
@@ -150,8 +300,8 @@
             <!-- Learn Class -->
             <a href="ClassListURL" target="_self">Learn Class</a>
 
-            <a href="ClassListURL" target="_self" style="border-radius:50% ;" title="Create or join a class"><img style="height:20px; margin: 5px 0px "
-                                                                                                                  src="${pageContext.request.contextPath}/Class/images/add.png" alt="alt" /></a>
+            <img style="height:20px; margin: 5px 0px " onclick="openForm()"
+                 src="${pageContext.request.contextPath}/Class/images/add.png" alt="alt" />
         </div>
         <!-- Class List -->
         <section class="service_section layout_padding">
@@ -192,12 +342,12 @@
                             </div>
                             <div class="outer-box">
                                 <a href="" target="_blank">
-                                    <img style="height:20px" src="${pageContext.request.contextPath}/Class/images/exam_icon.png"
-                                         alt="alt" />
+                                    <img style="height:20px" src="${pageContext.request.contextPath}/Class/images/increase.png"
+                                         title="Core Board"  alt="alt" />
                                 </a>
                                 <a href="#" onclick="showDeleteConfirmation('<%= myclass.getClassId()%>')">
                                     <img style="height:20px"
-                                         src="${pageContext.request.contextPath}/Class/images/delete.png" alt="alt" />
+                                         src="${pageContext.request.contextPath}/Class/images/delete.png" title="Delete Class" alt="alt" />
                                 </a>
                             </div>
                         </div>
@@ -210,6 +360,30 @@
             </div>
         </section>
         <!-- end Class List -->
+
+        <!--Popup-->
+        <div class="Popup">
+            <div class="behind" id="popupBehind" onclick="closeForm()"></div>
+            <div class="formPopup" id="popupForm">    
+                <form action="/ClassDetailURL" method="post" class="formContainer">
+                    <p style="text-align: left; font-weight: bold">Create a Class</p>
+                    <input type="hidden" name="go" value="addClass">
+                    <div class="inputGroup">
+                        <input type="text" id="className" name="className" placeholder=" " required>
+                        <span class="title">Class Name (required)</span>
+                    </div>
+
+                    <div class="inputGroup">
+                        <input type="text" id="subject" name="subject" placeholder=" " required>
+                        <span class="title">Subject</span>
+                    </div>
+
+                    <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
+                    <button type="submit" class="btn_add">Add</button>
+                </form>
+            </div>
+        </div>
+        <!--End Popup-->
 
         <!-- Pagination -->
         <%
@@ -262,20 +436,20 @@
     </body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-                                    function showDeleteConfirmation(classId) {
-                                        Swal.fire({
-                                            title: 'Delete Class',
-                                            text: 'Are you sure you want to delete this class?',
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonText: 'Delete',
-                                            cancelButtonText: 'Cancel',
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
-                                            }
-                                        });
-                                    }
+            function showDeleteConfirmation(classId) {
+                Swal.fire({
+                    title: 'Delete Class',
+                    text: 'Are you sure you want to delete this class?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
+                    }
+                });
+            }
     </script>
 
     <script>
@@ -288,5 +462,16 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        function openForm() {
+            document.getElementById("popupForm").style.display = "block";
+            document.getElementById("popupBehind").style.display = "block";
+        }
+        function closeForm() {
+            document.getElementById("popupForm").style.display = "none";
+            document.getElementById("popupBehind").style.display = "none";
+        }
     </script>
 </html>
