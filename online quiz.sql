@@ -8,7 +8,7 @@ create table [Role]	(
 	[Role] nvarchar(20)
 );
 create table [User] (
-	[AccountId] int primary key,
+	[AccountId] int identity  primary key,
 	[Username] nvarchar(50) not null,
 	[Email] nvarchar(100),
 	[Password] nvarchar(100) not null,
@@ -60,7 +60,7 @@ create table [Exam](
 	)
 create table [NormalQuestion](
 	[QuesId] int identity primary key,
-	[Content] nvarchar(max)
+	[Content] nvarchar(50)
 	)
 create table [NormalQuestionAnswer](
 	[AnswerId] int identity primary key,
@@ -71,6 +71,7 @@ create table [NormalQuestionAnswer](
 	)
 create table [QuestionSet](
 	[SetId] int identity primary key,
+	[Title] nvarchar(max),
 	[UserAccountId] int references [User](AccountId),
 	[SubjectId] int references [Subject](SubjectId) on delete cascade, 
 	[QuesId] int references [NormalQuestion](QuesId) on delete cascade,

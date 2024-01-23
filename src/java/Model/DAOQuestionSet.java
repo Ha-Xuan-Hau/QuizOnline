@@ -24,17 +24,18 @@ public class DAOQuestionSet extends DBConnect {
         List<QuestionSet> qs = new ArrayList<>();
 
         try {
-            String sql = "select *from QuestionSet";
+            String sql = "select * from QuestionSet";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 QuestionSet qts = new QuestionSet();
 
                 qts.setSetId(rs.getInt(1));
-                qts.setUserAccountId(rs.getInt(2));
-                qts.setSubjectId(rs.getInt(3));
-                qts.setQuesId(rs.getInt(4));
-                qts.setSetVote(rs.getInt(5));
+                qts.setTitle(rs.getString(2));
+                qts.setUserAccountId(rs.getInt(3));
+                qts.setSubjectId(rs.getInt(4));
+                qts.setQuesId(rs.getInt(5));
+                qts.setSetVote(rs.getInt(6));
 
                 qs.add(qts);
 
@@ -48,16 +49,19 @@ public class DAOQuestionSet extends DBConnect {
     public void insertQuestionSet(QuestionSet qs) {
         try {
             String sql = "INSERT INTO [dbo].[QuestionSet]\n"
-                    + "           ([UserAccountId]\n"
+                    + "           ([Title]\n"
+                    + "           ,[UserAccountId]\n"
                     + "           ,[SubjectId]\n"
                     + "           ,[QuesId]\n"
                     + "           ,[SetVote])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,?)";
+                    + "           (?,?,?,?,?)";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, qs.getUserAccountId());
-            stm.setInt(2, qs.getSubjectId());
-            stm.setInt(3, qs.getQuesId());
+            
+            stm.setString(1, qs.getTitle());
+            stm.setInt(2, qs.getUserAccountId());
+            stm.setInt(3, qs.getSubjectId());
+            stm.setInt(4, qs.getQuesId());
 
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -73,7 +77,7 @@ public class DAOQuestionSet extends DBConnect {
             stm.setInt(1, SetId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                return new QuestionSet(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+                return new QuestionSet(rs.getInt(1), rs.getString(2),rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
 
             }
 
@@ -85,17 +89,18 @@ public class DAOQuestionSet extends DBConnect {
     public void updateQuestionSet(QuestionSet SetId) {
         try {
             String sql = "UPDATE [dbo].[QuestionSet]\n"
-                    + "   SET [UserAccountId] = ?\n"
+                    + "   SET  [Title] = ?\n"
+                    + ",[UserAccountId] = ?\n"
                     + "      ,[SubjectId] = ?\n"
                     + "      ,[QuesId] = ?\n"
                     + "      ,[SetVote] = ?\n"
                     + " WHERE SetID =?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, SetId.getUserAccountId());
-            stm.setInt(2, SetId.getSubjectId());
-            stm.setInt(3, SetId.getQuesId());
-            stm.setInt(4, SetId.getSetVote());
-
+            stm.setString(1, SetId.getTitle());
+            stm.setInt(2, SetId.getUserAccountId());
+            stm.setInt(3, SetId.getSubjectId());
+            stm.setInt(4, SetId.getQuesId());
+            stm.setInt(5, SetId.getSetVote());
             stm.setInt(6, SetId.getSetId());
 
             stm.executeUpdate();

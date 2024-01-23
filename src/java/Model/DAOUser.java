@@ -28,16 +28,12 @@ public class DAOUser extends DBConnect {
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                User us = new User();
-                us.setAccountId(rs.getInt(1));
-                us.setUsername(rs.getString(2));
-                us.setPassword(rs.getString(3));
-                us.setRoleId(rs.getInt(4));
-                us.setIsActive(rs.getBoolean(5));
+                User us = fromResultSet(rs);
                 user.add(us);
 
             }
         } catch (Exception e) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
         }
         return user;
 
@@ -45,19 +41,19 @@ public class DAOUser extends DBConnect {
 
     public void insertUser(User user) {
         try {
-            String sql = "INSERT INTO [dbo].[User] ([AccountId], [Username], [Password], [RoleId], [IsActive])\n"
-                    + "VALUES (?, ?, ?, ?, 1);";
+            String sql = "INSERT INTO [User] ([AccountId], [Username], [Email], [Password], [RoleId], [IsActive])\n"
+                    + "VALUES (?, ?, ?, ?, ?, 1);";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, user.getAccountId());
             stm.setString(2, user.getUsername());
-            stm.setString(3, user.getPassword());
-            stm.setInt(4, user.getRoleId());
+            stm.setString(3, user.getEmail());
+            stm.setString(4, user.getPassword());
+            stm.setInt(5, user.getRoleId());
 
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     
@@ -68,35 +64,76 @@ public class DAOUser extends DBConnect {
             stm.setInt(1, AccountId );
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
-                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getBoolean(5));
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getBoolean(6));
             }
             
         } catch (Exception e) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
 
-    public void updateUser(User u) {
+    public void updateUser(User user) {
         try {
-            String sql = "UPDATE [dbo].[User]\n"
+            String sql = "UPDATE [User]\n"
                     + "   SET\n"
                     + "		[Username] = ?\n"
-                    + "      ,[Password] = ?,\n"
-                    + "		[RoleId] = ?\n"
+                    + "      ,[Email] = ?\n"
+                    + "      ,[Password] = ?\n"
+                    + "		,[RoleId] = ?\n"
                     + "      ,[IsActive] = ?\n"
-                    + " WHERE AccountId=?";
+                    + " WHERE AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, u.getUsername());
-            stm.setString(2, u.getPassword());
-            stm.setDouble(3, u.getRoleId());
-            stm.setBoolean(4, u.isIsActive());
-            stm.setInt(5, u.getAccountId());
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getEmail());
+            stm.setString(3, user.getPassword());
+            stm.setInt(4, user.getRoleId());
+            stm.setBoolean(5, user.isActive());
+            stm.setInt(6, user.getAccountId());
             stm.executeUpdate();
-
         } catch (SQLException ex) {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    public User getUser(String username, String pass) throws SQLException {
+        String sql = "select * from Users where [Username] = ? and [Password] = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, username);
+        ps.setString(2, pass);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return fromResultSet(rs);
+        }
+        return null;
+    }
+    
+    public List<User> checkUser(String username, String passWord) {
+        List<User> t = new ArrayList<>();
+        try {
+            String sql = "select * from Users where [Username] = ? and [Password] = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, passWord);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                t.add(fromResultSet(rs));
+            }
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return t;
+    }
+    public User fromResultSet(ResultSet rs) throws SQLException {
+        return new User(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getInt(5),
+                rs.getBoolean(6)
+        );
     }
     public void deleteUser(int AccountId ){
           try {
