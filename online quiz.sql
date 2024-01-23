@@ -71,6 +71,7 @@ create table [NormalQuestionAnswer](
 	)
 create table [QuestionSet](
 	[SetId] int identity primary key,
+	[Title] nvarchar(max),
 	[UserAccountId] int references [User](AccountId),
 	[SubjectId] int references [Subject](SubjectId) on delete cascade, 
 	[QuesId] int references [NormalQuestion](QuesId) on delete cascade,
