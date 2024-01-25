@@ -56,7 +56,7 @@ public class DAOQuestionSet extends DBConnect {
                     + "     VALUES\n"
                     + "           (?,?,?,?,?)";
             PreparedStatement stm = connection.prepareStatement(sql);
-            
+
             stm.setString(1, qs.getTitle());
             stm.setInt(2, qs.getUserAccountId());
             stm.setInt(3, qs.getSubjectId());
@@ -77,7 +77,7 @@ public class DAOQuestionSet extends DBConnect {
             stm.setInt(1, SetId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                return new QuestionSet(rs.getInt(1), rs.getString(2),rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
+                return new QuestionSet(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
 
             }
 
@@ -111,6 +111,26 @@ public class DAOQuestionSet extends DBConnect {
 
     }
 
+    public List<QuestionSet> getTop3() {
+        List<QuestionSet> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT TOP 6 * FROM QuestionSet ORDER BY SetId DESC";
+            PreparedStatement stm = connection.prepareCall(query);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                list.add(new QuestionSet(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
     public void deleteQuestionSet(int SetId) {
         try {
             String sql = "DELETE FROM [dbo].[QuestionSet]\n"
@@ -122,6 +142,96 @@ public class DAOQuestionSet extends DBConnect {
         } catch (Exception e) {
         }
 
+    }
+    public int countQuest(String keyword){
+        try {
+            String sql ="select count(*)  from QuestionSet where Title like ?";    
+               PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + keyword + "%");
+           ResultSet rs = stm.executeQuery();
+           while(rs.next()){
+               return rs.getInt(1);
+               
+           }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public List<QuestionSet> search(String keyword) {
+        List<QuestionSet> list = new ArrayList<>();
+        try {
+            String sql = "select *  from QuestionSet where Title like ? ";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + keyword + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                QuestionSet qs = new QuestionSet();
+                qs.setSetId(rs.getInt(1));
+                qs.setTitle(rs.getString(2));
+                qs.setUserAccountId(rs.getInt(3));
+                qs.setSubjectId(rs.getInt(4));
+                qs.setQuesId(rs.getInt(5));
+                qs.setSetVote(rs.getInt(6));
+
+                list.add(qs);
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public List<QuestionSet> getQuestionSetWithPagging(int page, int PAGE_SIZE) {
+        List<QuestionSet> list = new ArrayList<>();
+        try {
+            String sql = "select *  from QuestionSet order by SetId\n"
+                    + "offset (?-1)*? row fetch next ? rows only";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, page);
+            stm.setInt(2, PAGE_SIZE);
+            stm.setInt(3, PAGE_SIZE);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                QuestionSet questionSet = new QuestionSet();
+                questionSet.setSetId(rs.getInt(1));
+                questionSet.setTitle(rs.getString(2));
+                questionSet.setUserAccountId(rs.getInt(3));
+                questionSet.setSubjectId(rs.getInt(4));
+                questionSet.setQuesId(rs.getInt(5));
+                questionSet.setSetVote(rs.getInt(6));
+
+                list.add(questionSet);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public int getTotalQuestionSet() {
+        try {
+            String sql = "select count(SetId)from QuestionSet ";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        DAOQuestionSet qs = new DAOQuestionSet();
+        int count = qs.countQuest("math");
+        System.out.println(count);
+        
     }
 
 }

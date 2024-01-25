@@ -4,7 +4,6 @@
  */
 package Controller;
 
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,17 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import Model.DAOClass;
-import Model.DAOTeacher;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author phamg
  */
-@WebServlet(name = "ControllerClassList", urlPatterns = {"/ClassListURL"})
-public class ControllerClassList extends HttpServlet {
+@WebServlet(name = "ControllerClassJoinList", urlPatterns = {"/ControllerClassJoinList"})
+public class ControllerClassJoinList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,24 +32,16 @@ public class ControllerClassList extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String service = request.getParameter("go");
-            HttpSession session = request.getSession();
-            DAOClass dao = new DAOClass();
-            DAOTeacher daoT = new DAOTeacher();
-            if (service == null) {
-                session.setAttribute("nameTeacher", daoT.getTeacherByAccountId(1).getTeacherName());
-//                int acc = (int) session.getAttribute("acc");
-                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(1);
-                request.setAttribute("data", classList);
-                request.getRequestDispatcher("/Class/classList.jsp").forward(request, response);
-            } else {
-                if (service.equals("Delete")) {
-                    int ClassId = Integer.parseInt(request.getParameter("ClassId"));
-                    dao.DeleteClass(ClassId);
-                    response.sendRedirect("ClassListURL");
-                }
-
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ControllerClassJoinList</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ControllerClassJoinList at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
