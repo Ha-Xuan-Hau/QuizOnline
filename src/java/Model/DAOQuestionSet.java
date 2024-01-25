@@ -22,7 +22,6 @@ public class DAOQuestionSet extends DBConnect {
 
     public List<QuestionSet> getAllQuestionSet() {
         List<QuestionSet> qs = new ArrayList<>();
-
         try {
             String sql = "select * from QuestionSet";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -62,6 +61,7 @@ public class DAOQuestionSet extends DBConnect {
             stm.setInt(2, qs.getUserAccountId());
             stm.setInt(3, qs.getSubjectId());
             stm.setInt(4, qs.getQuesId());
+            stm.setInt(5, qs.getSetVote());
 
             stm.executeUpdate();
         } catch (SQLException ex) {
