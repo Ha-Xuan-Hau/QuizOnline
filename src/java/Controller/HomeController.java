@@ -5,8 +5,14 @@
 
 package Controller;
 
+import Entity.Admin;
+import Entity.BlogList;
 import Entity.QuestionSet;
+import Entity.User;
+import Model.DAOAdmin;
+import Model.DAOBlogList;
 import Model.DAOQuestionSet;
+import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +20,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Blob;
 import java.util.List;
 
 /**
@@ -36,6 +43,8 @@ public class HomeController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
              
             DAOQuestionSet qset = new DAOQuestionSet();
+            DAOBlogList blog = new DAOBlogList();
+            
             List<QuestionSet> listS = qset.getTop3();
 
             
@@ -49,19 +58,19 @@ public class HomeController extends HttpServlet {
             if (page < 1) {
                 page = 1;
             }
-            int totalQues = qset.getTotalQuestionSet();
-            int totalPage = totalQues/ PAGE_SIZE;
-            if (totalQues % PAGE_SIZE != 0) {
+            int totalBlog = blog.getTotal();
+            int totalPage = totalBlog/ PAGE_SIZE;
+            if (totalBlog % PAGE_SIZE != 0) {
                 totalPage += 1;
             }
             if (page > totalPage) {
                 page = totalPage;
             }
             
-            List<QuestionSet> listQ = qset.getQuestionSetWithPagging(page, PAGE_SIZE);
+            List<BlogList> listBlog = blog.getAllBlogListWithPagging(page, PAGE_SIZE);
              request.setAttribute("totalPage", totalPage);
             
-            request.setAttribute("QuestionSet", listQ);
+            request.setAttribute("Blog", listBlog);
             request.setAttribute("listS", listS);
             request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);
         }

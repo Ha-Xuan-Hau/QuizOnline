@@ -5,7 +5,9 @@
 
 package Controller;
 
+import Entity.BlogList;
 import Entity.QuestionSet;
+import Model.DAOBlogList;
 import Model.DAOQuestionSet;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -59,8 +61,9 @@ public class SearchController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
          DAOQuestionSet dao = new DAOQuestionSet();
-        String keyword = request.getParameter("txt");
-          List<QuestionSet> listS = dao.search(keyword);
+         DAOBlogList bl  = new DAOBlogList();
+         String keyword = request.getParameter("txt");
+//          List<QuestionSet> listS = dao.search(keyword);
           List<QuestionSet> listP = dao.getTop3();
           
            final int PAGE_SIZE = 9;
@@ -73,20 +76,20 @@ public class SearchController extends HttpServlet {
             if (page < 1) {
                 page = 1;
             }
-            int totalQues = dao.countQuest(keyword);
-            int totalPage = totalQues/ PAGE_SIZE;
-            if (totalQues % PAGE_SIZE != 0) {
+            int totalBlog = bl.countBlog(keyword);
+            int totalPage = totalBlog/ PAGE_SIZE;
+            if (totalBlog % PAGE_SIZE != 0) {
                 totalPage += 1;
             }
             if (page > totalPage) {
                 page = totalPage;
             }
-            
+             List<BlogList> listS = bl.searchBlogWithPagination(keyword, page, PAGE_SIZE);
             request.setAttribute("totalPage", totalPage);
           
           request.setAttribute("listS", listP);
           request.setAttribute("key", keyword);
-          request.setAttribute("QuestionSet", listS);
+          request.setAttribute("Blog", listS);
           request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);
           
     } 
