@@ -58,9 +58,17 @@ create table [Exam](
 	[TakingTimes] int ,
 	[Permission] bit
 	)
+	create table [QuestionSet](
+	[SetId] int identity primary key,
+	[Title] nvarchar(max),
+	[UserAccountId] int references [User](AccountId),
+	[SubjectId] int references [Subject](SubjectId) on delete cascade, 
+	[SetVote] int 
+ 	)
 create table [NormalQuestion](
 	[QuesId] int identity primary key,
-	[Content] nvarchar(50)
+	[Content] nvarchar(50),
+	[SetId] int references [QuestionSet](SetId) on delete cascade
 	)
 create table [NormalQuestionAnswer](
 	[AnswerId] int identity primary key,
@@ -69,14 +77,7 @@ create table [NormalQuestionAnswer](
 	[Correct] bit,
 	[Percent] decimal(5,2)
 	)
-create table [QuestionSet](
-	[SetId] int identity primary key,
-	[Title] nvarchar(max),
-	[UserAccountId] int references [User](AccountId),
-	[SubjectId] int references [Subject](SubjectId) on delete cascade, 
-	[QuesId] int references [NormalQuestion](QuesId) on delete cascade,
-	[SetVote] int 
- 	)
+
 create table UserSetSaved (
     UserId int,
     SetId int,
