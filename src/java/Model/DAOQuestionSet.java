@@ -86,50 +86,30 @@ public class DAOQuestionSet extends DBConnect {
         return null;
     }
 
-    public void updateQuestionSet(QuestionSet SetId) {
-        try {
-            String sql = "UPDATE [dbo].[QuestionSet]\n"
-                    + "   SET  [Title] = ?\n"
-                    + ",[UserAccountId] = ?\n"
-                    + "      ,[SubjectId] = ?\n"
-                    + "      ,[QuesId] = ?\n"
-                    + "      ,[SetVote] = ?\n"
-                    + " WHERE SetID =?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, SetId.getTitle());
-            stm.setInt(2, SetId.getUserAccountId());
-            stm.setInt(3, SetId.getSubjectId());
-            stm.setInt(4, SetId.getQuesId());
-            stm.setInt(5, SetId.getSetVote());
-            stm.setInt(6, SetId.getSetId());
+public List<QuestionSet> getTop3() {
+    List<QuestionSet> list = new ArrayList<>();
 
-            stm.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public List<QuestionSet> getTop3() {
-        List<QuestionSet> list = new ArrayList<>();
-
-        try {
-            String query = "SELECT TOP 6 * FROM QuestionSet ORDER BY SetId DESC";
-            PreparedStatement stm = connection.prepareCall(query);
-            ResultSet rs = stm.executeQuery();
+    try {
+        String query = "SELECT TOP 9 * FROM QuestionSet ORDER BY SetId DESC";
+        try (PreparedStatement stm = connection.prepareStatement(query);
+             ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
-                list.add(new QuestionSet(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getInt(3),
-                        rs.getInt(4),
-                        rs.getInt(5),
-                        rs.getInt(6)));
+                QuestionSet questionSet = new QuestionSet();
+                questionSet.setSetId(rs.getInt("SetId"));
+                questionSet.setTitle(rs.getString("Title"));
+                questionSet.setUserAccountId(rs.getInt("UserAccountId"));
+                questionSet.setSubjectId(rs.getInt("SubjectId"));
+                questionSet.setQuesId(rs.getInt("QuesId"));
+                questionSet.setSetVote(rs.getInt("SetVote"));
+                list.add(questionSet);
             }
-        } catch (Exception e) {
         }
-        return list;
+    } catch (SQLException e) {
     }
+    return list;
+}
+
+ 
 
     public void deleteQuestionSet(int SetId) {
         try {
@@ -229,8 +209,7 @@ public class DAOQuestionSet extends DBConnect {
 
     public static void main(String[] args) {
         DAOQuestionSet qs = new DAOQuestionSet();
-        int count = qs.countQuest("math");
-        System.out.println(count);
+        System.out.println(qs.getTop3());
         
     }
 

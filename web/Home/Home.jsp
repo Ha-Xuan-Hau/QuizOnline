@@ -254,18 +254,6 @@
                         </div>
                     </div>
                         </c:forEach>
-                    
-                    <div class="item">
-
-                        <div class="content">
-                            <table width="100%" cellspacing="0">
-                                <tr>
-                                    <td>Quiz</td>
-                                    <td>100points</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
                 </div>
 
             </div>

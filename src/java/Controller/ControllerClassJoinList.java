@@ -4,6 +4,9 @@
  */
 package Controller;
 
+import Model.DAOClass;
+import Model.DAOTakeClass;
+import Model.DAOTeacher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,12 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
  * @author phamg
  */
-@WebServlet(name = "ControllerClassJoinList", urlPatterns = {"/ControllerClassJoinList"})
+@WebServlet(name = "ControllerClassJoinList", urlPatterns = {"/ClassJoinListURL"})
 public class ControllerClassJoinList extends HttpServlet {
 
     /**
@@ -32,16 +37,33 @@ public class ControllerClassJoinList extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControllerClassJoinList</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControllerClassJoinList at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String service = request.getParameter("go");
+            HttpSession session = request.getSession();
+            DAOClass dao = new DAOClass();
+            DAOTakeClass daoTakeClass = new DAOTakeClass();
+            DAOTeacher daoTeacher = new DAOTeacher();
+            if (service == null) {
+
+//                int acc = (int) session.getAttribute("acc");
+                ArrayList<Integer> classid = daoTakeClass.getClassIDbyStudentID(2);
+                ArrayList<Entity.Class> classList = new ArrayList<>();
+                ArrayList<Entity.Teacher> teacherList = new ArrayList<>();
+                for (Integer id : classid) {
+                    Entity.Class classInfo = dao.getDataByClassID(id);
+                    teacherList.add(daoTeacher.getTeacherByAccountId(classInfo.getTeacherAccountId()));
+                    classList.add(classInfo);
+                }
+                request.setAttribute("teacherList", teacherList);
+                request.setAttribute("data", classList);
+                request.getRequestDispatcher("/Class/classJoinList.jsp").forward(request, response);
+            } else {
+                if (service.equals("Delete")) {
+                    int ClassId = Integer.parseInt(request.getParameter("ClassId"));
+                    dao.DeleteClass(ClassId);
+                    response.sendRedirect("ClassJoinListURL");
+                }
+
+            }
         }
     }
 

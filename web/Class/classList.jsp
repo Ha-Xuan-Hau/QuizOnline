@@ -41,12 +41,12 @@
         <!-- Header sesion-->
 
         <!-- End Header sesion-->       
-        <div class="select_class">
+        <div class="select_class">      
             <!-- My Class -->
             <a href="ClassListURL" target="_self" class="current-page">My Class</a>
 
             <!-- Learn Class -->
-            <a href="ClassListURL" target="_self">Learn Class</a>
+            <a href="ClassJoinListURL" target="_self">Learn Class</a>
 
             <img style="height:20px; margin: 5px 0px " onclick="openForm()"
                  src="${pageContext.request.contextPath}/Class/images/add.png" alt="alt" />
@@ -184,20 +184,20 @@
     </body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-            function showDeleteConfirmation(classId) {
-                Swal.fire({
-                    title: 'Delete Class',
-                    text: 'Are you sure you want to delete this class?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Delete',
-                    cancelButtonText: 'Cancel',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
-                    }
-                });
-            }
+                        function showDeleteConfirmation(classId) {
+                            Swal.fire({
+                                title: 'Delete Class',
+                                text: 'Are you sure you want to delete this class?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Delete',
+                                cancelButtonText: 'Cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
+                                }
+                            });
+                        }
     </script>
 
     <script>
@@ -222,5 +222,5 @@
             document.getElementById("popupBehind").style.display = "none";
         }
     </script>
-    
+
 </html>

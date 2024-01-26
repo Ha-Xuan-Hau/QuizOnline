@@ -55,5 +55,9 @@ public class TakeClass {
     public String toString() {
         return "TakeClass{" + "TakeClassId=" + TakeClassId + ", StudentAccountId=" + StudentAccountId + ", ClassId=" + ClassId + '}';
     }
+
+    public TakeClass(int ClassId) {
+        this.ClassId = ClassId;
+    }
     
 }

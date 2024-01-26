@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  *
@@ -30,7 +28,7 @@ public class DAOTakeClass extends DBConnect {
             pre.setInt(1, obj.getStudentAccountId());
             pre.setInt(2, obj.getClassId());
             n = pre.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return n;
     }
@@ -47,7 +45,7 @@ public class DAOTakeClass extends DBConnect {
             pre.setInt(2, obj.getClassId());
             pre.setInt(3, obj.getTakeClassId());
             n = pre.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return n;
     }
@@ -59,7 +57,7 @@ public class DAOTakeClass extends DBConnect {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, id);
             n = pre.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return n;
     }
@@ -77,13 +75,13 @@ public class DAOTakeClass extends DBConnect {
                 obj.setClassId(rs.getInt(3));
                 return obj;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return null;
     }
 
-    public Vector<TakeClass> getAll() {
-        Vector<TakeClass> vector = new Vector<TakeClass>();
+    public ArrayList<TakeClass> getAll() {
+        ArrayList<TakeClass> vector = new ArrayList<>();
         String sql = "select * from TakeClass";
         Statement state;
         try {
@@ -97,11 +95,33 @@ public class DAOTakeClass extends DBConnect {
                 TakeClass obj = new TakeClass(TakeClassId, StudentAccountId, ClassId);
                 vector.add(obj);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return vector;
 
     }
-    
 
+    public ArrayList<Integer> getClassIDbyStudentID(int acc) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        String sql = "SELECT ClassId FROM TakeClass WHERE StudentAccountId = ?";
+
+        try ( PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, acc);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                int classId = rs.getInt("ClassId");
+                arr.add(classId);
+            }
+        } catch (SQLException e) {
+
+        }
+
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        DAOTakeClass dao = new DAOTakeClass();
+        System.out.println(dao.getClassIDbyStudentID(2));
+    }
 }

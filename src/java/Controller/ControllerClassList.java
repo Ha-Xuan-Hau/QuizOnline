@@ -44,7 +44,7 @@ public class ControllerClassList extends HttpServlet {
             if (service == null) {
                 session.setAttribute("nameTeacher", daoT.getTeacherByAccountId(1).getTeacherName());
 //                int acc = (int) session.getAttribute("acc");
-                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(1);
+                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(2);
                 request.setAttribute("data", classList);
                 request.getRequestDispatcher("/Class/classList.jsp").forward(request, response);
             } else {
