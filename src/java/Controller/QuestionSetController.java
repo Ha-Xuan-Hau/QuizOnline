@@ -5,6 +5,8 @@
 package Controller;
 
 import Entity.Content;
+import Entity.NormalQuestion;
+import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
 import Model.DAOQuestionSet;
 import java.io.IOException;
@@ -24,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author admin
  */
-@WebServlet(name = "QuestionSetController", urlPatterns = {"/questionsetcontroller"})
+@WebServlet(name = "QuestionSetController", urlPatterns = {"/QuestionSetURL"})
 public class QuestionSetController extends HttpServlet {
 
     /**
@@ -42,17 +44,28 @@ public class QuestionSetController extends HttpServlet {
         DAOQuestionSet dao = new DAOQuestionSet();
         String service = request.getParameter("go");
         if (service == null) {
-            service = "listallquestion";
+            service = "listAllSets";
         }
-        if (service.equals("listallquestion")) {
-            try {
-                ArrayList<Content> quizList = dao.getQuizContent();
-                request.setAttribute("data", quizList);
-                request.getRequestDispatcher("questionlist.jsp").forward(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(QuestionSetController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if(service.equals("listAllSets")){
+            ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
+            request.setAttribute("data", allQuesSet);
+            request.getRequestDispatcher("displayAllQuesSet.jsp").forward(request, response);
         }
+        if (service.equals("setDetails")){
+            int setId = Integer.parseInt(request.getParameter("SetId"));
+            ArrayList<NormalQuestion> Ques = dao.getQues(setId);
+            ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+            request.setAttribute("question", Ques);
+            request.setAttribute("content", QuesAnswers);
+            request.getRequestDispatcher("setDetail.jsp").forward(request, response);
+        }
+        if(service.equals("add")){
+            String Title = request.getParameter("Title");
+            QuestionSet obj = new QuestionSet(Title);
+            dao.insertQuestion(obj);
+           response.sendRedirect("QuestionSetURL");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
