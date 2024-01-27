@@ -7,8 +7,10 @@ package Controller;
 
 import Entity.BlogList;
 import Entity.QuestionSet;
+import Entity.Subject;
 import Model.DAOBlogList;
 import Model.DAOQuestionSet;
+import Model.DAOSubject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -64,9 +66,10 @@ public class SearchController extends HttpServlet {
          DAOBlogList bl  = new DAOBlogList();
          String keyword = request.getParameter("txt");
 //          List<QuestionSet> listS = dao.search(keyword);
-          List<QuestionSet> listP = dao.getTop3();
-          
-           final int PAGE_SIZE = 9;
+           DAOSubject sub =  new DAOSubject();
+            List<QuestionSet> listP = dao.getTop3();
+           List<Subject> listSub = sub.getData("select*from Subject");
+           final int PAGE_SIZE = 12;
              //phân trang
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -86,7 +89,7 @@ public class SearchController extends HttpServlet {
             }
              List<BlogList> listS = bl.searchBlogWithPagination(keyword, page, PAGE_SIZE);
             request.setAttribute("totalPage", totalPage);
-          
+          request.setAttribute("SubNav", listSub);
           request.setAttribute("listS", listP);
           request.setAttribute("key", keyword);
           request.setAttribute("Blog", listS);

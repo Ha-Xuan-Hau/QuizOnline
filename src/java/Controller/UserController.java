@@ -14,7 +14,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -59,8 +64,22 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
          DAOUser dao = new DAOUser();
-        List<User> us = dao.getAllUser();
-        request.setAttribute("userS", us);
+        List<User> user = dao.getAllUserListData("select*from [User]");
+        ResultSet rsAd = dao.getResultSet("select AccountId, Phone from Admin");
+        
+        request.setAttribute("rsAd", rsAd);
+        Hashtable<Integer, String>  AdminMap = new Hashtable<>();
+        try {
+            while(rsAd.next()){
+                AdminMap.put(rsAd.getInt(1), rsAd.getString(2));
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        request.setAttribute("data", user);
+        request.setAttribute("AdminMap", AdminMap);
         
        request.getRequestDispatcher("/Profile/listUser.jsp").forward(request, response);
 

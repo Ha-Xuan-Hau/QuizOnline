@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,7 +28,7 @@ public class DAOBlogList extends DBConnect {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 BlogList qts = new BlogList();
-                qts.setSetId(rs.getInt("SetId"));
+                qts.setSubjectId(rs.getInt("SubjectId"));
                 qts.setTitle(rs.getString("Title"));
                 qts.setUsername(rs.getString("Username"));
                 qts.setSetVote(rs.getInt("SetVote"));
@@ -40,7 +42,7 @@ public class DAOBlogList extends DBConnect {
     }
 public int getTotal() {
     try {
-        String sql = "SELECT COUNT(q.SetId) FROM QuestionSet q JOIN [User] u ON q.UserAccountId = u.AccountId";
+        String sql = "SELECT COUNT(q.SubjectId) FROM QuestionSet q JOIN [User] u ON q.UserAccountId = u.AccountId";
         PreparedStatement stm = connection.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
@@ -55,7 +57,7 @@ public int getTotal() {
     public List<BlogList> getAllBlogListWithPagging(int page, int PAGE_SIZE) {
         List<BlogList> list = new ArrayList<>();
         try {
-            String sql = "SELECT SetId,Title, Username, SetVote FROM QuestionSet AS q "
+            String sql = "SELECT SubjectId,Title, Username, SetVote FROM QuestionSet AS q "
                     + "JOIN [User] AS u ON q.UserAccountId = u.AccountId "
                     + "ORDER BY SetId OFFSET (?-1)*? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -66,7 +68,7 @@ public int getTotal() {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 BlogList blog = new BlogList();
-                blog.setSetId(rs.getInt(1));
+                blog.setSubjectId(rs.getInt(1));
                 blog.setTitle(rs.getString(2));
                 blog.setUsername(rs.getString(3));
                 blog.setSetVote(rs.getInt(4));
@@ -78,6 +80,78 @@ public int getTotal() {
         }
         return list;
     }
+    public List<BlogList> getBlogListBySubjectIdWithPagination(int subjectId, int page, int pageSize) {
+    List<BlogList> list = new ArrayList<>();
+    try {
+        String sql = "SELECT SubjectId, Title, Username, SetVote FROM QuestionSet AS q "
+                + "JOIN [User] AS u ON q.UserAccountId = u.AccountId "
+                + "WHERE SubjectId = ? "
+                + "ORDER BY SetId OFFSET (?-1)*? ROWS FETCH NEXT ? ROWS ONLY";
+
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setInt(1, subjectId);
+        stm.setInt(2, page);
+        stm.setInt(3, pageSize);
+        stm.setInt(4, pageSize);
+
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            BlogList blog = new BlogList();
+            blog.setSubjectId(rs.getInt(1));
+            blog.setTitle(rs.getString(2));
+            blog.setUsername(rs.getString(3));
+            blog.setSetVote(rs.getInt(4));
+
+            list.add(blog);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return list;
+}
+    public int getTotalBySubjectId(int subjectId) {
+    try {
+        String sql = "SELECT COUNT(q.SubjectId) FROM QuestionSet q "
+                   + "JOIN [User] u ON q.UserAccountId = u.AccountId "
+                   + "WHERE q.SubjectId = ?";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setInt(1, subjectId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return 0;
+}
+
+
+     public List<BlogList> getBlogListBySubjectId(int setId) {
+    List<BlogList> list = new ArrayList<>();
+    try {
+        String sql = "SELECT SubjectId, Title, Username, SetVote FROM QuestionSet AS q "
+                + "JOIN [User] AS u ON q.UserAccountId = u.AccountId "
+                + "WHERE SubjectId = ?";
+
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setInt(1, setId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            BlogList blog = new BlogList();
+            blog.setSubjectId(rs.getInt(1));
+            blog.setTitle(rs.getString(2));
+            blog.setUsername(rs.getString(3));
+            blog.setSetVote(rs.getInt(4));
+
+            list.add(blog);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return list;
+}
+
     
     public int countBlog(String keyword) {
     try {
@@ -99,7 +173,7 @@ public int getTotal() {
 public List<BlogList> searchBlogWithPagination(String keyword, int page, int pageSize) {
     List<BlogList> list = new ArrayList<>();
     try {
-        String sql = "SELECT  SetId,Title, Username, SetVote FROM QuestionSet AS q " +
+        String sql = "SELECT  SubjectId,Title, Username, SetVote FROM QuestionSet AS q " +
                      "JOIN [User] AS u ON q.UserAccountId = u.AccountId " +
                      "WHERE Title LIKE ? " +
                      "ORDER BY SetId OFFSET (?-1)*? ROWS FETCH NEXT ? ROWS ONLY";
@@ -113,7 +187,7 @@ public List<BlogList> searchBlogWithPagination(String keyword, int page, int pag
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
             BlogList blog = new BlogList();
-                blog.setSetId(rs.getInt(1));
+                blog.setSubjectId(rs.getInt(1));
                 blog.setTitle(rs.getString(2));
                 blog.setUsername(rs.getString(3));
                 blog.setSetVote(rs.getInt(4));
@@ -130,15 +204,13 @@ public List<BlogList> searchBlogWithPagination(String keyword, int page, int pag
    public static void main(String[] args) {
     DAOBlogList dao = new DAOBlogList();
 
-    // Test phân trang với PAGE_SIZE = 5, page = 1
-    int PAGE_SIZE = 5;
-    int page = 1;
-    List<BlogList> result = dao.getAllBlogListWithPagging(page, PAGE_SIZE);
+   
     
-    // In ra thông tin từ kết quả
-    for (BlogList blog : result) {
-        System.out.println(blog);
-    }
+    List<BlogList> as = dao.getBlogListBySubjectId(2);
+       for (BlogList a : as) {
+           System.out.println(a);
+           
+       }
 }
 
 }
