@@ -11,38 +11,50 @@ package Entity;
 public class NormalQuestion {
     private int quesId;
     private String content;
+    private int setId;
 
     public NormalQuestion() {
     }
 
-    public NormalQuestion(int quesId, String content) {
-        this.quesId = quesId;
+    public NormalQuestion(String content, int setId) {
         this.content = content;
+        this.setId = setId;
     }
 
-    public NormalQuestion(String content) {
+    public NormalQuestion(int quesId, String content, int setId) {
+        this.quesId = quesId;
         this.content = content;
+        this.setId = setId;
     }
 
     public int getQuesId() {
         return quesId;
     }
 
-    public String getContent() {
-        return content;
-    }
-
     public void setQuesId(int quesId) {
         this.quesId = quesId;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public void setContent(String content) {
         this.content = content;
     }
 
+    public int getSetId() {
+        return setId;
+    }
+
+    public void setSetId(int setId) {
+        this.setId = setId;
+    }
+
     @Override
     public String toString() {
-        return "NormalQuestion{" + "quesId=" + quesId + ", content=" + content + '}';
+        return "NormalQuestion{" + "quesId=" + quesId + ", content=" + content + ", setId=" + setId + '}';
     }
+
     
 }

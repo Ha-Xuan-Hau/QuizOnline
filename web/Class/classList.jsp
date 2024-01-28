@@ -151,7 +151,7 @@
                         String previousPageLink = "ClassListURL?page=" + previousPage;
                         if (previousPage > 0) {
                         %>
-                        <a href="<%= firstPageLink %>">First</a> 
+                        <a href="<%= firstPageLink %>">F</a> 
                         <a href="<%= previousPageLink %>"><%= currentPage - 1 %></a>
                         <%
                         }
@@ -167,7 +167,7 @@
                         <span class="next-page-container">
                             <a href="<%= nextPageLink %>"><%= nextPage %></a>
                         </span>
-                        <a href="<%= lastPageLink %>">Last</a> 
+                        <a href="<%= lastPageLink %>">L</a> 
                         <%
                         }
                         %>

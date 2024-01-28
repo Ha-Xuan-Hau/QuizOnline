@@ -13,27 +13,28 @@ public class QuestionSet {
     private String Title;
     private int UserAccountId;
     private int SubjectId;
-    private int QuesId;
     private int SetVote;
-    
+
 
     public QuestionSet() {
     }
 
-    public QuestionSet(int SetId, String Title, int UserAccountId, int SubjectId, int QuesId, int SetVote) {
+    public QuestionSet(int SetId) {
+        this.SetId = SetId;
+    }
+
+    public QuestionSet(String Title, int UserAccountId, int SubjectId, int SetVote) {
+        this.Title = Title;
+        this.UserAccountId = UserAccountId;
+        this.SubjectId = SubjectId;
+        this.SetVote = SetVote;
+    }
+
+    public QuestionSet(int SetId, String Title, int UserAccountId, int SubjectId, int SetVote) {
         this.SetId = SetId;
         this.Title = Title;
         this.UserAccountId = UserAccountId;
         this.SubjectId = SubjectId;
-        this.QuesId = QuesId;
-        this.SetVote = SetVote;
-    }
-
-    public QuestionSet(String Title, int UserAccountId, int SubjectId, int QuesId, int SetVote) {
-        this.Title = Title;
-        this.UserAccountId = UserAccountId;
-        this.SubjectId = SubjectId;
-        this.QuesId = QuesId;
         this.SetVote = SetVote;
     }
 
@@ -69,14 +70,6 @@ public class QuestionSet {
         this.SubjectId = SubjectId;
     }
 
-    public int getQuesId() {
-        return QuesId;
-    }
-
-    public void setQuesId(int QuesId) {
-        this.QuesId = QuesId;
-    }
-
     public int getSetVote() {
         return SetVote;
     }
@@ -87,12 +80,7 @@ public class QuestionSet {
 
     @Override
     public String toString() {
-        return "QuestionSet{" + "SetId=" + SetId + ", Title=" + Title + ", UserAccountId=" + UserAccountId + ", SubjectId=" + SubjectId + ", QuesId=" + QuesId + ", SetVote=" + SetVote + '}';
+        return "QuestionSet{" + "SetId=" + SetId + ", Title=" + Title + ", UserAccountId=" + UserAccountId + ", SubjectId=" + SubjectId + ", SetVote=" + SetVote + '}';
     }
 
- 
- 
-   
-    
-    
 }

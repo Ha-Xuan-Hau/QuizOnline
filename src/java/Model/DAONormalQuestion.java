@@ -16,13 +16,38 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-public class DAONormalQuestion extends DBConnect{
-     public int insert(NormalQuestion obj) {
+
+public class DAONormalQuestion extends DBConnect {
+
+    public int insert(NormalQuestion obj) {
         int n = 0;
-        String sql = "INSERT INTO [dbo].[NormalQuestion] ([Content]) VALUES(?)";
+        String sql = "INSERT INTO [dbo].[NormalQuestion]\n"
+                + "           ([Content]\n"
+                + "           ,[SetId])\n"
+                + "     VALUES\n"
+                + "           (?, ?)";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, obj.getContent());
+            pre.setInt(2, obj.getSetId());
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAONormalQuestion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
+    public int insertDefaultQuestion(int setId) {
+        int n = 0;
+        String sql = "INSERT INTO [dbo].[NormalQuestion]\n"
+                + "           ([Content]\n"
+                + "           ,[SetId])\n"
+                + "     VALUES\n"
+                + "           (?, ?)";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, "Defaul Question");
+            pre.setInt(2, setId);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DAONormalQuestion.class.getName()).log(Level.SEVERE, null, ex);
@@ -32,11 +57,15 @@ public class DAONormalQuestion extends DBConnect{
 
     public int update(NormalQuestion obj) {
         int n = 0;
-        String sql = "UPDATE [dbo].[NormalQuestion] SET [Content] = ? WHERE [QuesId] = ?";
+        String sql = "UPDATE [dbo].[NormalQuestion]\n"
+                + "   SET [Content] = ?\n"
+                + "      ,[SetId] = ?\n"
+                + " WHERE NormalQuestion.QuesId = ?";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, obj.getContent());
-            pre.setInt(2, obj.getQuesId());
+            pre.setInt(2, obj.getSetId());
+            pre.setInt(3, obj.getQuesId());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DAONormalQuestion.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,7 +95,8 @@ public class DAONormalQuestion extends DBConnect{
             while (resultSet.next()) {
                 int quesId = resultSet.getInt("QuesId");
                 String content = resultSet.getString("Content");
-                NormalQuestion normalQuestion = new NormalQuestion(quesId, content);
+                int setId = resultSet.getInt("SetId");
+                NormalQuestion normalQuestion = new NormalQuestion(quesId, content, setId);
                 normalQuestions.add(normalQuestion);
             }
         } catch (SQLException ex) {
@@ -75,16 +105,32 @@ public class DAONormalQuestion extends DBConnect{
         return normalQuestions;
     }
 
+public int getTotalQuestionInSet(int setId) {
+    int n = 0;
+    String sql = "SELECT COUNT(*) as totalQuestion FROM NormalQuestion WHERE SetId = ? group by SetId";
+    try (PreparedStatement pre = connection.prepareStatement(sql)) {
+        pre.setInt(1, setId);
+        try (ResultSet rs = pre.executeQuery()) {
+            if (rs.next()) {
+                n = rs.getInt("totalQuestion");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return n;
+}
+
+
     public static void main(String[] args) {
-        NormalQuestion normalQuestion = new NormalQuestion("Sample Content");
         DAONormalQuestion dao = new DAONormalQuestion();
 //
 //        dao.insert(normalQuestion);
 //        NormalQuestion updatedNormalQuestion = new NormalQuestion(1, "Updated Content");
 //        dao.update(updatedNormalQuestion);
-         dao.delete(1);
-          dao.delete(3);
-    String sql = "SELECT * FROM Subject";
-    System.out.println(dao.getData(sql));
+        System.out.println(dao.getTotalQuestionInSet(1));
     }
 }

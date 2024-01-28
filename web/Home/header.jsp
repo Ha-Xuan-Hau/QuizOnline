@@ -30,9 +30,9 @@
 <div class="header-container">
     <div class="navbar">
         <div class="bold">
-            <a href="#">
+            <a href="/HomeController">
                
-                <label style="cursor: pointer;">QuizOnline</label>
+                <label style="cursor: pointer;">Back to Home</label>
             </a>
         </div>
         <nav class="nav-header">

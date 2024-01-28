@@ -45,7 +45,7 @@
       -ms-flex-direction: column;
           flex-direction: column;
   margin-top: 45px;
-  background-color: #f8f8f9;
+  background-color: white;
   padding: 20px;
 }
 
@@ -56,12 +56,12 @@
 }
 
 .service_section .box .detail-box a {
-  color: #00204a;
+  color: white;
   font-weight: 600;
 }
 
 .service_section .box .detail-box a:hover {
-  color: #00bbf0;
+  color: white;
 }
 
 .service_section .btn-box {

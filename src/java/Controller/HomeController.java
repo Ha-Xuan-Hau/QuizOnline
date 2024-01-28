@@ -8,10 +8,13 @@ package Controller;
 import Entity.Admin;
 import Entity.BlogList;
 import Entity.QuestionSet;
+import Entity.Subject;
 import Entity.User;
 import Model.DAOAdmin;
 import Model.DAOBlogList;
 import Model.DAOQuestionSet;
+import Model.DAOStudent;
+import Model.DAOSubject;
 import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,11 +47,11 @@ public class HomeController extends HttpServlet {
              
             DAOQuestionSet qset = new DAOQuestionSet();
             DAOBlogList blog = new DAOBlogList();
-            
+            DAOSubject sub = new DAOSubject();
             List<QuestionSet> listS = qset.getTop3();
-
+            List<Subject> listSub = sub.getData("select*from Subject");
             
-            final int PAGE_SIZE = 9;
+            final int PAGE_SIZE = 6;
              //phân trang
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -70,6 +73,7 @@ public class HomeController extends HttpServlet {
             List<BlogList> listBlog = blog.getAllBlogListWithPagging(page, PAGE_SIZE);
              request.setAttribute("totalPage", totalPage);
             
+            request.setAttribute("SubNav", listSub);
             request.setAttribute("Blog", listBlog);
             request.setAttribute("listS", listS);
             request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);

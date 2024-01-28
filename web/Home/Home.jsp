@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/index.css"/>
+        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/search.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/adminCourseNav.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/courseEditorBase.css"/>
@@ -25,14 +25,22 @@
         <link rel="icon" href="${pageContext.request.contextPath}/assets/img/coc-cham-hoc-logo.png" type="image/gif" sizes="16x16">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sliderStyle3.css" />
-        <link rel="stylesheet" href="/CSS/home.css"/>
+   
+        <style>
+          
+.button a {
+    text-decoration: none;
+    border: 1px solid white;
+    border-radius: 3px;
+    padding: 8px 30px;
+    color: white;}
 
-    </head>
-    <style>
-  body{
-      background-color: white;
-   }
-.container {
+   .nav-header ul li a {
+    color: white;
+    text-decoration: none;
+}
+    
+    .container {
     display: flex;
     justify-content: space-between;
 }
@@ -47,11 +55,11 @@
   }
   
   #prev {
-    left: 10px;
+    left: -63px;
   }
   
   #next {
-    right: 0;
+    right: -64px;
   }
 
 .container .direction {
@@ -88,7 +96,7 @@
     border-radius: 15px;
     width: 358px;
     height: 180px;
-    background-color: #1C1E53;
+    background-color: #1c1e53;
     overflow: hidden;
     transition: 0.5s;
     margin:10px;
@@ -106,9 +114,9 @@
 .item .content{
     padding:30px;
     font-family: monospace;
-    color: white;
 }
 .item .content table td{
+    color: white;
     padding:10px 0;
     border-bottom: 1px solid #AEC0CE;
 }
@@ -150,19 +158,22 @@
         display: none;
     }
 }
-</style>
+            </style>
+    </head>
+ 
+
     <body>
         <div class="header-container">
             <div class="navbar">
                 <div class="bold">
-                    <a href="#">
+                    <a href="HomeController">
 
                         <label style="cursor: pointer;">QuizOnline</label>
                     </a>
                 </div>
-                <nav class="nav-header">
+                <nav class="nav-header" ">
                     <ul>
-                        <li><a href="#">HOME</a></li>
+                        <li><a href="HomeController">HOME</a></li>
                         <li><a href="#">BLOG</a></li>
                         <li><a href="#">QUIZ</a></li>
                     </ul>
@@ -176,9 +187,9 @@
                             </button>
                             <br>
                             <span class="role"><c:choose>
-                                    <c:when test="${user.getRole() eq 1}">USER</c:when>
-                                    <c:when test="${user.getRole() eq 2}">DESIGNER</c:when>
-                                    <c:when test="${user.getRole() eq 3}">ADMIN</c:when>
+                                    <c:when test="${user.getRole() eq 1}">Student</c:when>
+                                    <c:when test="${user.getRole() eq 2}">Teacher</c:when>
+                                    <c:when test="${user.getRole() eq 3}">Admin</c:when>
                                     <c:otherwise>UNKNOWN</c:otherwise>
                                 </c:choose>
                             </span>
@@ -242,7 +253,7 @@
             <div id="formList">
                 <div id="list">
                     <c:forEach items="${listS}" var="item">
-                    <div class="item">
+                        <div class="item">
 
                         <div class="content">
                             <table width="100%" cellspacing="0">
@@ -254,6 +265,18 @@
                         </div>
                     </div>
                         </c:forEach>
+                    
+                    <div class="item">
+
+                        <div class="content">
+                            <table width="100%" cellspacing="0">
+                                <tr>
+                                    <td>Quiz</td>
+                                    <td>100points</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
             </div>

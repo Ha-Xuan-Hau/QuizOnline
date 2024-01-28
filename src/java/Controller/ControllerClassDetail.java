@@ -55,7 +55,7 @@ public class ControllerClassDetail extends HttpServlet {
                 ArrayList<QuestionSet> questionSetList = new ArrayList<>();
                 for (Integer setIds : setList) {
                     int setId = setIds;
-                    questionSetList.add(daoQS.getQuestionSetBySetId(setId));
+                    questionSetList.add(daoQS.getQuestionSetById(setId));
                 }
                 request.setAttribute("classId", classId1);
                 request.setAttribute("myClass", myClass);

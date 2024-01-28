@@ -9,6 +9,7 @@ import Entity.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -148,6 +149,31 @@ public class DAOUser extends DBConnect {
     
     }
     
+    public List<User> getAllUserListData(String sql) {
+    List<User> userList = new ArrayList<>();
+    Statement state;
+    try {
+        state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = state.executeQuery(sql);
+
+        while (rs.next()) {
+            int accountId = rs.getInt("AccountId");
+            String username = rs.getString("Username");
+            String email = rs.getString("Email");
+            String password = rs.getString("Password");
+            int roleId = rs.getInt("RoleId");
+            boolean isActive = rs.getBoolean("isActive");
+
+            User user = new User(accountId, username, email, password, roleId, isActive);
+            userList.add(user);
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return userList;
+}
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
         List<User> us = dao.getAllUser();
