@@ -83,7 +83,7 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
                             <div class="box" style="padding: 0px ">
                                 <div class="detail-box">
                                     <h5 style="font-size: 1.375rem;">
-                                        <a href="">
+                                        <a href="ClassDetailURL?classId=<%= myclass.getClassId() %>">
                                             <%= myclass.getClassName() %>
                                         </a>
                                     </h5>
@@ -123,22 +123,22 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
             <div class="behind" id="popupBehind" onclick="closeForm()"></div>
             <div class="formPopup" id="popupForm">    
                 join Class will update latter
-<!--                <form action="/ClassDetailURL" method="post" class="formContainer">
-                    <p style="text-align: left; font-weight: bold">Create a Class</p>
-                    <input type="hidden" name="go" value="addClass">
-                    <div class="inputGroup">
-                        <input type="text" id="className" name="className" placeholder=" " required>
-                        <span class="title">Class Name (required)</span>
-                    </div>
-
-                    <div class="inputGroup">
-                        <input type="text" id="subject" name="subject" placeholder=" " required>
-                        <span class="title">Subject</span>
-                    </div>
-
-                    <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
-                    <button type="submit" class="btn_add">Add</button>
-                </form>-->
+                <!--                <form action="/ClassDetailURL" method="post" class="formContainer">
+                                    <p style="text-align: left; font-weight: bold">Create a Class</p>
+                                    <input type="hidden" name="go" value="addClass">
+                                    <div class="inputGroup">
+                                        <input type="text" id="className" name="className" placeholder=" " required>
+                                        <span class="title">Class Name (required)</span>
+                                    </div>
+                
+                                    <div class="inputGroup">
+                                        <input type="text" id="subject" name="subject" placeholder=" " required>
+                                        <span class="title">Subject</span>
+                                    </div>
+                
+                                    <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
+                                    <button type="submit" class="btn_add">Add</button>
+                                </form>-->
             </div>
         </div>
         <!--End Popup-->
@@ -194,20 +194,20 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
     </body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-                        function showDeleteConfirmation(classId) {
-                            Swal.fire({
-                                title: 'Delete Class',
-                                text: 'Are you sure you want to delete this class?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Delete',
-                                cancelButtonText: 'Cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = "ClassJoinListURL?go=Delete&ClassId=" + classId;
-                                }
-                            });
+                function showDeleteConfirmation(classId) {
+                    Swal.fire({
+                        title: 'Delete Class',
+                        text: 'Are you sure you want to delete this class?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete',
+                        cancelButtonText: 'Cancel',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = ""; //+ classId;
                         }
+                    });
+                }
     </script>
 
     <script>

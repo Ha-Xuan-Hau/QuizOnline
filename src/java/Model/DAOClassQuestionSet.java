@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -104,11 +105,28 @@ public class DAOClassQuestionSet extends DBConnect {
         }
         return vector;
     }
+    public ArrayList<Integer> getSetIdbyClassId(int classId) {
+    ArrayList<Integer> setIdList = new ArrayList<>();
+    String sql = "SELECT SetId FROM ClassQuestionSet WHERE ClassId = ?";
+    
+    try {
+        PreparedStatement pre = connection.prepareStatement(sql);
+        pre.setInt(1, classId);
+        ResultSet rs = pre.executeQuery();
+
+        while (rs.next()) {
+            int setId = rs.getInt("SetId");
+            setIdList.add(setId);
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(DAOClassQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return setIdList;
+}
+
         public static void main(String[] args) {
         DAOClassQuestionSet dao = new DAOClassQuestionSet();
-        int n =dao.UpdateClassQuestionSet(new ClassQuestionSet(1002,1015,1002));
-        if(n!= 0){
-            System.out.println("ok");
-        }
+        System.out.println(dao.getSetIdbyClassId(1));
     }
 }

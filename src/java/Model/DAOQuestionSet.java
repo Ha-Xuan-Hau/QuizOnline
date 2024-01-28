@@ -206,10 +206,32 @@ public List<QuestionSet> getTop3() {
         }
         return 0;
     }
+    public QuestionSet getQuestionSetBySetId(int SetId) {
+    QuestionSet ques = new QuestionSet();
+    try {
+        String sql = "SELECT * FROM QuestionSet WHERE SetId = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, SetId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                QuestionSet questionSet = new QuestionSet();
+                questionSet.setSetId(rs.getInt(1));
+                questionSet.setTitle(rs.getString(2));
+                questionSet.setUserAccountId(rs.getInt(3));
+                questionSet.setSubjectId(rs.getInt(4));
+                questionSet.setQuesId(rs.getInt(5));
+                ques = questionSet;
+            }
+        }
+    } catch (SQLException e) {
+        Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return ques;
+}
 
     public static void main(String[] args) {
         DAOQuestionSet qs = new DAOQuestionSet();
-        System.out.println(qs.getTop3());
+        System.out.println(qs.getQuestionSetBySetId(1));
         
     }
 

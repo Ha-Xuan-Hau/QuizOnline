@@ -7,12 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Entity.Class" %>
+<%@ page import="Entity.QuestionSet" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Mobile M   etas -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />                                  
         <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/Class/images/quiz.png">
@@ -23,17 +26,62 @@
         <link href="${pageContext.request.contextPath}/Class/css/style.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Class/css/mainStyle.css" rel="stylesheet" />
         <style>
-            .detail-box {
-                width: 100%;
+            .info {
+                position: relative;
+                height: 400px;
                 background-image: url('${pageContext.request.contextPath}/Class/images/img_read.png');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
                 text-align: left;
-                border-radius: 10px 10px 0px 0px;
-                padding: 10px 0 0 10px;
+                border-radius: 10px;
+                margin: 20px;
+            }
+            .info h1 {
+                position: absolute;
+                bottom: 10%;
+                margin: 40px;
+                margin-bottom: 70px;
             }
 
+            .info h5 {
+                position: absolute;
+                bottom: 5%;
+                margin: 40px;
+            }
+
+            .question-set-list {
+                width: 100%;
+                list-style-type: none;
+                padding: 0;
+                align-items: center;
+            }
+
+            .question-set-item {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                margin: 30px;
+                padding: 10px;
+                border-radius: 8px;
+                height: 70px;
+            }
+            .question-set-item:hover {
+                background-color: rgba(91, 145, 243, 0.1);
+                border: 1px solid #ddd;
+                margin: 30px;
+                padding: 10px;
+                border-radius: 8px;
+                height: 70px;
+            }
+            .question-set-item h3 {
+                margin: 10px    ;
+                font-size: 20px;
+                color: #333;
+                line-height: 20px;
+            }
+            .question-set-item:hover a {
+                text-decoration: none;
+            }
         </style>
     </head>
 
@@ -42,80 +90,37 @@
 
         <!-- End Header sesion-->       
         <div class="select_class">
-            <!-- My Class -->
-            <a href="ClassListURL" target="_self" class="current-page">My Class</a>
 
-            <!-- Learn Class -->
-            <a href="ClassListURL" target="_self">Learn Class</a>
+            <a href="" target="_self" class="current-page">Practice</a>
 
-            <img style="height:20px; margin: 5px 0px " onclick="openForm()"
-                 src="${pageContext.request.contextPath}/Class/images/add.png" alt="alt" />
+
+            <a href="javascript:void(0);" onclick="showUpdateLaterMessage()">Exam</a>
+            <script>
+                function showUpdateLaterMessage() {
+                    alert('Update later');
+                }
+            </script>
+
+            <a href="ClassStudentListURL" target="_self">People</a>
         </div>
-        <!-- Class List -->
-        <section class="service_section layout_padding">
-            <div class="service_container">
-                <div class="container">
-                    <div class="row">
-                        <%
-                        String nameTeacher = (String) session.getAttribute("nameTeacher");
-                        ArrayList<Class> classList = (ArrayList<Class>) request.getAttribute("data");
-                        char firstCharacter = nameTeacher.charAt(0);
-
-                        int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
-                        int itemsPerPage = 6; 
-                        int startIdx = (currentPage - 1) * itemsPerPage;
-                        int endIdx = Math.min(startIdx + itemsPerPage, classList.size());
-
-                        for (int i = startIdx; i < endIdx; i++) {
-                            Class myclass = classList.get(i);
-                        %>
-
-                        <div class="col-md-4">
-                            <div class="box" style="padding: 0px ">
-                                <div class="detail-box">
-                                    <h5 style="font-size: 1.375rem;">
-                                        <a href="">
-                                            <%= myclass.getClassName() %>
-                                        </a>
-                                    </h5>
-                                    <p style="font-size: 0.8125rem;">
-                                        <%= nameTeacher %>
-                                    </p>
-                                    <p style="font-size: 0.8125rem;">
-                                        Created on:
-                                        <%= myclass.getCreateDate() %>
-                                    </p>
-                                </div>
-                                <div class="circle"><%= firstCharacter %></div>
-                            </div>
-                            <div class="outer-box">
-                                <a href="" target="_blank">
-                                    <img style="height:20px" src="${pageContext.request.contextPath}/Class/images/increase.png"
-                                         title="Core Board"  alt="alt" />
-                                </a>
-                                <a href="#" onclick="showDeleteConfirmation('<%= myclass.getClassId()%>')">
-                                    <img style="height:20px"
-                                         src="${pageContext.request.contextPath}/Class/images/delete.png" title="Delete Class" alt="alt" />
-                                </a>
-                            </div>
-                        </div>
-
-                        <%
-                        }
-                        %>
-                    </div>
-                </div>
+        <div class="info">
+            <div class="info-content">
+                <h1>${myClass.getClassName()}</h1>   
+                <h5>${teacher.getTeacherName()}</h5>
             </div>
-        </section>
-        <!-- end Class List -->
-
-        <!--Popup-->
+            <c:if test="${acc == teacher.getAccountId()}">
+                <div class="add-button">
+                    <img onclick="openForm()" style="width: 40px; margin: 15px" src="${pageContext.request.contextPath}/Class/images/more1.png" alt="Add" />
+                </div>
+            </c:if>
+        </div>
         <div class="Popup">
             <div class="behind" id="popupBehind" onclick="closeForm()"></div>
             <div class="formPopup" id="popupForm">    
-                <form action="/ClassDetailURL" method="post" class="formContainer">
-                    <p style="text-align: left; font-weight: bold">Create a Class</p>
-                    <input type="hidden" name="go" value="addClass">
+                <form action="/QuizzesOnline/ClassDetailURL" method="post" class="formContainer" onsubmit="return validateForm()">
+                    <p style="text-align: left; font-weight: bold">Change Class Name</p>
+                    <input type="hidden" name="go" value="updateClass">
+                    <input type="hidden" name="classId" value="${classId}">
                     <div class="inputGroup">
                         <input type="text" id="className" name="className" placeholder=" " required>
                         <span class="title">Class Name (required)</span>
@@ -127,91 +132,34 @@
                     </div>
 
                     <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
-                    <button type="submit" class="btn_add">Add</button>
+                    <button type="submit" class="btn_add">Change</button>
                 </form>
             </div>
         </div>
-        <!--End Popup-->
 
-        <!-- Pagination -->
-        <%
-        if (classList.isEmpty()) {
-        %>
-        <div class="pagination">
-            <img src="${pageContext.request.contextPath}/Class/images/EmptyClass.png" alt="alt"/>
-        </div>
-        <%
-        } else {
-        %>
-        <div class="pagination">
-            <%
-            int totalPages = (int) Math.ceil((double) classList.size() / itemsPerPage);
-            int previousPage = currentPage - 1;
-            String firstPageLink = "ClassListURL?page=1"; 
-            String previousPageLink = "ClassListURL?page=" + previousPage;
-            if (previousPage > 0) {
-            %>
-            <a href="<%= firstPageLink %>">First</a> 
-            <a href="<%= previousPageLink %>"><%= currentPage - 1 %></a>
-            <%
-            }
-            String currentPageLink = "ClassListURL?page=" + currentPage;
-            %>
-            <a href="<%= currentPageLink %>" class="current-page"><%= currentPage %></a>
-            <%
-            int nextPage = currentPage + 1;
-            String lastPageLink = "ClassListURL?page=" + totalPages; 
-            String nextPageLink = "ClassListURL?page=" + nextPage;
-            if (nextPage <= totalPages) {
-            %>
-            <span class="next-page-container">
-                <a href="<%= nextPageLink %>"><%= nextPage %></a>
-            </span>
-            <a href="<%= lastPageLink %>">Last</a> 
-            <%
-            }
-            %>
-        </div>
-        <%
-            }
-        %>
-        <!-- End Pagination -->
-
-
+        <ul class="question-set-list">
+            <li>
+                <div class="question-set-item">
+                    <a style="display: flex;justify-content: center " href="QuestionSetURL?go=setDetails&SetId=${questionSet.getSetId()}">
+                        <img src="${pageContext.request.contextPath}/Class/images/add.png" width="30px" style="margin: 10px" />                            
+                    </a>
+                </div>
+            </li>
+            <c:forEach var="questionSet" items="${questionSetList}">
+                <li>
+                    <div class="question-set-item">                     
+                        <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${questionSet.getSetId()}">
+                            <h3><img src="${pageContext.request.contextPath}/Class/images/studying.png" width="20px" style="margin-right: 30px ; background-color: " />
+                                ${teacher.getTeacherName()} posted "${questionSet.getTitle()}"  </h3>
+                        </a>
+                    </div>
+                </li>
+            </c:forEach>
+        </ul>
         <!-- footer section -->
 
         <!-- footer section -->
     </body>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-                        function showDeleteConfirmation(classId) {
-                            Swal.fire({
-                                title: 'Delete Class',
-                                text: 'Are you sure you want to delete this class?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Delete',
-                                cancelButtonText: 'Cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
-                                }
-                            });
-                        }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var currentPath = window.location.pathname;
-            var links = document.querySelectorAll('a');
-            links.forEach(function (link) {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('current-page');
-                }
-            });
-        });
-    </script>
-
     <script>
         function openForm() {
             document.getElementById("popupForm").style.display = "block";
@@ -220,6 +168,31 @@
         function closeForm() {
             document.getElementById("popupForm").style.display = "none";
             document.getElementById("popupBehind").style.display = "none";
+        }
+    </script>
+    <script>
+        function validateForm() {
+            var className = document.getElementById('className').value.trim();
+            var subject = document.getElementById('subject').value.trim();
+            className.replaceAll("\\s+", " ");
+            subject.replaceAll("\\s+", " ");
+            if (className === "" || subject === "") {
+                alert('Class name cannot be empty !');
+                return false;
+            }
+            if (!/[^ ]{7}/.test(className)) {
+                alert('Class Name must contain at least 7 characters !');
+                return false;
+            }
+            if (!/[^ ]{3}/.test(subject)) {
+                alert('subject must contain at least 3 characters !');
+                return false;
+            }
+            if ((className + " " + subject) === "${myClass.getClassName()}") {
+                alert('Class name and subject cannot be the same as the existing class!');
+                return false;
+            }
+            return true;
         }
     </script>
 

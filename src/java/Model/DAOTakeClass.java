@@ -119,9 +119,27 @@ public class DAOTakeClass extends DBConnect {
 
         return arr;
     }
+        public ArrayList<Integer> getStudentIDbyClassID(int acc) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        String sql = "SELECT StudentAccountId FROM TakeClass WHERE ClassId = ?";
+
+        try ( PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, acc);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                int StudentAccountId = rs.getInt("StudentAccountId");
+                arr.add(StudentAccountId);
+            }
+        } catch (SQLException e) {
+
+        }
+
+        return arr;
+    }
 
     public static void main(String[] args) {
         DAOTakeClass dao = new DAOTakeClass();
-        System.out.println(dao.getClassIDbyStudentID(2));
+        System.out.println(dao.getStudentIDbyClassID(1));
     }
 }

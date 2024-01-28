@@ -4,11 +4,11 @@
  */
 package Controller;
 
-import Entity.QuestionSet;
+import Entity.User;
 import Model.DAOClass;
-import Model.DAOClassQuestionSet;
-import Model.DAOQuestionSet;
+import Model.DAOTakeClass;
 import Model.DAOTeacher;
+import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,57 +23,33 @@ import java.util.ArrayList;
  *
  * @author phamg
  */
-@WebServlet(name = "ControllerClassDetail", urlPatterns = {"/ClassDetailURL"})
-public class ControllerClassDetail extends HttpServlet {
+@WebServlet(name = "ControllerClassStudentList", urlPatterns = {"/ClassStudentListURL"})
+public class ControllerClassStudentList extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();
-            int classId1 = (int) Integer.parseInt(request.getParameter("classId"));
-            session.setAttribute("classId", classId1);
             int classId = (int) Integer.parseInt(session.getAttribute("classId").toString());
-            DAOClass daoC = new DAOClass();
+            DAOTakeClass daoTC = new DAOTakeClass();
+            DAOUser daoU = new DAOUser();
             DAOTeacher daoT = new DAOTeacher();
-            DAOClassQuestionSet daoCQS = new DAOClassQuestionSet();
-            DAOQuestionSet daoQS = new DAOQuestionSet();
-            if (service == null) {
-                Entity.Class myClass = daoC.ClassByClassID(classId);
-                Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
-                ArrayList<Integer> setList = daoCQS.getSetIdbyClassId(classId);
-                ArrayList<QuestionSet> questionSetList = new ArrayList<>();
-                for (Integer setIds : setList) {
-                    int setId = setIds;
-                    questionSetList.add(daoQS.getQuestionSetBySetId(setId));
-                }
-                request.setAttribute("classId", classId1);
-                request.setAttribute("myClass", myClass);
-                request.setAttribute("teacher", teacher);
-                request.setAttribute("questionSetList", questionSetList);
-                request.getRequestDispatcher("/Class/classDetail.jsp").forward(request, response);
-            } else {
-
-                if (service.equals("updateClass")) {
-                    String className = request.getParameter("className");
-                    String subject = request.getParameter("subject");
-                    className = cleanAndFormatInput(className);
-                    subject = cleanAndFormatInput(subject);
-                    String FullClassName = className + " " + subject;
-                    daoC.updateClassName(classId, FullClassName);
-                    response.sendRedirect("ClassDetailURL?classId=" + classId);
-                }
+            DAOClass daoC = new DAOClass();
+            Entity.Class myClass = daoC.ClassByClassID(classId);
+            Entity.User teacher = daoU.getUserById(myClass.getTeacherAccountId());
+            ArrayList<Integer> studentIdlist = new ArrayList<>();
+            ArrayList<User> StudentList = new ArrayList<>();
+            studentIdlist = daoTC.getStudentIDbyClassID(classId);
+            for (Integer studentIds : studentIdlist) {
+                int studentId = (int) studentIds;
+                StudentList.add(daoU.getUserById(studentId));
             }
+            request.setAttribute("StudentList", StudentList);
+            request.setAttribute("teacher", teacher);
+            request.getRequestDispatcher("/Class/classStudentList.jsp").forward(request, response);
+
         }
     }
 
@@ -116,9 +92,4 @@ public class ControllerClassDetail extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String cleanAndFormatInput(String input) {
-        input = input.trim();
-        input = input.replaceAll("\\s+", " ");
-        return input;
-    }
 }

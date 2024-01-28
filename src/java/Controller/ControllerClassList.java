@@ -15,7 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import Model.DAOClass;
 import Model.DAOTeacher;
+import Entity.Class;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Timestamp;
 
 /**
  *
@@ -42,9 +44,11 @@ public class ControllerClassList extends HttpServlet {
             DAOClass dao = new DAOClass();
             DAOTeacher daoT = new DAOTeacher();
             if (service == null) {
-                session.setAttribute("nameTeacher", daoT.getTeacherByAccountId(1).getTeacherName());
-//                int acc = (int) session.getAttribute("acc");
-                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(2);
+                int account = 1;
+                session.setAttribute("acc", account);
+                int acc = (int) session.getAttribute("acc");
+                session.setAttribute("nameTeacher", daoT.getTeacherByAccountId(acc).getTeacherName());
+                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(acc);
                 request.setAttribute("data", classList);
                 request.getRequestDispatcher("/Class/classList.jsp").forward(request, response);
             } else {
@@ -52,6 +56,19 @@ public class ControllerClassList extends HttpServlet {
                     int ClassId = Integer.parseInt(request.getParameter("ClassId"));
                     dao.DeleteClass(ClassId);
                     response.sendRedirect("ClassListURL");
+                }
+
+                if (service.equals("addClass")) {
+                    String className = request.getParameter("className");
+                    String subject = request.getParameter("subject");
+                    className = cleanAndFormatInput(className);
+                    subject = cleanAndFormatInput(subject);
+                    String FullClassName = className + " " + subject;
+                    Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+                    Class create = new Class(FullClassName, 1, currentDate.toString());
+                    dao.CreateClass(create);
+                    response.sendRedirect("ClassListURL");
+
                 }
 
             }
@@ -96,5 +113,11 @@ public class ControllerClassList extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private String cleanAndFormatInput(String input) {
+        input = input.trim();
+        input = input.replaceAll("\\s+", " ");
+        return input;
+    }
 
 }

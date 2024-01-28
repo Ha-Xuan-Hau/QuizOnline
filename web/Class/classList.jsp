@@ -74,7 +74,7 @@
                             <div class="box" style="padding: 0px ">
                                 <div class="detail-box">
                                     <h5 style="font-size: 1.375rem;">
-                                        <a href="">
+                                        <a href="ClassDetailURL?classId=<%= myclass.getClassId() %>">
                                             <%= myclass.getClassName() %>
                                         </a>
                                     </h5>
@@ -113,8 +113,8 @@
         <div class="Popup">
             <div class="behind" id="popupBehind" onclick="closeForm()"></div>
             <div class="formPopup" id="popupForm">    
-                <form action="/ClassDetailURL" method="post" class="formContainer">
-                    <p style="text-align: left; font-weight: bold">Create a Class</p>
+                <form action="/QuizzesOnline/ClassListURL" method="post" class="formContainer" onsubmit="return validateForm() >
+                            <p style="text-align: left; font-weight: bold">Create a Class</p>
                     <input type="hidden" name="go" value="addClass">
                     <div class="inputGroup">
                         <input type="text" id="className" name="className" placeholder=" " required>
@@ -134,93 +134,113 @@
         <!--End Popup-->
 
         <!-- Pagination -->
-        <%
-        if (classList.isEmpty()) {
-        %>
-        <div class="pagination">
-            <img src="${pageContext.request.contextPath}/Class/images/EmptyClass.png" alt="alt"/>
-        </div>
-        <%
-        } else {
-        %>
-        <div class="pagination">
-            <%
-            int totalPages = (int) Math.ceil((double) classList.size() / itemsPerPage);
-            int previousPage = currentPage - 1;
-            String firstPageLink = "ClassListURL?page=1"; 
-            String previousPageLink = "ClassListURL?page=" + previousPage;
-            if (previousPage > 0) {
-            %>
-            <a href="<%= firstPageLink %>">First</a> 
-            <a href="<%= previousPageLink %>"><%= currentPage - 1 %></a>
-            <%
-            }
-            String currentPageLink = "ClassListURL?page=" + currentPage;
-            %>
-            <a href="<%= currentPageLink %>" class="current-page"><%= currentPage %></a>
-            <%
-            int nextPage = currentPage + 1;
-            String lastPageLink = "ClassListURL?page=" + totalPages; 
-            String nextPageLink = "ClassListURL?page=" + nextPage;
-            if (nextPage <= totalPages) {
-            %>
-            <span class="next-page-container">
-                <a href="<%= nextPageLink %>"><%= nextPage %></a>
-            </span>
-            <a href="<%= lastPageLink %>">Last</a> 
-            <%
-            }
-            %>
-        </div>
-        <%
-            }
-        %>
-        <!-- End Pagination -->
-
-
-        <!-- footer section -->
-
-        <!-- footer section -->
-    </body>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-                        function showDeleteConfirmation(classId) {
-                            Swal.fire({
-                                title: 'Delete Class',
-                                text: 'Are you sure you want to delete this class?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Delete',
-                                cancelButtonText: 'Cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
-                                }
-                            });
+                      <%
+                      if (classList.isEmpty()) {
+                      %>
+                      <div class="pagination">
+                        <img src="${pageContext.request.contextPath}/Class/images/EmptyClass.png" alt="alt"/>
+                    </div>
+                    <%
+                    } else {
+                    %>
+                    <div class="pagination">
+                        <%
+                        int totalPages = (int) Math.ceil((double) classList.size() / itemsPerPage);
+                        int previousPage = currentPage - 1;
+                        String firstPageLink = "ClassListURL?page=1"; 
+                        String previousPageLink = "ClassListURL?page=" + previousPage;
+                        if (previousPage > 0) {
+                        %>
+                        <a href="<%= firstPageLink %>">First</a> 
+                        <a href="<%= previousPageLink %>"><%= currentPage - 1 %></a>
+                        <%
                         }
-    </script>
+                        String currentPageLink = "ClassListURL?page=" + currentPage;
+                        %>
+                        <a href="<%= currentPageLink %>" class="current-page"><%= currentPage %></a>
+                        <%
+                        int nextPage = currentPage + 1;
+                        String lastPageLink = "ClassListURL?page=" + totalPages; 
+                        String nextPageLink = "ClassListURL?page=" + nextPage;
+                        if (nextPage <= totalPages) {
+                        %>
+                        <span class="next-page-container">
+                            <a href="<%= nextPageLink %>"><%= nextPage %></a>
+                        </span>
+                        <a href="<%= lastPageLink %>">Last</a> 
+                        <%
+                        }
+                        %>
+                    </div>
+                    <%
+                        }
+                    %>
+                    <!-- End Pagination -->
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var currentPath = window.location.pathname;
+
+                    <!-- footer section -->
+
+                    <!-- footer section -->
+                    </body>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script>
+        function showDeleteConfirmation(classId) {
+                    Swal.fire({
+                    title: 'Delete Class',
+                            text: 'Are you sure you want to delete this class?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Delete',
+                            cancelButtonText: 'Cancel',
+                    }).then((result) => {
+            if (result.isConfirmed) {
+            window.location.href = "ClassListURL?go=Delete&ClassId=" + classId;
+            }
+            });
+        }
+        </script                            >
+
+        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                    var currentPath = window.location.pathname;
             var links = document.querySelectorAll('a');
             links.forEach(function (link) {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('current-page');
-                }
+            if (link.getAttribute('href') === currentPath) {
+            link.classList.add('curren                            t-page');
+            }
             });
-        });
-    </script>
+      });
+                            </script>
 
-    <script>
-        function openForm() {
-            document.getElementById("popupForm").style.display = "block";
-            document.getElementById("popupBehind").style.display = "block";
-        }
-        function closeForm() {
-            document.getElementById("popupForm").style.display = "none";
+                <script>
+                            function openForm() {
+                    document.getElementById("popupForm").style.display = "block";
+                                        docume                            nt.getElementById("popupBehind").style.display = "block";
+                            }
+                            function closeForm() {
+                    document.getElementById(                            "popupForm").style.display = "none";
             document.getElementById("popupBehind").style.display = "none";
-        }
-    </script>
-
+                            }
+            </script>
+            <script>
+            function validateForm() {
+                    var className = document.getElementById('className').value.trim();
+            var subject = document.getElementById('subject').value.trim();
+            className.replaceAll("\\s+", " ");
+            subject.replaceAll("\\s+", " ");
+            if (className === "" || subject === "") {
+            alert('Class name cannot be empty !');
+            return false;
+            }
+            if (!/[^ ]{7}/.test(className)) {
+            alert('Class Name must contain at least 7 characters !');
+            return false;
+            }
+            if (!/[^ ]{3}/.test(subject)) {
+            alert('subject must contain at least 3 characters !');
+            return false;
+            }
+            return true;
+                        }
+</script>
 </html>

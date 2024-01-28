@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -18,28 +19,27 @@ import java.util.ArrayList;
  */
 public class DAOClass extends DBConnect {
 
-    public int CreateClass(Class obj) {
-        int n = 0;
-        String sql = "INSERT INTO [dbo].[Class]\n"
-                + "           ([ClassName]\n"
-                + "           ,[TeacherAccountId]\n"
-                + "           ,[CreateDate])\n"
-                + "     VALUES(?,?,?)";
-        try {
-            PreparedStatement pre = connection.prepareStatement(sql);
+public int CreateClass(Class obj) {
+    int n = 0;
+    String sql = "INSERT INTO [dbo].[Class]\n"
+            + "           ([ClassName]\n"
+            + "           ,[TeacherAccountId]\n"
+            + "           ,[CreateDate])\n"
+            + "     VALUES(?,?,?)";
+    try {
+        PreparedStatement pre = connection.prepareStatement(sql);
 
-            pre.setString(1, obj.getClassName());
-            pre.setInt(2, obj.getTeacherAccountId());
-            pre.setString(3, obj.getCreateDate());
-            n = pre.executeUpdate();
+        pre.setString(1, obj.getClassName());
+        pre.setInt(2, obj.getTeacherAccountId());
+        pre.setString(3, obj.getCreateDate());
+        n = pre.executeUpdate();
 
-        } catch (SQLException ex) {
-
-        }
-
-        return n;
-
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+
+    return n;
+}
 
     public int UpdateClass(Class obj) {
         int n = 0;
@@ -166,11 +166,49 @@ public class DAOClass extends DBConnect {
 
         return arrayList;
     }
+        public Class ClassByClassID(int classId) {
+        Class class1 = new Class();
+        String sql = "SELECT * FROM Class WHERE ClassId = " + classId;
+        Statement state;
 
+        try {
+            state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = state.executeQuery(sql);
+
+            while (rs.next()) {
+                int ClassId = rs.getInt(1);
+                String ClassName = rs.getString(2);
+                int TeacherAccountId = rs.getInt(3);
+                String CreateDate = rs.getString(4);
+
+                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
+                class1 = obj;
+            }
+        } catch (SQLException e) {
+        }
+
+        return class1;
+    }
+        public int updateClassName(int classId, String newClassName) {
+    int n = 0;
+    String sql = "UPDATE [dbo].[Class]\n"
+                + "SET [ClassName] = ?\n"
+                + "WHERE ClassId = ?";
+    try {
+        PreparedStatement pre = connection.prepareStatement(sql);
+        pre.setString(1, newClassName);
+        pre.setInt(2, classId);
+        n = pre.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return n;
+}
     public static void main(String[] args) {
         DAOClass dao = new DAOClass();
-        System.out.println(dao.getDataByTeacherID(1));
-
+        System.out.println(        dao.ClassByClassID(1)
+);
     }
 
 }

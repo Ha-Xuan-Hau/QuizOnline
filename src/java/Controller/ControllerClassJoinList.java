@@ -43,9 +43,8 @@ public class ControllerClassJoinList extends HttpServlet {
             DAOTakeClass daoTakeClass = new DAOTakeClass();
             DAOTeacher daoTeacher = new DAOTeacher();
             if (service == null) {
-
-//                int acc = (int) session.getAttribute("acc");
-                ArrayList<Integer> classid = daoTakeClass.getClassIDbyStudentID(2);
+                int acc = (int) Integer.parseInt(session.getAttribute("acc").toString());
+                ArrayList<Integer> classid = daoTakeClass.getClassIDbyStudentID(acc);
                 ArrayList<Entity.Class> classList = new ArrayList<>();
                 ArrayList<Entity.Teacher> teacherList = new ArrayList<>();
                 for (Integer id : classid) {
