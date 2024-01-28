@@ -25,7 +25,7 @@ public class DAOUser extends DBConnect {
         List<User> user = new ArrayList<>();
 
         try {
-            String sql = "select *from [User]";
+            String sql = "select * from [User]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {

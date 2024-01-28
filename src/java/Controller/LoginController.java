@@ -67,7 +67,6 @@ public class LoginController extends HttpServlet {
                 DAOUser DAOUser = new DAOUser();
                 EncryptionUtils eu = new EncryptionUtils();
                 List<User> isUser = DAOUser.checkUser(username, eu.toMD5(password));
-                System.out.println(isUser.get(0).toString());
                 if (!isUser.isEmpty()) {
                     try {
                         User user = DAOUser.getUser(username, eu.toMD5(password));
@@ -95,8 +94,9 @@ public class LoginController extends HttpServlet {
 //                    }
                     System.out.println("login thanh cong");
                     request.getSession().setAttribute("validate", "");
-                    response.sendRedirect("index.html");
+                    response.sendRedirect("HomeURL");
                 } else {
+                    System.out.println("quay lai login");
                     request.getSession().setAttribute("validate", validate);
                     response.sendRedirect("LoginURL");
                 }
