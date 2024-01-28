@@ -1,3 +1,8 @@
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
+ */
+
 function Validator(options) {
 
     function getParentElement(element, selector) {
@@ -16,9 +21,9 @@ function Validator(options) {
     function validate(inputElement, rule) {
         var errorElement = getParentElement(inputElement, options.formGroupSelector).querySelector(options.querySelector);
         var formSubmit = document.querySelector("#form-submit");
-        var emailValue = document.querySelector("#username").value;
+        var userValue = document.querySelector("#username").value;
         var passwordValue = document.querySelector("#password").value;
-        console.log(emailValue);
+        console.log(userValue);
         console.log(typeof passwordValue);
         var errorMessage;
 

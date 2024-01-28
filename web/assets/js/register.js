@@ -138,7 +138,16 @@ Validator.isRequired = function (selector, msg) {
         }
     };
 };
-
+Validator.isDatePast= function (selector, msg) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var currentDate = new Date();
+            var inputDate = new Date(value);
+            return inputDate < currentDate ? undefined : msg || 'Invalid birth date';
+        }
+    };
+};
 Validator.isEmail = function (selector, msg) {
     return {
         selector: selector,
@@ -156,7 +165,32 @@ Validator.isMinlength = function (selector, min, msg) {
         }
     };
 };
+Validator.isPhoneNumber = function (selector, msg) {
+    return {
+        selector: selector,
+        test: function (value) {
+            // Kiểm tra nếu số điện thoại rỗng hoặc chỉ chứa khoảng trắng
+            if (value.trim() === '') {
+                return undefined; // Trả về undefined nếu số điện thoại được cho phép trống
+            }
 
+            // Kiểm tra số điện thoại theo một định dạng cụ thể (ví dụ: chỉ chấp nhận chữ số và dấu '+')
+            var regex = /^[0-9+]+$/;
+            if (!regex.test(value)) {
+                return msg || 'Invalid phone number format!';
+            }
+
+            // Kiểm tra độ dài của số điện thoại
+            if (value.length !== 11) {
+                return msg || 'Phone number must be 11 digits!';
+            }
+
+            // Các kiểm tra khác cho số điện thoại (nếu cần)
+
+            return undefined; // Trả về undefined nếu số điện thoại hợp lệ
+        }
+    };
+};
 Validator.isMaxlength = function (selector, max, msg) {
     return {
         selector: selector,

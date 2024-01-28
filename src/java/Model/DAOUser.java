@@ -96,7 +96,7 @@ public class DAOUser extends DBConnect {
         }
     }
     public User getUser(String username, String pass) throws SQLException {
-        String sql = "select * from Users where [Username] = ? and [Password] = ?";
+        String sql = "select * from [User] where [Username] = ? and [Password] = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, pass);
@@ -110,7 +110,7 @@ public class DAOUser extends DBConnect {
     public List<User> checkUser(String username, String passWord) {
         List<User> t = new ArrayList<>();
         try {
-            String sql = "select * from Users where [Username] = ? and [Password] = ?";
+            String sql = "select * from [User] where [Username] = ? and [Password] = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, passWord);
@@ -124,6 +124,43 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
         return t;
+    }
+    public boolean emailCheck(String email) {
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Email=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public boolean usernameCheck(String username) {
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Username=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
     }
     public User fromResultSet(ResultSet rs) throws SQLException {
         return new User(

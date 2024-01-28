@@ -165,7 +165,19 @@ body {
 .left-part_space {
     margin-left: 10%;
 }
-
+#form-2 {
+    display: none;
+}
+#change_form_student, #change_form_teacher {
+    color: #ffff76;
+    text-decoration: none;
+}
+#change_form_teacher:hover {
+    text-decoration: underline;
+}
+#change_form_student:hover {
+    text-decoration: underline;
+}
 @media (max-width: 575px) {
     .left_part {
         display: none;
