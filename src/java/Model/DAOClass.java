@@ -92,30 +92,7 @@ public class DAOClass extends DBConnect {
         return null;
     }
 
-    public ArrayList<Class> getdata() {
-        ArrayList<Class> arrayList = new ArrayList<>();
-        String sql = "select * from Class";
-        Statement state;
-
-        try {
-            state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = state.executeQuery(sql);
-
-            while (rs.next()) {
-                int ClassId = rs.getInt(1);
-                String ClassName = rs.getString(2);
-                int TeacherAccountId = rs.getInt(3);
-                String CreateDate = rs.getString(4);
-
-                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
-                arrayList.add(obj);
-            }
-        } catch (SQLException e) {
-        }
-
-        return arrayList;
-    }
+   
 
     public Class getDataByClassID(int classId) {
         Class class1 = new Class();
@@ -173,4 +150,37 @@ public class DAOClass extends DBConnect {
 
     }
 
+
+
+    public ArrayList<Class> getdata() {
+        ArrayList<Class> arrayList = new ArrayList<>();
+        String sql = "select * from Class";
+        Statement state;
+
+        try {
+            state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = state.executeQuery(sql);
+
+            while (rs.next()) {
+                int ClassId = rs.getInt(1);
+                String ClassName = rs.getString(2);
+                int TeacherAccountId = rs.getInt(3);
+                String CreateDate = rs.getString(4);
+
+                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
+                arrayList.add(obj);
+            }
+        } catch (SQLException e) {
+        }
+
+        return arrayList;
+    }
+
+   
+
+  
+
+
 }
+
