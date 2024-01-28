@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -33,7 +36,7 @@ public class DBConnect {
         }
     }
     public DBConnect(){
-        this("jdbc:sqlserver://localhost:1433;databaseName=QuizOnline","sa","123456");
+        this("jdbc:sqlserver://localhost:1433;databaseName=OnlineQuiz","sa","12345");
     }
     public ResultSet getResultSet(String sql) {
         ResultSet rs = null;
