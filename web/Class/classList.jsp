@@ -183,8 +183,8 @@
                     <!-- footer section -->
                     </body>
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    <script>
-        function showDeleteConfirmation(classId) {
+        <script>
+    function showDeleteConfirmation(classId) {
                     Swal.fire({
                     title: 'Delete Class',
                             text: 'Are you sure you want to delete this class?',
@@ -198,36 +198,36 @@
             }
             });
         }
-        </script                            >
+        </script>
 
-        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                    var currentPath = window.location.pathname;
+                    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var currentPath = window.location.pathname;
             var links = document.querySelectorAll('a');
             links.forEach(function (link) {
             if (link.getAttribute('href') === currentPath) {
-            link.classList.add('curren                            t-page');
+            link.classList.add('current-page');
             }
             });
-      });
-                            </script>
+                });
+                </script>
 
                 <script>
-                            function openForm() {
+                function openForm(){
                     document.getElementById("popupForm").style.display = "block";
-                                        docume                            nt.getElementById("popupBehind").style.display = "block";
-                            }
-                            function closeForm() {
-                    document.getElementById(                            "popupForm").style.display = "none";
+                    document.getElementById("popupBehind").style.display = "block";
+        }
+        function closeForm() {
+                    document.getElementById("popupForm").style.display = "none";
             document.getElementById("popupBehind").style.display = "none";
-                            }
-            </script>
+            }
+                    </script>
             <script>
             function validateForm() {
                     var className = document.getElementById('className').value.trim();
             var subject = document.getElementById('subject').value.trim();
             className.replaceAll("\\s+", " ");
-            subject.replaceAll("\\s+", " ");
+                subject.replaceAll("\\s+", " ");
             if (className === "" || subject === "") {
             alert('Class name cannot be empty !');
             return false;

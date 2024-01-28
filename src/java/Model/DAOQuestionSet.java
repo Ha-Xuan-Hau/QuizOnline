@@ -137,6 +137,34 @@ public List<QuestionSet> getTop3() {
         }
         return 0;
     }
+public List<QuestionSet> searchWithPagination(String keyword, int page, int pageSize) {
+    List<QuestionSet> list = new ArrayList<>();
+    try {
+        String sql = "SELECT * FROM QuestionSet WHERE Title LIKE ? ORDER BY SetId OFFSET (?-1)*? ROWS FETCH NEXT ? ROWS ONLY";
+
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, "%" + keyword + "%");
+        stm.setInt(2, page);
+        stm.setInt(3, pageSize);
+        stm.setInt(4, pageSize);
+
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            QuestionSet qs = new QuestionSet();
+            qs.setSetId(rs.getInt(1));
+            qs.setTitle(rs.getString(2));
+            qs.setUserAccountId(rs.getInt(3));
+            qs.setSubjectId(rs.getInt(4));
+            qs.setQuesId(rs.getInt(5));
+            qs.setSetVote(rs.getInt(6));
+
+            list.add(qs);
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return list;
+}
 
     public List<QuestionSet> search(String keyword) {
         List<QuestionSet> list = new ArrayList<>();
