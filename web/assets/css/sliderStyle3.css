@@ -17,7 +17,7 @@ in order for the aspect ratio trick to work*/
 .carousel {
     margin: 20px;
     position: relative;
-    min-height: 450px;
+    min-height: 300px;
     overflow: hidden;
     border-radius: 10px;
 }

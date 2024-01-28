@@ -16,8 +16,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 public class DAONormalQuestionAnswer extends DBConnect {
-    
+
     public int insert(NormalQuestionAnswer obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[NormalQuestionAnswer] "
@@ -29,6 +30,24 @@ public class DAONormalQuestionAnswer extends DBConnect {
             pre.setString(2, obj.getContent());
             pre.setBoolean(3, obj.isCorrect());
             pre.setDouble(4, obj.getPercent());
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAONormalQuestionAnswer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
+    public int insertDefaultAnswer(int quesId) {
+        int n = 0;
+        String sql = "INSERT INTO [dbo].[NormalQuestionAnswer] "
+                + "([QuesId], [Content], [Correct], [Percent]) "
+                + "VALUES(?, ?, ?, ?)";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, quesId);
+            pre.setString(2, "Default Answer");
+            pre.setBoolean(3, false);
+            pre.setDouble(4, 0);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DAONormalQuestionAnswer.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,14 +109,34 @@ public class DAONormalQuestionAnswer extends DBConnect {
         return normalQuestionAnswers;
     }
 
+    public int getTotalAnswerOfQuestion(int quesId) {
+        int n = 0;
+        String sql = "SELECT COUNT(*) as totalAnswer\n"
+                + "FROM NormalQuestionAnswer\n"
+                + "where QuesId = ?\n"
+                + "group by QuesId";
+        try ( PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, quesId);
+            try ( ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    n = rs.getInt("totalAnswer");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return n;
+    }
+
     public static void main(String[] args) {
-        NormalQuestionAnswer nqa = new NormalQuestionAnswer(1, "Sample Content", true, 75.5);
+        NormalQuestionAnswer nqa = new NormalQuestionAnswer(1, 1, "Sample Content", true, 0);
         DAONormalQuestionAnswer dao = new DAONormalQuestionAnswer();
-//        dao.insert(nqa);
-//        NormalQuestionAnswer nqa1 = new NormalQuestionAnswer(5,1, "Updated Content", false, 50.0);
-//        dao.update(nqa1);
-         dao.delete(5);
-    String sql = "SELECT * FROM Subject";
-    System.out.println(dao.getData(sql));
+
+       // dao.update(nqa);
+       
+        System.out.println(dao.getTotalAnswerOfQuestion(1));
     }
 }
