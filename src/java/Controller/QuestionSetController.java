@@ -48,7 +48,9 @@ public class QuestionSetController extends HttpServlet {
         if (service.equals("listAllSets")) {
             ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
             request.setAttribute("data", allQuesSet);
-            request.getRequestDispatcher("displayAllQuesSet.jsp").forward(request, response);
+
+            request.getRequestDispatcher("Question/displayAllQuesSet.jsp").forward(request, response);
+
         }
         if (service.equals("setDetails")) {
             int setId = Integer.parseInt(request.getParameter("SetId"));
@@ -59,7 +61,9 @@ public class QuestionSetController extends HttpServlet {
 
             request.setAttribute("question", Ques);
             request.setAttribute("content", QuesAnswers);
-            request.getRequestDispatcher("setDetail.jsp").forward(request, response);
+
+            request.getRequestDispatcher("Question/setDetail.jsp").forward(request, response);
+
         }
         if (service.equals("addNewSet")) {
             QuestionSet set = new QuestionSet("New Set", 1, 1, 0);

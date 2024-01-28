@@ -11,8 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../assets/css/login.css">
-        <link rel="stylesheet" href="../assets/css/logreg.css">
+        <link rel="stylesheet" href="assets/css/login.css">
+        <link rel="stylesheet" href="assets/css/logreg.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
@@ -20,7 +20,7 @@
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    <a class="back_home-detail" href="home"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
+                    <a class="back_home-detail" href="HomeURL"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
             <div class="container-form">
@@ -35,17 +35,18 @@
                 </div>
                 <div class="right_part">
                     <div class="spacing_top"></div>
-                    <form action="../login" method="POST" id="form-1">
+                    <form action="LoginURL" method="POST" id="form-1">
+                        <input type="hidden" name="go" value="login">
                         <div class="right-head">
                             <h3 class="right-title">Login</h3>
                             <p class="right-desc">Fill your info</p>
                         </div>
                         <div class="form-group">
-                            <input id="email" name="email" value="${email==null?'admin@gmail.com':email}" type="text" placeholder="Email" class="form-control">
+                            <input id="username" name="username" value="${username==null?'':username}" type="text" placeholder="User Name" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <input id="password" name="password" value="${password==null?'12345678':password}" type="password" placeholder="Password" class="form-control">
+                            <input id="password" name="password" value="${password==null?'':password}" type="password" placeholder="Password" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <span class="validate-message">${validate}</span>
@@ -55,7 +56,7 @@
                         </div>
                         <button id="form-submit" class="form-submit">Login</button>
                         <div class="logreg-link">
-                            <span>Don't have an account? <a href="register">Register now</a></span>
+                            <span>Don't have an account? <a href="RegisterURL">Register now</a></span>
                         </div>
                     </form>
                     <div class="spacing_bottom"></div>
@@ -63,15 +64,15 @@
                 <div class="right-part_space"></div>
             </div>
         </div>
-        <script src="../assets/js/login.js"></script>
+        <script src="assets/js/login.js"></script>
         <script>
             Validator({
                 form: "#form-1",
                 formGroupSelector: ".form-group",
                 querySelector: ".form-message",
                 rules: [
-                    Validator.isEmail("#email"),
-                    Validator.isRequired("#email"),
+                    //Validator.isEmail("#email"),
+                    Validator.isRequired("#username"),
                     Validator.isRequired("#password")
                 ]
             });

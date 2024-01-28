@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -9,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,14 +20,14 @@ public class DAOClass extends DBConnect {
 
     public int CreateClass(Class obj) {
         int n = 0;
-        String sql = "INSERT INTO [dbo].[Class]\n"                
+        String sql = "INSERT INTO [dbo].[Class]\n"
                 + "           ([ClassName]\n"
                 + "           ,[TeacherAccountId]\n"
                 + "           ,[CreateDate])\n"
                 + "     VALUES(?,?,?)";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
-            
+
             pre.setString(1, obj.getClassName());
             pre.setInt(2, obj.getTeacherAccountId());
             pre.setString(3, obj.getCreateDate());
@@ -56,7 +55,7 @@ public class DAOClass extends DBConnect {
             pre.setString(3, obj.getCreateDate());
             pre.setInt(4, obj.getClassId());
             n = pre.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return n;
     }
@@ -68,7 +67,7 @@ public class DAOClass extends DBConnect {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, id);
             n = pre.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return n;
     }
@@ -88,39 +87,90 @@ public class DAOClass extends DBConnect {
                 obj.setCreateDate(rs.getString(4));
                 return obj;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return null;
     }
 
-    public Vector<Class> getAll() {
-        Vector<Class> vector = new Vector<Class>();
+    public ArrayList<Class> getdata() {
+        ArrayList<Class> arrayList = new ArrayList<>();
         String sql = "select * from Class";
         Statement state;
+
         try {
             state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = state.executeQuery(sql);
+
             while (rs.next()) {
                 int ClassId = rs.getInt(1);
                 String ClassName = rs.getString(2);
                 int TeacherAccountId = rs.getInt(3);
                 String CreateDate = rs.getString(4);
+
                 Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
-                vector.add(obj);
+                arrayList.add(obj);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
 
-        return vector;
-
+        return arrayList;
     }
+
+    public Class getDataByClassID(int classId) {
+        Class class1 = new Class();
+        String sql = "SELECT * FROM Class WHERE ClassId = " + classId;
+        Statement state;
+
+        try {
+            state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = state.executeQuery(sql);
+
+            while (rs.next()) {
+                int ClassId = rs.getInt(1);
+                String ClassName = rs.getString(2);
+                int TeacherAccountId = rs.getInt(3);
+                String CreateDate = rs.getString(4);
+
+                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
+                class1 = obj;
+            }
+        } catch (SQLException e) {
+        }
+
+        return class1;
+    }
+
+    public ArrayList<Class> getDataByTeacherID(int teacherAccountId) {
+        ArrayList<Class> arrayList = new ArrayList<>();
+        String sql = "SELECT * FROM Class WHERE TeacherAccountId = " + teacherAccountId;
+        Statement state;
+
+        try {
+            state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = state.executeQuery(sql);
+
+            while (rs.next()) {
+                int ClassId = rs.getInt(1);
+                String ClassName = rs.getString(2);
+                int TeacherAccountId = rs.getInt(3);
+                String CreateDate = rs.getString(4);
+
+                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
+                arrayList.add(obj);
+            }
+        } catch (SQLException e) {
+        }
+
+        return arrayList;
+    }
+
     public static void main(String[] args) {
         DAOClass dao = new DAOClass();
-        int n =dao.UpdateClass(new Class(1012, "skjdh", 103, "2022-01-03"));
-        if(n!= 0){
-            System.out.println("ok");
-        }
+        System.out.println(dao.getDataByTeacherID(1));
+
     }
 
 }

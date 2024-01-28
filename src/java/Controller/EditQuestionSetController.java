@@ -57,8 +57,9 @@ public class EditQuestionSetController extends HttpServlet {
                 request.setAttribute("subjectMap", subjectMap);
                 request.setAttribute("questionAnswer", questionAnswer);
             
-                request.getRequestDispatcher("editSet.jsp").include(request, response);
-                
+
+                request.getRequestDispatcher("Question/editSet.jsp").include(request, response);
+
         }
     }
 
