@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -19,34 +20,8 @@ import java.util.logging.Logger;
  *
  * @author Asus
  */
+
 public class DAOUser extends DBConnect {
-
-    public List<User> getAllUserListData(String sql) {
-    List<User> userList = new ArrayList<>();
-    Statement state;
-    try {
-        state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = state.executeQuery(sql);
-
-        while (rs.next()) {
-            int accountId = rs.getInt("AccountId");
-            String username = rs.getString("Username");
-            String email = rs.getString("Email");
-            String password = rs.getString("Password");
-            int roleId = rs.getInt("RoleId");
-            boolean isActive = rs.getBoolean("isActive");
-
-            User user = new User(accountId, username, email, password, roleId, isActive);
-            userList.add(user);
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-
-    return userList;
-}
-
 
     public List<User> getAllUser() {
         List<User> user = new ArrayList<>();
@@ -84,16 +59,17 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public User getUserById(int AccountId) {
+    
+    public User getUserById(int AccountId){
         try {
-            String sql = "select *from [User] where AccountId = ?";
+            String sql= "select *from [User] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId);
+            stm.setInt(1, AccountId );
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getBoolean(6));
+            while(rs.next()){
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getBoolean(6));
             }
-
+            
         } catch (Exception e) {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -122,9 +98,8 @@ public class DAOUser extends DBConnect {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     public User getUser(String username, String pass) throws SQLException {
-        String sql = "select * from Users where [Username] = ? and [Password] = ?";
+        String sql = "select * from [User] where [Username] = ? and [Password] = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, pass);
@@ -134,11 +109,11 @@ public class DAOUser extends DBConnect {
         }
         return null;
     }
-
+    
     public List<User> checkUser(String username, String passWord) {
         List<User> t = new ArrayList<>();
         try {
-            String sql = "select * from Users where [Username] = ? and [Password] = ?";
+            String sql = "select * from [User] where [Username] = ? and [Password] = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, passWord);
@@ -153,7 +128,43 @@ public class DAOUser extends DBConnect {
         }
         return t;
     }
+    public boolean emailCheck(String email) {
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Email=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public boolean usernameCheck(String username) {
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Username=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+    }
     public User fromResultSet(ResultSet rs) throws SQLException {
         return new User(
                 rs.getInt(1),
@@ -164,22 +175,47 @@ public class DAOUser extends DBConnect {
                 rs.getBoolean(6)
         );
     }
-
-    public void deleteUser(int AccountId) {
-        try {
-            String sql = "delete from [User] where AccountId = ?";
+    public void deleteUser(int AccountId ){
+          try {
+            String sql= "delete from [User] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId);
+            stm.setInt(1, AccountId );
             stm.executeUpdate();
-
+           
+            
         } catch (Exception e) {
         }
+    
+    }
+    public List<User> getAllUserListData(String sql) {
+    List<User> userList = new ArrayList<>();
+    Statement state;
+    try {
+        state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = state.executeQuery(sql);
 
+        while (rs.next()) {
+            int accountId = rs.getInt("AccountId");
+            String username = rs.getString("Username");
+            String email = rs.getString("Email");
+            String password = rs.getString("Password");
+            int roleId = rs.getInt("RoleId");
+            boolean isActive = rs.getBoolean("isActive");
+
+            User user = new User(accountId, username, email, password, roleId, isActive);
+            userList.add(user);
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
 
+    return userList;
+}
+    
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
-        List<User> us = dao.getAllUserListData("select *from [User]");
+        List<User> us = dao.getAllUser();
         for (User u : us) {
             System.out.println(u);
 
@@ -189,3 +225,4 @@ public class DAOUser extends DBConnect {
     }
 
 }
+

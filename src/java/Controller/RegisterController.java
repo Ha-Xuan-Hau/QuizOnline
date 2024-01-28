@@ -4,11 +4,9 @@
  */
 package Controller;
 
-import Entity.NormalQuestion;
-import Entity.NormalQuestionAnswer;
-import Entity.QuestionSet;
-import Model.DAOQuestionSet;
-import Model.DAOSubject;
+import Entity.User;
+import Model.DAOUser;
+import Utils.EncryptionUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,17 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Date;
 
 /**
  *
- * @author hieul
+ * @author ACER
  */
-@WebServlet(name = "EditQuestionSet", urlPatterns = {"/EditQuestionSetURL"})
-public class EditQuestionSetController extends HttpServlet {
+@WebServlet(name = "RegisterController", urlPatterns = {"/RegisterURL"})
+public class RegisterController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,23 +37,47 @@ public class EditQuestionSetController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-                int setId = Integer.parseInt(request.getParameter("setId"));                     
-                DAOQuestionSet questionSetDAO = new DAOQuestionSet();
-                DAOSubject subjectDAO = new DAOSubject();
-                QuestionSet set = questionSetDAO.getSet(setId);
-                
-                ArrayList<NormalQuestion> questions = questionSetDAO.getQues(setId);
-                
-                HashMap<Integer, ArrayList<NormalQuestionAnswer>> questionAnswer = questionSetDAO.getAnswerMap(setId);
-                HashMap<Integer, String> subjectMap = subjectDAO.SubjectMap();
-                
-                request.setAttribute("set", set);
-                request.setAttribute("questions", questions);
-                request.setAttribute("subjectMap", subjectMap);
-                request.setAttribute("questionAnswer", questionAnswer);
-            
+            String service = request.getParameter("go");
+            if (service == null) {
+                service = "showRegister";
+            }
+            if (service.equals("showRegister")) {
+                request.getRequestDispatcher("/login/register.jsp").forward(request, response);
+            }
 
-                request.getRequestDispatcher("Question/editSet.jsp").include(request, response);
+            if (service.equals("registerStudent")) {
+                String username = request.getParameter("username");
+                String fullname = request.getParameter("fullname");
+                String date = request.getParameter("date");
+                String phone = request.getParameter("phone");
+                String password = request.getParameter("password");
+                String email = request.getParameter("email");
+                request.setAttribute("email", email);
+                request.setAttribute("fullname", fullname);
+
+                String url;
+                String error = "";
+
+                EncryptionUtils encrypt = new EncryptionUtils();
+                DAOUser dao = new DAOUser();
+                if (dao.emailCheck(email)) {
+                    error += "Email provided is already registered!";
+                    request.getSession().setAttribute("Email_DUP", error);
+                } if(dao.usernameCheck(username)) {
+                    error += "\nUsername provided is already registered!";
+                    request.getSession().setAttribute("Email_DUP", error);
+                }
+
+                password = encrypt.toMD5(password);
+
+                if (error.length() > 0) {
+                    url = "/login/register.jsp";
+                } else {
+                    User user = new User();
+                    dao.insertUser(user);
+                    url = "/login/login.jsp";
+                }
+            }
 
         }
     }

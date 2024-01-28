@@ -4,11 +4,6 @@
  */
 package Controller;
 
-import Entity.NormalQuestion;
-import Entity.NormalQuestionAnswer;
-import Entity.QuestionSet;
-import Model.DAOQuestionSet;
-import Model.DAOSubject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,17 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
- * @author hieul
+ * @author phamg
  */
-@WebServlet(name = "EditQuestionSet", urlPatterns = {"/EditQuestionSetURL"})
-public class EditQuestionSetController extends HttpServlet {
+@WebServlet(name = "ControllerClassDetail", urlPatterns = {"/ClassDetailURL"})
+public class ControllerClassDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,24 +32,6 @@ public class EditQuestionSetController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-                int setId = Integer.parseInt(request.getParameter("setId"));                     
-                DAOQuestionSet questionSetDAO = new DAOQuestionSet();
-                DAOSubject subjectDAO = new DAOSubject();
-                QuestionSet set = questionSetDAO.getSet(setId);
-                
-                ArrayList<NormalQuestion> questions = questionSetDAO.getQues(setId);
-                
-                HashMap<Integer, ArrayList<NormalQuestionAnswer>> questionAnswer = questionSetDAO.getAnswerMap(setId);
-                HashMap<Integer, String> subjectMap = subjectDAO.SubjectMap();
-                
-                request.setAttribute("set", set);
-                request.setAttribute("questions", questions);
-                request.setAttribute("subjectMap", subjectMap);
-                request.setAttribute("questionAnswer", questionAnswer);
-            
-
-                request.getRequestDispatcher("Question/editSet.jsp").include(request, response);
 
         }
     }

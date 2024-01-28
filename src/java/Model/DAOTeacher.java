@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -142,6 +143,25 @@ public class DAOTeacher extends DBConnect {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
+    }
+        
+        public Teacher getTeacherByAccountId(int accountId) {
+    String sql = "SELECT * FROM Teacher WHERE AccountId = ?";
+       try {
+
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, accountId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                Teacher obj = new Teacher();
+                obj.setAccountId(rs.getInt(1));
+                obj.setTeacherName(rs.getString(2));
+                obj.setPhone(rs.getString(3));
+                return obj;
+            }
+        } catch (Exception e) {
+        }
+        return null;
     }
     
 }

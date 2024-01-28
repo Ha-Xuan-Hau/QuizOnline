@@ -4,11 +4,9 @@
  */
 package Controller;
 
-import Entity.NormalQuestion;
-import Entity.NormalQuestionAnswer;
-import Entity.QuestionSet;
-import Model.DAOQuestionSet;
-import Model.DAOSubject;
+import Model.DAOClass;
+import Model.DAOTakeClass;
+import Model.DAOTeacher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,17 +14,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
- * @author hieul
+ * @author phamg
  */
-@WebServlet(name = "EditQuestionSet", urlPatterns = {"/EditQuestionSetURL"})
-public class EditQuestionSetController extends HttpServlet {
+@WebServlet(name = "ControllerClassJoinList", urlPatterns = {"/ClassJoinListURL"})
+public class ControllerClassJoinList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,25 +37,33 @@ public class EditQuestionSetController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-                int setId = Integer.parseInt(request.getParameter("setId"));                     
-                DAOQuestionSet questionSetDAO = new DAOQuestionSet();
-                DAOSubject subjectDAO = new DAOSubject();
-                QuestionSet set = questionSetDAO.getSet(setId);
-                
-                ArrayList<NormalQuestion> questions = questionSetDAO.getQues(setId);
-                
-                HashMap<Integer, ArrayList<NormalQuestionAnswer>> questionAnswer = questionSetDAO.getAnswerMap(setId);
-                HashMap<Integer, String> subjectMap = subjectDAO.SubjectMap();
-                
-                request.setAttribute("set", set);
-                request.setAttribute("questions", questions);
-                request.setAttribute("subjectMap", subjectMap);
-                request.setAttribute("questionAnswer", questionAnswer);
-            
+            String service = request.getParameter("go");
+            HttpSession session = request.getSession();
+            DAOClass dao = new DAOClass();
+            DAOTakeClass daoTakeClass = new DAOTakeClass();
+            DAOTeacher daoTeacher = new DAOTeacher();
+            if (service == null) {
 
-                request.getRequestDispatcher("Question/editSet.jsp").include(request, response);
+//                int acc = (int) session.getAttribute("acc");
+                ArrayList<Integer> classid = daoTakeClass.getClassIDbyStudentID(2);
+                ArrayList<Entity.Class> classList = new ArrayList<>();
+                ArrayList<Entity.Teacher> teacherList = new ArrayList<>();
+                for (Integer id : classid) {
+                    Entity.Class classInfo = dao.getDataByClassID(id);
+                    teacherList.add(daoTeacher.getTeacherByAccountId(classInfo.getTeacherAccountId()));
+                    classList.add(classInfo);
+                }
+                request.setAttribute("teacherList", teacherList);
+                request.setAttribute("data", classList);
+                request.getRequestDispatcher("/Class/classJoinList.jsp").forward(request, response);
+            } else {
+                if (service.equals("Delete")) {
+                    int ClassId = Integer.parseInt(request.getParameter("ClassId"));
+                    dao.DeleteClass(ClassId);
+                    response.sendRedirect("ClassJoinListURL");
+                }
 
+            }
         }
     }
 
