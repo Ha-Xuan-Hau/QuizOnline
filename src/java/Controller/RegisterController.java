@@ -78,7 +78,7 @@ public class RegisterController extends HttpServlet {
                     url = "/login/register.jsp";
                 } else {
                     User user = new User(username, email, password, 1);
-                    
+                    System.out.println(user.toString());
                     dao.insertUser(user);
                     user = dao.getUser("SELECT TOP 1 * FROM [User] ORDER BY [AccountId] DESC");
                     Student student = new Student(user.getAccountId(), fullname, phone, date);
@@ -117,10 +117,8 @@ public class RegisterController extends HttpServlet {
                     url = "/login/register.jsp";
                 } else {
                     User user = new User(username, email, password, 2);
-                    
                     dao.insertUser(user);
                     user = dao.getUser("SELECT TOP 1 * FROM [User] ORDER BY [AccountId] DESC");
-                    System.out.println(user.toString());
                     Teacher teacher = new Teacher(user.getAccountId(), fullname, phone);
                     daot.insertTeacher(teacher);
                     url = "/login/login.jsp";

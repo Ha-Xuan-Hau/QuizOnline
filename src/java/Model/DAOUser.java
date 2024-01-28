@@ -42,14 +42,13 @@ public class DAOUser extends DBConnect {
 
     public void insertUser(User user) {
         try {
-            String sql = "INSERT INTO [User] ([AccountId], [Username], [Email], [Password], [RoleId], [IsActive])\n"
-                    + "VALUES (?, ?, ?, ?, ?, 1);";
+            String sql = "INSERT INTO [User] ([Username], [Email], [Password], [RoleId], [IsActive])\n"
+                    + "VALUES (?, ?, ?, ?, 1);";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, user.getAccountId());
-            stm.setString(2, user.getUsername());
-            stm.setString(3, user.getEmail());
-            stm.setString(4, user.getPassword());
-            stm.setInt(5, user.getRoleId());
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getEmail());
+            stm.setString(3, user.getPassword());
+            stm.setInt(4, user.getRoleId());
 
             stm.executeUpdate();
         } catch (SQLException ex) {
