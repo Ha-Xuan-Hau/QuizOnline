@@ -9,6 +9,7 @@ package Entity;
  * @author hieul
  */
 public class Teacher {
+
     private int accountId;
     private String teacherName;
     private String phone;
@@ -51,6 +52,4 @@ public class Teacher {
         return "Teacher{" + "accountId=" + accountId + ", teacherName=" + teacherName + ", phone=" + phone + '}';
     }
 
-    
-    
 }

@@ -22,19 +22,19 @@ public class DAOQuestionSet extends DBConnect {
 
     public List<QuestionSet> getAllQuestionSet() {
         List<QuestionSet> qs = new ArrayList<>();
-
         try {
-            String sql = "select *from QuestionSet";
+            String sql = "select * from QuestionSet";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 QuestionSet qts = new QuestionSet();
 
                 qts.setSetId(rs.getInt(1));
-                qts.setUserAccountId(rs.getInt(2));
-                qts.setSubjectId(rs.getInt(3));
-                qts.setQuesId(rs.getInt(4));
-                qts.setSetVote(rs.getInt(5));
+                qts.setTitle(rs.getString(2));
+                qts.setUserAccountId(rs.getInt(3));
+                qts.setSubjectId(rs.getInt(4));
+                qts.setQuesId(rs.getInt(5));
+                qts.setSetVote(rs.getInt(6));
 
                 qs.add(qts);
 
@@ -48,16 +48,20 @@ public class DAOQuestionSet extends DBConnect {
     public void insertQuestionSet(QuestionSet qs) {
         try {
             String sql = "INSERT INTO [dbo].[QuestionSet]\n"
-                    + "           ([UserAccountId]\n"
+                    + "           ([Title]\n"
+                    + "           ,[UserAccountId]\n"
                     + "           ,[SubjectId]\n"
                     + "           ,[QuesId]\n"
                     + "           ,[SetVote])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,?)";
+                    + "           (?,?,?,?,?)";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, qs.getUserAccountId());
-            stm.setInt(2, qs.getSubjectId());
-            stm.setInt(3, qs.getQuesId());
+
+            stm.setString(1, qs.getTitle());
+            stm.setInt(2, qs.getUserAccountId());
+            stm.setInt(3, qs.getSubjectId());
+            stm.setInt(4, qs.getQuesId());
+            stm.setInt(5, qs.getSetVote());
 
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -73,7 +77,7 @@ public class DAOQuestionSet extends DBConnect {
             stm.setInt(1, SetId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                return new QuestionSet(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+                return new QuestionSet(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
 
             }
 
@@ -82,29 +86,30 @@ public class DAOQuestionSet extends DBConnect {
         return null;
     }
 
-    public void updateQuestionSet(QuestionSet SetId) {
-        try {
-            String sql = "UPDATE [dbo].[QuestionSet]\n"
-                    + "   SET [UserAccountId] = ?\n"
-                    + "      ,[SubjectId] = ?\n"
-                    + "      ,[QuesId] = ?\n"
-                    + "      ,[SetVote] = ?\n"
-                    + " WHERE SetID =?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, SetId.getUserAccountId());
-            stm.setInt(2, SetId.getSubjectId());
-            stm.setInt(3, SetId.getQuesId());
-            stm.setInt(4, SetId.getSetVote());
+public List<QuestionSet> getTop3() {
+    List<QuestionSet> list = new ArrayList<>();
 
-            stm.setInt(6, SetId.getSetId());
-
-            stm.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+    try {
+        String query = "SELECT TOP 9 * FROM QuestionSet ORDER BY SetId DESC";
+        try (PreparedStatement stm = connection.prepareStatement(query);
+             ResultSet rs = stm.executeQuery()) {
+            while (rs.next()) {
+                QuestionSet questionSet = new QuestionSet();
+                questionSet.setSetId(rs.getInt("SetId"));
+                questionSet.setTitle(rs.getString("Title"));
+                questionSet.setUserAccountId(rs.getInt("UserAccountId"));
+                questionSet.setSubjectId(rs.getInt("SubjectId"));
+                questionSet.setQuesId(rs.getInt("QuesId"));
+                questionSet.setSetVote(rs.getInt("SetVote"));
+                list.add(questionSet);
+            }
         }
-
+    } catch (SQLException e) {
     }
+    return list;
+}
+
+ 
 
     public void deleteQuestionSet(int SetId) {
         try {
@@ -117,6 +122,123 @@ public class DAOQuestionSet extends DBConnect {
         } catch (Exception e) {
         }
 
+    }
+    public int countQuest(String keyword){
+        try {
+            String sql ="select count(*)  from QuestionSet where Title like ?";    
+               PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + keyword + "%");
+           ResultSet rs = stm.executeQuery();
+           while(rs.next()){
+               return rs.getInt(1);
+               
+           }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+public List<QuestionSet> searchWithPagination(String keyword, int page, int pageSize) {
+    List<QuestionSet> list = new ArrayList<>();
+    try {
+        String sql = "SELECT * FROM QuestionSet WHERE Title LIKE ? ORDER BY SetId OFFSET (?-1)*? ROWS FETCH NEXT ? ROWS ONLY";
+
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, "%" + keyword + "%");
+        stm.setInt(2, page);
+        stm.setInt(3, pageSize);
+        stm.setInt(4, pageSize);
+
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            QuestionSet qs = new QuestionSet();
+            qs.setSetId(rs.getInt(1));
+            qs.setTitle(rs.getString(2));
+            qs.setUserAccountId(rs.getInt(3));
+            qs.setSubjectId(rs.getInt(4));
+            qs.setQuesId(rs.getInt(5));
+            qs.setSetVote(rs.getInt(6));
+
+            list.add(qs);
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return list;
+}
+
+    public List<QuestionSet> search(String keyword) {
+        List<QuestionSet> list = new ArrayList<>();
+        try {
+            String sql = "select *  from QuestionSet where Title like ? ";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + keyword + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                QuestionSet qs = new QuestionSet();
+                qs.setSetId(rs.getInt(1));
+                qs.setTitle(rs.getString(2));
+                qs.setUserAccountId(rs.getInt(3));
+                qs.setSubjectId(rs.getInt(4));
+                qs.setQuesId(rs.getInt(5));
+                qs.setSetVote(rs.getInt(6));
+
+                list.add(qs);
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public List<QuestionSet> getQuestionSetWithPagging(int page, int PAGE_SIZE) {
+        List<QuestionSet> list = new ArrayList<>();
+        try {
+            String sql = "select *  from QuestionSet order by SetId\n"
+                    + "offset (?-1)*? row fetch next ? rows only";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, page);
+            stm.setInt(2, PAGE_SIZE);
+            stm.setInt(3, PAGE_SIZE);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                QuestionSet questionSet = new QuestionSet();
+                questionSet.setSetId(rs.getInt(1));
+                questionSet.setTitle(rs.getString(2));
+                questionSet.setUserAccountId(rs.getInt(3));
+                questionSet.setSubjectId(rs.getInt(4));
+                questionSet.setQuesId(rs.getInt(5));
+                questionSet.setSetVote(rs.getInt(6));
+
+                list.add(questionSet);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public int getTotalQuestionSet() {
+        try {
+            String sql = "select count(SetId)from QuestionSet ";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        DAOQuestionSet qs = new DAOQuestionSet();
+        System.out.println(qs.getTop3());
+        
     }
 
 }

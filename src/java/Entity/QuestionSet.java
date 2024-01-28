@@ -10,16 +10,27 @@ package Entity;
  */
 public class QuestionSet {
     private int SetId;
+    private String Title;
     private int UserAccountId;
     private int SubjectId;
     private int QuesId;
     private int SetVote;
+    
 
     public QuestionSet() {
     }
 
-    public QuestionSet(int SetId, int UserAccountId, int SubjectId, int QuesId, int SetVote) {
+    public QuestionSet(int SetId, String Title, int UserAccountId, int SubjectId, int QuesId, int SetVote) {
         this.SetId = SetId;
+        this.Title = Title;
+        this.UserAccountId = UserAccountId;
+        this.SubjectId = SubjectId;
+        this.QuesId = QuesId;
+        this.SetVote = SetVote;
+    }
+
+    public QuestionSet(String Title, int UserAccountId, int SubjectId, int QuesId, int SetVote) {
+        this.Title = Title;
         this.UserAccountId = UserAccountId;
         this.SubjectId = SubjectId;
         this.QuesId = QuesId;
@@ -32,6 +43,14 @@ public class QuestionSet {
 
     public void setSetId(int SetId) {
         this.SetId = SetId;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String Title) {
+        this.Title = Title;
     }
 
     public int getUserAccountId() {
@@ -68,8 +87,12 @@ public class QuestionSet {
 
     @Override
     public String toString() {
-        return "questionSet{" + "SetId=" + SetId + ", UserAccountId=" + UserAccountId + ", SubjectId=" + SubjectId + ", QuesId=" + QuesId + ", SetVote=" + SetVote + '}';
+        return "QuestionSet{" + "SetId=" + SetId + ", Title=" + Title + ", UserAccountId=" + UserAccountId + ", SubjectId=" + SubjectId + ", QuesId=" + QuesId + ", SetVote=" + SetVote + '}';
     }
+
+ 
+ 
+   
     
     
 }

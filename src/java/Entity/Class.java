@@ -9,6 +9,7 @@ package Entity;
  * @author admin
  */
 public class Class {
+
     int ClassId;
     String ClassName;
     int TeacherAccountId;
@@ -29,7 +30,6 @@ public class Class {
         this.TeacherAccountId = TeacherAccountId;
         this.CreateDate = CreateDate;
     }
-    
 
     public int getClassId() {
         return ClassId;
@@ -67,5 +67,5 @@ public class Class {
     public String toString() {
         return "Class{" + "ClassId=" + ClassId + ", ClassName=" + ClassName + ", TeacherAccountId=" + TeacherAccountId + ", CreateDate=" + CreateDate + '}';
     }
-    
+
 }
