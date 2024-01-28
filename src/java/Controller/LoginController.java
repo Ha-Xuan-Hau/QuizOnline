@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
             if (service.equals("showLogin")) {
                 System.out.println("showLogin");
                 if (request.getSession().getAttribute("acc") != null) {
-                    User user = (User) request.getSession().getAttribute("user");
+                    User user = (User) request.getSession().getAttribute("acc");
                     request.setAttribute("username", user.getUsername());
                     request.setAttribute("password", user.getPassword());
                 }
@@ -67,6 +67,7 @@ public class LoginController extends HttpServlet {
                 DAOUser DAOUser = new DAOUser();
                 EncryptionUtils eu = new EncryptionUtils();
                 List<User> isUser = DAOUser.checkUser(username, eu.toMD5(password));
+                System.out.println(isUser.get(0).toString());
                 if (!isUser.isEmpty()) {
                     try {
                         User user = DAOUser.getUser(username, eu.toMD5(password));
@@ -92,6 +93,7 @@ public class LoginController extends HttpServlet {
 //                        response.sendRedirect("/admin");
 //                        return;
 //                    }
+                    System.out.println("login thanh cong");
                     request.getSession().setAttribute("validate", "");
                     response.sendRedirect("index.html");
                 } else {

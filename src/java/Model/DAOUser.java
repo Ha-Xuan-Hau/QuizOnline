@@ -73,6 +73,19 @@ public class DAOUser extends DBConnect {
         }
         return null;
     }
+    public User getUser(String sql){
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getBoolean(6));
+            }
+            
+        } catch (Exception e) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
 
     public void updateUser(User user) {
         try {

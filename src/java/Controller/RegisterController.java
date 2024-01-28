@@ -4,7 +4,11 @@
  */
 package Controller;
 
+import Entity.Student;
+import Entity.Teacher;
 import Entity.User;
+import Model.DAOStudent;
+import Model.DAOTeacher;
 import Model.DAOUser;
 import Utils.EncryptionUtils;
 import java.io.IOException;
@@ -14,7 +18,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
 
 /**
  *
@@ -60,6 +63,7 @@ public class RegisterController extends HttpServlet {
 
                 EncryptionUtils encrypt = new EncryptionUtils();
                 DAOUser dao = new DAOUser();
+                DAOStudent daos = new DAOStudent();
                 if (dao.emailCheck(email)) {
                     error += "Email provided is already registered!";
                     request.getSession().setAttribute("Email_DUP", error);
@@ -73,10 +77,55 @@ public class RegisterController extends HttpServlet {
                 if (error.length() > 0) {
                     url = "/login/register.jsp";
                 } else {
-                    User user = new User();
+                    User user = new User(username, email, password, 1);
+                    
                     dao.insertUser(user);
+                    user = dao.getUser("SELECT TOP 1 * FROM [User] ORDER BY [AccountId] DESC");
+                    Student student = new Student(user.getAccountId(), fullname, phone, date);
+                    daos.CreateStudent(student);
                     url = "/login/login.jsp";
                 }
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+            
+            if (service.equals("registerTeacher")) {
+                String username = request.getParameter("username");
+                String fullname = request.getParameter("fullname");
+                String phone = request.getParameter("phone");
+                String password = request.getParameter("password");
+                String email = request.getParameter("email");
+                request.setAttribute("email", email);
+                request.setAttribute("fullname", fullname);
+
+                String url;
+                String error = "";
+
+                EncryptionUtils encrypt = new EncryptionUtils();
+                DAOUser dao = new DAOUser();
+                DAOTeacher daot = new DAOTeacher();
+                if (dao.emailCheck(email)) {
+                    error += "Email provided is already registered!";
+                    request.getSession().setAttribute("Email_DUP", error);
+                } if(dao.usernameCheck(username)) {
+                    error += "\nUsername provided is already registered!";
+                    request.getSession().setAttribute("Email_DUP", error);
+                }
+
+                password = encrypt.toMD5(password);
+
+                if (error.length() > 0) {
+                    url = "/login/register.jsp";
+                } else {
+                    User user = new User(username, email, password, 2);
+                    
+                    dao.insertUser(user);
+                    user = dao.getUser("SELECT TOP 1 * FROM [User] ORDER BY [AccountId] DESC");
+                    System.out.println(user.toString());
+                    Teacher teacher = new Teacher(user.getAccountId(), fullname, phone);
+                    daot.insertTeacher(teacher);
+                    url = "/login/login.jsp";
+                }
+                request.getRequestDispatcher(url).forward(request, response);
             }
 
         }

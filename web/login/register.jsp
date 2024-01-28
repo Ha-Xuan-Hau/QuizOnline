@@ -39,7 +39,7 @@
                     <!-- form register student -->
 
                     <form action="RegisterURL" method="POST" id="form-1">
-                        <input type="hidden" name="go" value="regiterStudent">
+                        <input type="hidden" name="go" value="registerStudent">
                         <div class="right-head">
                             <h3 class="right-title">Student Register</h3>
                             <p class="right-desc">Create your student account or</p>
@@ -87,7 +87,7 @@
 
                     <!-- form register teacher -->
                     <form action="RegisterURL" method="POST" id="form-2">
-                        <input type="hidden" name="go" value="regiterTeacher">
+                        <input type="hidden" name="go" value="registerTeacher">
                         <div class="right-head">
                             <h3 class="right-title">Teacher Register</h3>
                             <p class="right-desc">Create your teacher account or</p>
