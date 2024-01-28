@@ -5,6 +5,8 @@
 
 package Controller;
 
+import Entity.Student;
+import Entity.Teacher;
 import Entity.User;
 import Model.DAOUser;
 import java.io.IOException;
@@ -66,8 +68,11 @@ public class UserController extends HttpServlet {
          DAOUser dao = new DAOUser();
         List<User> user = dao.getAllUserListData("select*from [User]");
         ResultSet rsAd = dao.getResultSet("select AccountId, Phone from Admin");
-        
+         ResultSet rsSt = dao.getResultSet("select AccountId, StudentName, Phone, DoB from Student");
+         ResultSet rsTc = dao.getResultSet("select AccountId, TeacherName, Phone from Teacher ");
         request.setAttribute("rsAd", rsAd);
+         request.setAttribute("rsSt", rsSt);
+         request.setAttribute("rsTc", rsTc);
         Hashtable<Integer, String>  AdminMap = new Hashtable<>();
         try {
             while(rsAd.next()){
@@ -78,6 +83,44 @@ public class UserController extends HttpServlet {
             Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //student
+          Hashtable<Integer, Student> studentMap = new Hashtable<>();
+       
+        try {
+            while (rsSt.next()) {
+                int accountId = rsSt.getInt(1);
+                String studentName = rsSt.getString(2);
+                String phone = rsSt.getString(3);
+                String dob = rsSt.getString(4);
+
+                Student student = new Student(accountId, studentName, phone, dob);
+                System.out.println(student.toString());
+                studentMap.put(accountId, student);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //teacher
+        
+           Hashtable<Integer, Teacher> teacherMap = new Hashtable<>();
+       
+        try {
+            while (rsTc.next()) {
+                int accountId = rsTc.getInt(1);
+                String teacherName = rsTc.getString(2);
+                String phone = rsTc.getString(3);
+               
+
+                Teacher  teacher = new Teacher(accountId, teacherName, phone);
+                System.out.println(teacher.toString());
+                teacherMap.put(accountId, teacher);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(studentMap.get(3).toString());
+         request.setAttribute("teacherMap", teacherMap);
+        request.setAttribute("studentMap", studentMap);
         request.setAttribute("data", user);
         request.setAttribute("AdminMap", AdminMap);
         

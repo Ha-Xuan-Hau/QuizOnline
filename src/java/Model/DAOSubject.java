@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,6 +79,44 @@ public class DAOSubject extends DBConnect{
     }
     return subjects;
 }
+ 
+ public Subject getSubject(int SubjectID) {
+        String sql = "select * from Subject where SubjectId = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, SubjectID);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                Subject obj = new Subject();
+                obj.setSubjectId(rs.getInt(1));
+                obj.setSubjectCode(rs.getString(2));
+                obj.setSubjectName(rs.getString(3));
+                return obj;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public HashMap<Integer, String> SubjectMap() {
+        HashMap<Integer, String> subjectList = new HashMap<>();
+        String sql = "select SubjectId, SubjectCode from Subject";
+        Statement state;
+        try {
+            state = connection.createStatement(
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("SubjectId");
+                String code = rs.getString("SubjectCode");
+                subjectList.put(id, code);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return subjectList;
+    }
     public static void main(String[] args) {
         Subject sub = new Subject( "SWT", "Software Testing");
         DAOSubject dao = new DAOSubject();
