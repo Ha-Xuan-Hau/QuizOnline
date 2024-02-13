@@ -38,7 +38,8 @@ create table [Class](
 	[ClassId] int identity primary key,
 	[ClassName] nvarchar(100),
 	[TeacherAccountId] int references [Teacher](AccountId),
-	[CreateDate] date
+	[CreateDate] date,
+	[ClassCode] NVARCHAR(7)
 	)
 create table [Subject](
 	[SubjectId] int identity primary key,
@@ -124,3 +125,17 @@ create table [TakeAnswer](
 	[QuesId] int references [QuestionExam](QuesId),
 	[AnswerId] int references [QuestionExamAnswer](AnswerId)
 	)
+CREATE TRIGGER [dbo].[GenerateClassCodeTrigger]
+ON [OnlineQuiz].[dbo].[Class]
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE c
+    SET ClassCode = LEFT(CONVERT(NVARCHAR(36), NEWID()), 7)
+    FROM [OnlineQuiz].[dbo].[Class] c
+    INNER JOIN inserted i ON c.ClassId = i.ClassId
+    WHERE c.ClassCode IS NULL;
+END;
+
