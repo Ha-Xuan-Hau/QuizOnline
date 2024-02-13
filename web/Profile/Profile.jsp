@@ -124,6 +124,11 @@
                                     <input class="form-control" id="inputEmailAddress" type="email" name="email"
                                            placeholder="Nhập địa chỉ email" value="${user.getEmail()}" readonly>
                                 </div>
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">Role</label>
+                                    <input class="form-control" id="inputEmailAddress" type="email" name="role"
+                                           placeholder="Nhập địa chỉ email" value="${user.getRoleId()}" readonly>
+                                </div>
 
                                 <!-- Nút Lưu thay đổi-->
                                 <button class="btn btn-primary" type="submit">Lưu thay đổi</button>

@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import Entity.TakeClass;
+import Entity.User;
 import Model.DAOClass;
 import Model.DAOTakeClass;
 import Model.DAOTeacher;
@@ -42,9 +44,9 @@ public class ControllerClassJoinList extends HttpServlet {
             DAOClass dao = new DAOClass();
             DAOTakeClass daoTakeClass = new DAOTakeClass();
             DAOTeacher daoTeacher = new DAOTeacher();
+            User acc = (User) request.getSession().getAttribute("acc");        
             if (service == null) {
-                int acc = (int) Integer.parseInt(session.getAttribute("acc").toString());
-                ArrayList<Integer> classid = daoTakeClass.getClassIDbyStudentID(acc);
+                ArrayList<Integer> classid = daoTakeClass.getClassIDbyStudentID(acc.getAccountId());
                 ArrayList<Entity.Class> classList = new ArrayList<>();
                 ArrayList<Entity.Teacher> teacherList = new ArrayList<>();
                 for (Integer id : classid) {
@@ -60,6 +62,12 @@ public class ControllerClassJoinList extends HttpServlet {
                     int ClassId = Integer.parseInt(request.getParameter("ClassId"));
                     dao.DeleteClass(ClassId);
                     response.sendRedirect("ClassJoinListURL");
+                }
+                    if (service.equals("joinClass")){
+                    String className = request.getParameter("className");
+                    TakeClass tc = new TakeClass(acc.getAccountId(), dao.getClassByClassCode(className).getClassId());
+                    daoTakeClass.CreateTakeClass(tc);
+                    response.sendRedirect("ClassDetailURL?classId=" + dao.getClassByClassCode(className).getClassId());
                 }
 
             }

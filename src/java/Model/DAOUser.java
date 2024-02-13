@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -25,7 +26,7 @@ public class DAOUser extends DBConnect {
         List<User> user = new ArrayList<>();
 
         try {
-            String sql = "select *from [User]";
+            String sql = "select * from [User]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -42,14 +43,13 @@ public class DAOUser extends DBConnect {
 
     public void insertUser(User user) {
         try {
-            String sql = "INSERT INTO [User] ([AccountId], [Username], [Email], [Password], [RoleId], [IsActive])\n"
-                    + "VALUES (?, ?, ?, ?, ?, 1);";
+            String sql = "INSERT INTO [User] ([Username], [Email], [Password], [RoleId], [IsActive])\n"
+                    + "VALUES (?, ?, ?, ?, 1);";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, user.getAccountId());
-            stm.setString(2, user.getUsername());
-            stm.setString(3, user.getEmail());
-            stm.setString(4, user.getPassword());
-            stm.setInt(5, user.getRoleId());
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getEmail());
+            stm.setString(3, user.getPassword());
+            stm.setInt(4, user.getRoleId());
 
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -63,6 +63,19 @@ public class DAOUser extends DBConnect {
             String sql= "select *from [User] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, AccountId );
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getBoolean(6));
+            }
+            
+        } catch (Exception e) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
+    public User getUser(String sql){
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
                 return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getBoolean(6));
@@ -97,7 +110,7 @@ public class DAOUser extends DBConnect {
         }
     }
     public User getUser(String username, String pass) throws SQLException {
-        String sql = "select * from Users where [Username] = ? and [Password] = ?";
+        String sql = "select * from [User] where [Username] = ? and [Password] = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, pass);
@@ -111,7 +124,7 @@ public class DAOUser extends DBConnect {
     public List<User> checkUser(String username, String passWord) {
         List<User> t = new ArrayList<>();
         try {
-            String sql = "select * from Users where [Username] = ? and [Password] = ?";
+            String sql = "select * from [User] where [Username] = ? and [Password] = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, passWord);
@@ -125,6 +138,43 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
         return t;
+    }
+    public boolean emailCheck(String email) {
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Email=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public boolean usernameCheck(String username) {
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Username=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
     }
     public User fromResultSet(ResultSet rs) throws SQLException {
         return new User(
@@ -148,8 +198,7 @@ public class DAOUser extends DBConnect {
         }
     
     }
-    
-    public List<User> getAllUserListData(String sql) {
+       public List<User> getAllUserListData(String sql) {
     List<User> userList = new ArrayList<>();
     Statement state;
     try {
@@ -173,7 +222,7 @@ public class DAOUser extends DBConnect {
     }
 
     return userList;
-}
+} 
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
         List<User> us = dao.getAllUser();

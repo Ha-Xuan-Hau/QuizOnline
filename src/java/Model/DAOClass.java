@@ -181,8 +181,9 @@ public int CreateClass(Class obj) {
                 String ClassName = rs.getString(2);
                 int TeacherAccountId = rs.getInt(3);
                 String CreateDate = rs.getString(4);
+                String ClassCode = rs.getString(5);
 
-                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate);
+                Class obj = new Class(ClassId, ClassName, TeacherAccountId, CreateDate, ClassCode);
                 class1 = obj;
             }
         } catch (SQLException e) {
@@ -205,10 +206,29 @@ public int CreateClass(Class obj) {
     }
     return n;
 }
+public Class getClassByClassCode(String classCode) {
+    Class class1 = null;
+    String sql = "SELECT * FROM Class WHERE ClassCode = ?";
+    try {
+        PreparedStatement pre = connection.prepareStatement(sql);
+        pre.setString(1, classCode);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            int ClassId = rs.getInt(1);
+            String ClassName = rs.getString(2);
+            int TeacherAccountId = rs.getInt(3);
+            String CreateDate = rs.getString(4);
+            String ClassCode = rs.getString(5);
+            class1 = new Class(ClassId, ClassName, TeacherAccountId, CreateDate, ClassCode);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return class1;
+}        
     public static void main(String[] args) {
         DAOClass dao = new DAOClass();
-        System.out.println(        dao.ClassByClassID(1)
-);
+        System.out.println(dao.getClassByClassCode("54D4AA5"));
     }
 
 }

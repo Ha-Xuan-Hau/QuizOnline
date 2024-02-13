@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Entity.Class" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -20,6 +21,7 @@
         <!-- bootstrap core css -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Class/css/bootstrap.css" />
         <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
         <link href="${pageContext.request.contextPath}/Class/css/style.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Class/css/mainStyle.css" rel="stylesheet" />
         <style>
@@ -39,7 +41,7 @@
 
     <body class="sub_page">
         <!-- Header sesion-->
-
+        <%@include file="/Home/header.jsp" %> 
         <!-- End Header sesion-->       
         <div class="select_class">      
             <!-- My Class -->

@@ -14,6 +14,23 @@ public class Class {
     String ClassName;
     int TeacherAccountId;
     String CreateDate;
+    String ClassCode;
+
+    public Class(int ClassId, String ClassName, int TeacherAccountId, String CreateDate, String ClassCode) {
+        this.ClassId = ClassId;
+        this.ClassName = ClassName;
+        this.TeacherAccountId = TeacherAccountId;
+        this.CreateDate = CreateDate;
+        this.ClassCode = ClassCode;
+    }
+
+    public void setClassCode(String ClassCode) {
+        this.ClassCode = ClassCode;
+    }
+
+    public String getClassCode() {
+        return ClassCode;
+    }
 
     public Class() {
     }
@@ -65,7 +82,8 @@ public class Class {
 
     @Override
     public String toString() {
-        return "Class{" + "ClassId=" + ClassId + ", ClassName=" + ClassName + ", TeacherAccountId=" + TeacherAccountId + ", CreateDate=" + CreateDate + '}';
+        return "Class{" + "ClassId=" + ClassId + ", ClassName=" + ClassName + ", TeacherAccountId=" + TeacherAccountId + ", CreateDate=" + CreateDate + ", ClassCode=" + ClassCode + '}';
     }
 
+    
 }

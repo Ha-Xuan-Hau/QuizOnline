@@ -103,20 +103,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>All Question set</title>
 
-        <link rel="stylesheet" href="../assets/css/base.css"/>
-        <link rel="stylesheet" href="../assets/css/index.css"/>
-        <link rel="stylesheet" href="../assets/css/search.css"/>
-        <link rel="stylesheet" href="../assets/css/adminCourseNav.css"/>
-        <link rel="stylesheet" href="../assets/css/courseEditorBase.css"/>
-        <script src="https://kit.fontawesome.com/4008f7ead4.js" crossorigin="anonymous"></script>
-        <script src="/assets/js/base.js"></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
-        <title>OnlineQuiz</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-        <link rel="stylesheet" href="../assets/css/sliderStyle3.css" />
-        <link rel="stylesheet" href="/CSS/home.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
+        
     </head>
     <body>
         <%@include file="/Home/header.jsp" %> 
@@ -140,7 +128,7 @@
                     <td><a href="QuestionSetURL?go=setDetails&SetId=${content.getSetId()}" >${content.getTitle()}</a></td>
                     <td>
                         <div class="action-container1">
-                            <a class="btn-edit" href="EditQuestionSetURL?setId=${content.getSetId()}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a class="btn-edit" href="EditQuestionSetURL?setId=${content.getSetId()}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
                         </div>
                     </td>
 <!--                    <td>

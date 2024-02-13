@@ -4,8 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../assets/css/login.css">
-        <link rel="stylesheet" href="../assets/css/logreg.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/logreg.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="right_part">
                     <div class="spacing_top"></div>
-                    <form action="../login" method="POST" id="form-1">
+                    <form action="${pageContext.request.contextPath}/login" method="POST" id="form-1">
                         <div class="right-head">
                             <h3 class="right-title">Login</h3>
                             <p class="right-desc">Fill your info</p>
@@ -42,7 +42,7 @@
                             <span class="form-message"></span>
                         </div> 
                         <div class="form-group">
-                            <span><img class="form-group-img" src="../assets/img/Screenshot 2023-06-11 182729.png" alt=""></span>
+                            <span><img class="form-group-img" src="${pageContext.request.contextPath}/assets/img/Screenshot 2023-06-11 182729.png" alt=""></span>
                             <input id="password" name="password" value="" type="password" placeholder="Capcha" class="form-control">
                             <span class="form-message"></span>
                         </div> 
@@ -62,7 +62,7 @@
                 <div class="right-part_space"></div>
             </div>
         </div>
-        <script src="../assets/js/login.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
         <script>
             Validator({
                 form: "#form-1",

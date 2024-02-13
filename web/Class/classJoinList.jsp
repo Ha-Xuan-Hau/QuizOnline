@@ -8,6 +8,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Entity.Class" %>
 <%@ page import="Entity.Teacher" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +22,7 @@
         <!-- bootstrap core css -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Class/css/bootstrap.css" />
         <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
         <link href="${pageContext.request.contextPath}/Class/css/style.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Class/css/mainStyle.css" rel="stylesheet" />
         <style>
@@ -40,11 +42,13 @@
 
     <body class="sub_page">
         <!-- Header sesion-->
-
+        <%@include file="/Home/header.jsp" %> 
         <!-- End Header sesion-->       
         <div class="select_class">          
             <!-- My Class -->
-            <a href="ClassListURL" target="_self">My Class</a>
+            <c:if test="${acc.getRoleId()== 1}">
+                <a href="ClassListURL" target="_self">My Class</a>
+            </c:if>
 
             <!-- Learn Class -->
             <a href="ClassJoinListURL" target="_self" class="current-page">Learn Class</a>
@@ -122,23 +126,18 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
         <div class="Popup">
             <div class="behind" id="popupBehind" onclick="closeForm()"></div>
             <div class="formPopup" id="popupForm">    
-                join Class will update latter
-                <!--                <form action="/ClassDetailURL" method="post" class="formContainer">
-                                    <p style="text-align: left; font-weight: bold">Create a Class</p>
-                                    <input type="hidden" name="go" value="addClass">
+                                <form action="ClassJoinListURL" method="post" class="formContainer">
+                                    <input type="hidden" name="go" value="joinClass">
+                                    <p style="color: rgb(88, 88, 88) ;text-align: left; font-size: x-large; margin-left: 10px ">Class Code</p>
+                                    <p style="color: rgb(88, 88, 88) ; text-align: left; margin-left: 10px">Ask your teacher for the class code and enter it here.</p>
                                     <div class="inputGroup">
                                         <input type="text" id="className" name="className" placeholder=" " required>
-                                        <span class="title">Class Name (required)</span>
+                                        <span class="title">Class Code </span>
                                     </div>
-                
-                                    <div class="inputGroup">
-                                        <input type="text" id="subject" name="subject" placeholder=" " required>
-                                        <span class="title">Subject</span>
-                                    </div>
-                
+                        
                                     <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
-                                    <button type="submit" class="btn_add">Add</button>
-                                </form>-->
+                                    <button type="submit" class="btn_add">Join</button>
+                                </form>
             </div>
         </div>
         <!--End Popup-->

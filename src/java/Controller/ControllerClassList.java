@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import Model.DAOClass;
 import Model.DAOTeacher;
 import Entity.Class;
+import Entity.User;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Timestamp;
 
@@ -43,12 +44,11 @@ public class ControllerClassList extends HttpServlet {
             HttpSession session = request.getSession();
             DAOClass dao = new DAOClass();
             DAOTeacher daoT = new DAOTeacher();
-            if (service == null) {
-                int account = 1;
-                session.setAttribute("acc", account);
-                int acc = (int) session.getAttribute("acc");
-                session.setAttribute("nameTeacher", daoT.getTeacherByAccountId(acc).getTeacherName());
-                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(acc);
+            User acc = (User) request.getSession().getAttribute("acc");
+            request.getSession().setAttribute("acc", acc);
+            if (service == null) {             
+                session.setAttribute("nameTeacher", daoT.getTeacherByAccountId(acc.getAccountId()).getTeacherName());
+                ArrayList<Entity.Class> classList = dao.getDataByTeacherID(acc.getAccountId());
                 request.setAttribute("data", classList);
                 request.getRequestDispatcher("/Class/classList.jsp").forward(request, response);
             } else {

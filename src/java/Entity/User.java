@@ -28,6 +28,14 @@ public class User {
         this.isActive = isActive;
     }
 
+    public User(String Username, String Email, String Password, int RoleId) {
+        this.Username = Username;
+        this.Email = Email;
+        this.Password = Password;
+        this.RoleId = RoleId;
+    }
+    
+
     public int getAccountId() {
         return AccountId;
     }

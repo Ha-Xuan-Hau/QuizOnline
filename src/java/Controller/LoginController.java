@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -23,7 +24,7 @@ import java.util.List;
  *
  * @author ACER
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/Login"})
+@WebServlet(name = "LoginController", urlPatterns = {"/LoginURL"})
 public class LoginController extends HttpServlet {
 
     /**
@@ -45,40 +46,44 @@ public class LoginController extends HttpServlet {
                 service = "showLogin";
             }
             if (service.equals("showLogin")) {
-                if (request.getSession().getAttribute("user") != null) {
-                    User user = (User) request.getSession().getAttribute("user");
-                    request.setAttribute("email", user.getUsername());
+                System.out.println("showLogin");
+                if (request.getSession().getAttribute("acc") != null) {
+                    User user = (User) request.getSession().getAttribute("acc");
+                    request.setAttribute("username", user.getUsername());
                     request.setAttribute("password", user.getPassword());
+                                                System.out.println(user.toString());
+
                 }
-                request.getRequestDispatcher("/login/login.jsp").forward(request, response);
+                request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 boolean inValid = "".equals(request.getSession().getAttribute("validate"));
                 if (!inValid) {
                     request.getSession().setAttribute("validate", "");
                 }
             }
             if (service.equals("login")) {
-                String email = request.getParameter("email");
+                System.out.println("Login day nay");
+                String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 boolean remember = "".equals(request.getParameter("remember-account"));
-                String validate = "Email or password is incorrect.";
+                String validate = "user name or password is incorrect.";
                 DAOUser DAOUser = new DAOUser();
                 EncryptionUtils eu = new EncryptionUtils();
-                List<User> isUser = DAOUser.checkUser(email, eu.toMD5(password));
+                List<User> isUser = DAOUser.checkUser(username, eu.toMD5(password));
                 if (!isUser.isEmpty()) {
                     try {
-                        User user = DAOUser.getUser(email, eu.toMD5(password));
-                        if (user.isActive()) {
+                        User user = DAOUser.getUser(username, eu.toMD5(password));
+                        if (!user.isActive()) {
                             request.getSession().setAttribute("validate", "You have been restricted to use our service!");
-                            response.sendRedirect("/login");
+                            response.sendRedirect("LoginURL");
                             return;
                         }
 
-                        request.getSession().setAttribute("user", user);
+                        request.getSession().setAttribute("acc", user);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                     if (!remember) {
-                        Cookie cEmail = new Cookie("email", email);
+                        Cookie cEmail = new Cookie("username", username);
                         Cookie cPassword = new Cookie("password", password);
                         cEmail.setMaxAge(60 * 60 * 24);
                         cPassword.setMaxAge(60 * 60 * 24);
@@ -89,11 +94,13 @@ public class LoginController extends HttpServlet {
 //                        response.sendRedirect("/admin");
 //                        return;
 //                    }
+                    System.out.println("login thanh cong");
                     request.getSession().setAttribute("validate", "");
-                    response.sendRedirect("/");
+                    response.sendRedirect("HomeController");
                 } else {
+                    System.out.println("quay lai login");
                     request.getSession().setAttribute("validate", validate);
-                    response.sendRedirect("/login");
+                    response.sendRedirect("LoginURL");
                 }
             }
         }

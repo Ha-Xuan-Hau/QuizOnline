@@ -23,6 +23,7 @@
         <!-- bootstrap core css -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Class/css/bootstrap.css" />
         <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
         <link href="${pageContext.request.contextPath}/Class/css/style.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Class/css/mainStyle.css" rel="stylesheet" />
         <style>
@@ -42,6 +43,22 @@
                 bottom: 10%;
                 margin: 40px;
                 margin-bottom: 70px;
+            }
+            .info h2 {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                color: #333;
+                background-color: #f0f0f0;
+                padding: 5px 10px;
+                border-radius:0 10px 0 10px;
+                transition: background-color 0.3s;
+            }
+
+            .info h2:hover {
+                background-color: #ddd;
             }
 
             .info h5 {
@@ -87,7 +104,7 @@
 
     <body class="sub_page">
         <!-- Header sesion-->
-
+        <%@include file="/Home/header.jsp" %> 
         <!-- End Header sesion-->       
         <div class="select_class">
 
@@ -108,10 +125,14 @@
                 <h1>${myClass.getClassName()}</h1>   
                 <h5>${teacher.getTeacherName()}</h5>
             </div>
-            <c:if test="${acc == teacher.getAccountId()}">
+            <c:set var="accId" value="${sessionScope.acc.getAccountId()}" />
+            <c:if test="${accId == teacher.getAccountId()}">
                 <div class="add-button">
                     <img onclick="openForm()" style="width: 40px; margin: 15px" src="${pageContext.request.contextPath}/Class/images/more1.png" alt="Add" />
                 </div>
+            </c:if>
+            <c:if test="${accId == teacher.getAccountId()}">
+                <h2 title="Class Code" id="classCode" onclick="copyToClipboard()">${myClass.getClassCode()} </h2>  
             </c:if>
         </div>
         <div class="Popup">
@@ -195,5 +216,16 @@
             return true;
         }
     </script>
-
+    <script>
+        function copyToClipboard() {
+            var classCodeElement = document.getElementById("classCode");
+            var range = document.createRange();
+            range.selectNode(classCodeElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            alert("Class code copied to clipboard!");
+        }
+    </script>
 </html>

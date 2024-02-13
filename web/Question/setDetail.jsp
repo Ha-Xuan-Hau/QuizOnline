@@ -19,19 +19,7 @@
         <title>JSP Page</title>
         
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/index.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/search.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/adminCourseNav.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/courseEditorBase.css"/>
-        <script src="https://kit.fontawesome.com/4008f7ead4.js" crossorigin="anonymous"></script>
-        <script src="/assets/js/base.js"></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
-        <title>OnlineQuiz</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sliderStyle3.css" />
-        <link rel="stylesheet" href="/CSS/home.css"/>
+       
     </head>
 <style>
         body {

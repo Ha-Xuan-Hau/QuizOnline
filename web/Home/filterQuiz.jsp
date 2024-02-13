@@ -53,10 +53,6 @@
                     </ul>
                     </div>>
             </li>
-            <li>
-                <a href="QuestionSetURL">QuestionSet</a>                   
-            </li>
-
         </ul>
     </form>
 
