@@ -9,6 +9,7 @@ package Entity;
  * @author Asus
  */
 public class BlogList {
+    private int SubjectId;
     private int SetId;
     private String Title;
     private String Username;
@@ -17,11 +18,20 @@ public class BlogList {
     public BlogList() {
     }
 
-    public BlogList(int SetId, String Title, String Username, int SetVote) {
+    public BlogList(int SubjectId, int SetId, String Title, String Username, int SetVote) {
+        this.SubjectId = SubjectId;
         this.SetId = SetId;
         this.Title = Title;
         this.Username = Username;
         this.SetVote = SetVote;
+    }
+
+    public int getSubjectId() {
+        return SubjectId;
+    }
+
+    public void setSubjectId(int SubjectId) {
+        this.SubjectId = SubjectId;
     }
 
     public int getSetId() {
@@ -58,11 +68,10 @@ public class BlogList {
 
     @Override
     public String toString() {
-        return "BlogList{" + "SetId=" + SetId + ", Title=" + Title + ", Username=" + Username + ", SetVote=" + SetVote + '}';
+        return "BlogList{" + "SubjectId=" + SubjectId + ", SetId=" + SetId + ", Title=" + Title + ", Username=" + Username + ", SetVote=" + SetVote + '}';
     }
 
    
-    
-    
+
     
 }
