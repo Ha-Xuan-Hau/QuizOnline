@@ -5,17 +5,12 @@
 
 package Controller;
 
-import Entity.Admin;
 import Entity.BlogList;
 import Entity.QuestionSet;
 import Entity.Subject;
-import Entity.User;
-import Model.DAOAdmin;
 import Model.DAOBlogList;
 import Model.DAOQuestionSet;
-import Model.DAOStudent;
 import Model.DAOSubject;
-import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,7 +18,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Blob;
 import java.util.List;
 
 /**
@@ -76,6 +70,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("SubNav", listSub);
             request.setAttribute("Blog", listBlog);
             request.setAttribute("listS", listS);
+            request.setAttribute("url", "HomeController?");
             request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);
         }
     } 

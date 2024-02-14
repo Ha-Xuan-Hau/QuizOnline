@@ -79,7 +79,7 @@
                                 </c:if>
                                 
                                 <!<!-- Teacher -->
-                                <c:if test="${user.getRoleId()==1 }">
+                                <c:if test="${user.getRoleId()==2 }">
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputUsername">Teacher Name</label>
                                         <input class="form-control" id="inputUsername" type="text" placeholder=""
@@ -92,7 +92,7 @@
                                     </div>
                                 </c:if>
                                 <!-- Student -->
-                                 <c:if test="${user.getRoleId()==2 }">
+                                 <c:if test="${user.getRoleId()==1 }">
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputUsername">Student Name</label>
                                         <input class="form-control" id="inputUsername" type="text" placeholder=""
