@@ -45,7 +45,7 @@ public class SearchSubject extends HttpServlet {
             List<Subject> listSub = sub.getData("select*from Subject");
             int SubjectId = Integer.parseInt(request.getParameter("SubjectId"));
             
-             final int PAGE_SIZE = 12;
+             final int PAGE_SIZE = 6;
              //phân trang
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -68,6 +68,7 @@ public class SearchSubject extends HttpServlet {
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("SubNav", listSub);
             request.setAttribute("Blog", listBlog);
+            request.setAttribute("url", "SearchSubject?SubjectId=" + SubjectId + "&");
             request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);
           
         }
