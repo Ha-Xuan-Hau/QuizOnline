@@ -16,19 +16,19 @@
                     font-size: 1.9em;
                     color: #FCD980;
                     ">OnLineQuiz</h2>
-                <a href="/"><img src="../assets/img/1498-pepe-studying.png" alt="Ok"></a>
+                    <a href="/"><img src="${pageContext.request.contextPath}/assets/img/quiz.png" alt="Ok"></a>
             </div>
             <div class="footer-col about-us">
                 <h4>Hotline</h4>
-                <span>Điện thoại: 0123.694.2003 <br>
+                <span>Điện thoại: 0123456789 <br>
                     Email: contact@fpt.edu.vn <br>
-                    Địa chỉ: Đất Thổ Cư Hòa Lạc, Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội
+                    Địa chỉ:FPT University Hà Nôi
                 </span>
             </div>
             <div class="footer-col">
                 <h4>Program</h4>
                 <ul>
-                    <li><a href="/mycourse">My Course</a></li>
+                    <li><a href="/">QuizPlus only 10k/account</a></li>
                     <li><a href="/">Free Learning</a></li>
                 </ul>
             </div>
@@ -37,7 +37,7 @@
                 <ul>
                     <li></li>
                     <li><a href="#">Provision</a></li>
-                    <li><a href="/privacyPolicy.jsp">Privacy Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -58,11 +58,7 @@
             © Copyright OnlineQuiz
         <div class="col-3">
             <nav class="nav-footer">
-                <ul>
-                    <li><a href="/">HOME</a></li>
-                    <li><a href="profile">PROFILE</a></li>
-                    <li><a href="/mycourse">MY COURSE</a></li>
-                </ul>
+              
             </nav>
         </div>
     </div>

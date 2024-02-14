@@ -6,7 +6,7 @@
 
 <%@ page pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<link rel="stylesheet" href="../assets/css/sliderStyle3.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sliderStyle3.css" />
 <div class="document-center">
 <!--    <h2 class="carousel-title">Quiz Least</h2>-->
     <div class="carousel-container">
@@ -38,4 +38,4 @@
         </div>
     </div>
 </div>
-<script src="../assets/js/imageSlider2.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/imageSlider2.js"></script>
