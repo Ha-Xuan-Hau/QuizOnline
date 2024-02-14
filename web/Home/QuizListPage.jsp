@@ -39,11 +39,11 @@
     <nav aria-label="Page navigation example" class="d-flex justify-content-center">
         <ul class="pagination">
             <li class="page-item ${page == 1 ? 'active' : ''}">
-                <a class="page-link" href="HomeController?page=${page-1}">Previous</a>
+                <a class="page-link" href="${requestScope.url}page=${page-1}">Previous</a>
             </li>
             <c:forEach begin="1" end="${totalPage}" var="i">
                 <li class="page-item ${i == page ? 'active' : ''}">
-                    <a class="page-link" href="HomeController?page=${i}">${i}</a>
+                    <a class="page-link" href="${requestScope.url}page=${i}">${i}</a>
                 </li>
             </c:forEach>
             
