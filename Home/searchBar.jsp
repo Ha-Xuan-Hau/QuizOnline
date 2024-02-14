@@ -9,7 +9,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
     .search {
-        margin-bottom: 50px; /* Add bottom margin */
+        flex-direction: column;
+        margin-bottom: 50px; 
     }
 
     .styled-form {
@@ -17,12 +18,12 @@
         border: 2px solid #ccc;
         border-radius: 5px;
         overflow: hidden;
-        width: 500px; /* Increase width to 500px */
+        width: 500px; 
     }
 
     .styled-form input[type="search"] {
         flex: 1;
-        padding: 10px; /* Increase padding for more height */
+        padding: 10px;
         border: none;
         outline: none;
         width: 80%;
@@ -31,7 +32,7 @@
     .styled-form input[type="submit"] {
         background-color: #4CAF50;
         color: white;
-        padding: 10px 15px; /* Adjust padding for more height */
+        padding: 10px 15px; 
         border: none;
         cursor: pointer;
         width: 20%;
@@ -42,6 +43,9 @@
         <input type="search" name="txt" value="${key}" placeholder="Search" onkeydown="handleSearch(event)">
         <input type="submit" value="Search">
     </form>
+        
+ 
+       
 </div>
 <script>
     function handleSearch(e) {

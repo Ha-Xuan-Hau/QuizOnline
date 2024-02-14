@@ -1,4 +1,4 @@
-<%--       <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="utils.*" %>
 <%@ page import="Entity.QuestionSet" %>
 <%@ page import="java.util.List" %>
@@ -6,107 +6,162 @@
 <%@page pageEncoding="UTF-8" %>
 
 <style>
-    /* Ch?n ph?n container chung */
-    .custom-subject {
-        border-radius: 15px; 
-        display: block;
-        width: 100%;
-        width: 304px;
-        height: 149px;
-        background-color: #1c1e53;
-        margin-bottom: 15px;
-        text-decoration: none;
-        border: solid 1px #000000;
-    }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
 
-    /* Ch?n ph?n header (tiêu ??) */
-    .custom-subject > .custom-subject-info {
-        background-color: #666666;
-        border-bottom: 1px solid #444444;
-        border-radius: 10px 10px 0px 0px ;
-    }
+.main-container {
+    padding: 30px;
+}
 
-    /* Ch?n ph?n n?i dung */
-    .custom-subject > .custom-subject-info > .custom-subject-title {
-        color: #ffffff;
-    }
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
-    .custom-subject a.custom-subject {
-        background-color: #1C1E53;
-        color: white; /* Màu ch? mong mu?n, ? ?ây là tr?ng */
-        /* Thêm b?t k? thu?c tính CSS khác n?u c?n thi?t */
-    }
+.card {
+    margin: 20px;
+    padding: 20px;
+    width: 300px;
+    display: grid;
+    height: 183px;
+    border-radius: 10px;
+    transition: all 0.2s;
+    grid-template-rows: 20px 50px 1fr 50px;
+    box-shadow: 0px 6px 10px rgba(74, 70, 74, 0.414);
+}
 
-    .custom-subject a {
-        outline: 2px solid #ff0000; /* Thêm ???ng vi?n màu ?? (ho?c màu b?n mu?n) bên ngoài */
-        display: block; /* ??m b?o th? a chi?m toàn b? chi?u ngang c?a cha (div.custom-subject) */
-        height: 100%; /* ??m b?o th? a chi?m toàn b? chi?u cao c?a cha (div.custom-subject) */
-        text-decoration: none; /* Lo?i b? ???ng g?ch chân m?c ??nh cho liên k?t */
-        border-radius: 8px; /* ?? cong c?a ???ng vi?n (?i?u ch?nh giá tr? theo ý mu?n c?a b?n) */
-    }
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+}
 
-    .custom-subject-info,
-    .custom-subject-meta {
-        border-radius: 8px; /* ?? cong c?a ???ng vi?n (?i?u ch?nh giá tr? theo ý mu?n c?a b?n) */
-    }
+.readMore,
+.close,
+.card div {
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+}
 
-    /* Ch?n ph?n thu?c tính c?a tác gi? */
-    .custom-subject > .custom-subject-meta > .custom-author-info {
-        padding: 10px;
-    }
+.card div ul {
+    margin-left:-39px;
+    display: flex;
+    list-style: none;
+}
 
-    /* Ch?n hình ?nh avatar */
-    .custom-subject > .custom-subject-meta > .custom-author-info > .custom-author-avatar img {
-        border-radius: 50%;
-    }
+.card div ul li {
+    margin: 0 0.3rem;
+    font-size: 1.1rem;
+}
 
-    /* Ch?n tên ng??i ??ng và tên tài kho?n */
-    .custom-subject > .custom-subject-meta > .custom-author-info > .custom-author-details > .custom-author-name,
-    .custom-subject > .custom-subject-meta > .custom-author-info > .custom-author-details > .custom-author-username {
-        color: #ffffff;
-    }
+.desc {
+    color: white;
+}
 
-    /* Ch?n icon tài li?u */
-    .custom-subject > .custom-subject-meta > .custom-document-icon {
-        width: 8px;
-        height: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        opacity: 0.1;
+.readMore::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    transition: all 0.5s;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.readMore:hover {
+    color: #fff;
+}
+
+.readMore:hover::after {
+    width: 100%;
+}
+
+.close {
+    grid-row: 1/2;
+    justify-self: end;
+}
+
+.card div {
+    grid-row: 2/3;
+    font-size: 30px;
+}
+
+.read-more {
+    grid-row: 4/5;
+    align-self: center;
+}
+
+.card1 {
+    background:#1c1e53;;
+}
+
+@media (max-width: 1600px) {
+    .cards {
+        justify-content: center;
     }
+}
 </style>
+<div class="custom-container">
+    <c:forEach var="item" items="${Blog}" varStatus="loopStatus">
+        <c:if test="${loopStatus.index % 3 == 0}">
+            <div class="row">
+        </c:if>
 
-<div class="course-container container">
-    <div class="row">
-        <c:forEach var="item" items="${QuestionSet}" varStatus="loopStatus">
-        
-            <div class="col-md-3">
-                <a href="course?id=#" class="custom-subject">
-                    <div class="custom-subject-info bg-gray-100 p-3 border-b border-gray-200 dark:border-gray-800 text-white dark:bg-gray-800" style="background-color: #1C1E53; text-align: center;">
-                        <p class="custom-subject-title font-bold text-xl min-h-[84px] line-clamp-3 text-gray-700 dark:text-gray-200">${item.getTitle()}</p>
-                        <p class="custom-subject-details font-normal text-sm leading-4 lowercase"></p>
-                    </div>
-                    <div class="custom-subject-meta flex items-center justify-between p-2">
-                        <div class="custom-author-info flex items-center justify-center gap-2">
-                            <span class="custom-author-avatar relative inline-flex items-center justify-center flex-shrink-0 rounded-full h-8 w-8 text-sm opacity-70"></span>
-                            <div class="custom-author-details flex flex-col">
-                                <span class="custom-author-name font-medium text-sm"></span>
-                                <span class="custom-author-username font-normal text-xs text-gray-500"></span>
-                            </div>
-                        </div>
-                        <span class="custom-document-icon i-heroicons-document-solid w-8 h-8 shadow-lg opacity-10"></span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Close the row and start a new one after every 3 items -->
-            <c:if test="${loopStatus.index % 3 == 2 or loopStatus.last}">
+                <div class="col-md-4">
+            <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${item.getSetId()}">
+            <div class="card card1"  style="width: 100%">
+                <div>
+                    <ul>
+                        <c:if test="${item.getSetVote() == 1}">
+                            <li><i class="fa-solid fa-star"></i></li>
+                        </c:if>
+                        <c:if test="${item.getSetVote() == 2}">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                        </c:if>
+                        <c:if test="${item.getSetVote() == 3}">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                        </c:if>
+                        <c:if test="${item.getSetVote() == 4}">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                        </c:if>
+                        <c:if test="${item.getSetVote() == 5}">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                        </c:if>
+                    </ul>
                 </div>
-                <div class="row">
-            </c:if>
+                <p class="close"><i class="fa-solid fa-xmark"></i></p>
+                <p class="desc" style="tex">${item.getTitle()}</br></p>
+                <p class="desc">Lecture: ${item.getUsername()}</p>
+            </div>
+            </a>
+        </div>
 
-        </c:forEach>
-    </div>
+        <c:if test="${loopStatus.index % 3 == 2 or loopStatus.last}">
+            </div>
+        </c:if>
+    </c:forEach>
 </div>
 
 
--%>
+<!-- Add Bootstrap and other scripts at the end of the body for better performance -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
