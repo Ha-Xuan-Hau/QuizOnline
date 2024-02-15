@@ -38,12 +38,14 @@
                 border-radius: 10px;
                 margin: 20px;
             }
+
             .info h1 {
                 position: absolute;
                 bottom: 10%;
                 margin: 40px;
                 margin-bottom: 70px;
             }
+
             .info h2 {
                 position: absolute;
                 right: 10px;
@@ -82,6 +84,7 @@
                 border-radius: 8px;
                 height: 70px;
             }
+
             .question-set-item:hover {
                 background-color: rgba(91, 145, 243, 0.1);
                 border: 1px solid #ddd;
@@ -90,15 +93,29 @@
                 border-radius: 8px;
                 height: 70px;
             }
+
             .question-set-item h3 {
-                margin: 10px    ;
+                margin: 10px;
                 font-size: 20px;
                 color: #333;
                 line-height: 20px;
             }
+
             .question-set-item:hover a {
                 text-decoration: none;
             }
+
+            .outer-box {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .outer-box a {
+                margin-right: 10px;
+            }
+
         </style>
     </head>
 
@@ -160,18 +177,21 @@
 
         <ul class="question-set-list">
             <li>
-                <div class="question-set-item">
-                    <a style="display: flex;justify-content: center " href="QuestionSetURL?go=setDetails&SetId=${questionSet.getSetId()}">
-                        <img src="${pageContext.request.contextPath}/Class/images/add.png" width="30px" style="margin: 10px" />                            
-                    </a>
-                </div>
+                <c:if test="${accId == teacher.getAccountId()}">
+                    <div class="question-set-item">
+                        <a style="display: flex;justify-content: center " href="EditQSClassURL">
+                            <img src="${pageContext.request.contextPath}/Class/images/add.png" width="30px" style="margin: 10px" />                            
+                        </a>
+                    </div>
+                </c:if>    
             </li>
             <c:forEach var="questionSet" items="${questionSetList}">
                 <li>
                     <div class="question-set-item">                     
                         <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${questionSet.getSetId()}">
-                            <h3><img src="${pageContext.request.contextPath}/Class/images/studying.png" width="20px" style="margin-right: 30px ; background-color: " />
-                                ${teacher.getTeacherName()} posted "${questionSet.getTitle()}"  </h3>
+                            <h3><img src="${pageContext.request.contextPath}/Class/images/studying.png" width="20px" style="margin-right: 30px ;flex-direction: row " />
+                                ${teacher.getTeacherName()} posted "${questionSet.getTitle()}"    
+                            </h3>      
                         </a>
                     </div>
                 </li>
