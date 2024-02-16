@@ -53,9 +53,12 @@ public class ControllerEditQSClass extends HttpServlet {
                 Entity.Class myClass = daoC.ClassByClassID(classId);
                 Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
                 ArrayList<Integer> setList = daoCQS.getSetIdbyClassId(classId);
+                ArrayList<QuestionSet> questionSetListAll = (ArrayList<QuestionSet>) daoQS.getAllQuestionSet();
                 ArrayList<QuestionSet> questionSetList = new ArrayList<>();
                 ArrayList<Integer> subIDlist = new ArrayList<>();
+                ArrayList<Integer> subIDlistAll = daoQS.getAllSubjectId();
                 HashMap<Integer, Entity.Subject> subjectMap = new HashMap<>();
+                HashMap<Integer, Entity.Subject> subjectMapAll = new HashMap<>();
                 for (Integer setIds : setList) {
                     int setId = setIds;
                     questionSetList.add(daoQS.getQuestionSetById(setId));
@@ -65,6 +68,12 @@ public class ControllerEditQSClass extends HttpServlet {
                     int subId = subID;
                     subjectMap.put(subId, daoS.getSubject(subId));
                 }
+                for (Integer subID : subIDlistAll) {
+                    int subId = subID;
+                    subjectMapAll.put(subId, daoS.getSubject(subId));
+                }
+                request.setAttribute("questionSetListAll", questionSetListAll);
+                request.setAttribute("subjectMapAll", subjectMapAll);
                 request.setAttribute("subjectMap", subjectMap);
                 request.setAttribute("myClass", myClass);
                 request.setAttribute("teacher", teacher);
@@ -75,8 +84,51 @@ public class ControllerEditQSClass extends HttpServlet {
                     String setIdParam = request.getParameter("setId");
                     int setId = Integer.parseInt(setIdParam);
                     daoCQS.DeleteQuestionSet(setId, classId);
-                } else if (service.equals("cleanAll")) {
+                }
+                if (service.equals("cleanAll")) {
                     daoCQS.DeleteQuestionSetInClass(classId);
+                    response.sendRedirect("EditQSClassURL");
+                }
+                if (service.equals("search")) {
+                    String searchQuery = request.getParameter("searchQuery");
+                    Entity.Class myClass = daoC.ClassByClassID(classId);
+                    Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
+                    ArrayList<Integer> setList = daoCQS.getSetIdbyClassId(classId);
+                    ArrayList<QuestionSet> questionSetList = new ArrayList<>();
+                    ArrayList<Integer> subIDlist = new ArrayList<>();
+                    ArrayList<Integer> subIDlistAll = daoQS.getAllSubjectId();
+                    HashMap<Integer, Entity.Subject> subjectMap = new HashMap<>();
+                    HashMap<Integer, Entity.Subject> subjectMapAll = new HashMap<>();
+                    for (Integer setIds : setList) {
+                        int setId = setIds;
+                        questionSetList.add(daoQS.getQuestionSetById(setId));
+                        subIDlist.add(daoQS.getQuestionSetById(setId).getSubjectId());
+                    }
+                    for (Integer subID : subIDlist) {
+                        int subId = subID;
+                        subjectMap.put(subId, daoS.getSubject(subId));
+                    }
+                    for (Integer subID : subIDlistAll) {
+                        int subId = subID;
+                        subjectMapAll.put(subId, daoS.getSubject(subId));
+                    }
+                    request.setAttribute("subjectMapAll", subjectMapAll);
+                    request.setAttribute("subjectMap", subjectMap);
+                    request.setAttribute("myClass", myClass);
+                    request.setAttribute("teacher", teacher);
+                    request.setAttribute("questionSetList", questionSetList);
+                    request.setAttribute("questionSetListAll", daoQS.searchByTitle(searchQuery));
+                    request.getRequestDispatcher("/Class/EditQuestionSetInClass.jsp").forward(request, response);
+                }
+                if (service.equals("add")) {
+                    String[] selectedSetIds = request.getParameterValues("selectedSetIds[]");
+                    ArrayList<Integer> setIdList = new ArrayList<>();
+                    if (selectedSetIds != null) {
+                        for (String setId : selectedSetIds) {
+                            int setIdValue = Integer.parseInt(setId);
+                            daoCQS.CreateClassQuestionSetById(classId, setIdValue);
+                        }
+                    }
                     response.sendRedirect("EditQSClassURL");
                 }
 

@@ -37,6 +37,23 @@ public class DAOClassQuestionSet extends DBConnect {
         return n;
     }
 
+    public int CreateClassQuestionSetById(int ClassId, int SetId) {
+        int n = 0;
+        String sql = "INSERT INTO [dbo].[ClassQuestionSet]\n"
+                + "           ([ClassId]\n"
+                + "           ,[SetId])\n"
+                + "     VALUES(?,?)";
+
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, ClassId);
+            pre.setInt(2, SetId);
+            n = pre.executeUpdate();
+        } catch (Exception e) {
+        }
+        return n;
+    }
+
     public int UpdateClassQuestionSet(ClassQuestionSet obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[ClassQuestionSet]\n"
