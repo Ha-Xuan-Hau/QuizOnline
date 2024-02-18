@@ -46,7 +46,7 @@
                 justify-content: center;
             }
             .SG .sgLi {
-                width: 300px;
+                width: 20%;
                 margin: 1%;
             }
             .SG .box{
@@ -314,7 +314,7 @@
                                                     });
 
                                                     if (exists) {
-                                                        alert('Question Set is not available.');
+                                                        alert('Question Set is already in your class.');
                                                         return;
                                                     }
 

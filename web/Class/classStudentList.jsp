@@ -26,7 +26,6 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Class/css/bootstrap.css" />
         <!-- Custom styles for this template -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
-        <link href="${pageContext.request.contextPath}/Class/css/style.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Class/css/mainStyle.css" rel="stylesheet" />
         <style>
             body {
@@ -85,12 +84,7 @@
             <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
 
 
-            <a href="javascript:void(0);" onclick="showUpdateLaterMessage()">Exam</a>
-            <script>
-                function showUpdateLaterMessage() {
-                    alert('Update later');
-                }
-            </script>
+            <a href="classExamList.jsp" target="_self">Exam</a>
 
 
             <a href="" target="_self" class="current-page">People</a>
