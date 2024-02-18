@@ -12,8 +12,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Question Set</title>
 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
-        
+        <link rel="stylesheet" href="../assets/css/base.css"/>
+        <link rel="stylesheet" href="../assets/css/index.css"/>
+        <link rel="stylesheet" href="../assets/css/search.css"/>
+        <link rel="stylesheet" href="../assets/css/adminCourseNav.css"/>
+        <link rel="stylesheet" href="../assets/css/courseEditorBase.css"/>
+        <script src="https://kit.fontawesome.com/4008f7ead4.js" crossorigin="anonymous"></script>
+        <script src="/assets/js/base.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
+        <title>OnlineQuiz</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+        <link rel="stylesheet" href="../assets/css/sliderStyle3.css" />
+        <link rel="stylesheet" href="/CSS/home.css"/>
 
     </head>
     <body>
@@ -22,6 +34,11 @@
             <h1 class="editor-default-title">
                 Question Set
             </h1>
+        </div>
+        <div class="course-editor-title-bar">
+            <a href="QuestionSetURL" >
+                All question set
+            </a>
         </div>
         <!-- form dien toan bo thong tin -->
         <form action="QuestionSetURL" method="post">           
@@ -75,7 +92,6 @@
             </div>
             <div class="action-container">
                 <input type="submit" name="submit" value="Save" class="btn-save"/>
-<!--                <input onclick="showDeleteConfirmation(${param.setId})" type="submit" name="submit" value="Delete" class="btn-del"/>-->
             </div>
         </form>
         <form action="QuestionSetURL" method="post">
@@ -157,20 +173,20 @@
         </style>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-                    function showDeleteConfirmation(setId) {
-                        Swal.fire({
-                            title: 'Delete Question Set',
-                            text: 'Are you sure?',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: 'Delete',
-                            cancelButtonText: 'Cancel'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = "QuestionSetURL?go=deleteSet&setId=" + setId;
-                            }
-                        });
-                    }
+                function showDeleteConfirmation(setId) {
+                    Swal.fire({
+                        title: 'Delete Question Set',
+                        text: 'Are you sure?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "QuestionSetURL?go=deleteSet&setId=" + setId;
+                        }
+                    });
+                }
         </script>        <script src="/assets/js/base.js"></script>
         <link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
     </body>
