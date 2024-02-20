@@ -4,9 +4,6 @@
  */
 package Controller;
 
-import Entity.Student;
-import Entity.Teacher;
-import Entity.User;
 import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,20 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Asus
  */
-@WebServlet(name = "ManagerUserController", urlPatterns = {"/ManagerUserURL"})
-public class ManagerUser extends HttpServlet {
+@WebServlet(name = "SearchUserByAD", urlPatterns = {"/SearchUserURL"})
+public class SearchUserByAD extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +35,9 @@ public class ManagerUser extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            String txt = request.getParameter("txt");
             DAOUser dao = new DAOUser();
-           
-            
-            final int PAGE_SIZE = 3;
+            final int PAGE_SIZE = 2;
             //phân trang
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -56,7 +47,7 @@ public class ManagerUser extends HttpServlet {
             if (page < 1) {
                 page = 1;
             }
-            int totalUser = dao.getTotalUser();
+            int totalUser = dao.getTotalSearch(txt);
             int totalPage = totalUser / PAGE_SIZE;
             if (totalUser % PAGE_SIZE != 0) {
                 totalPage += 1;
@@ -64,11 +55,12 @@ public class ManagerUser extends HttpServlet {
             if (page > totalPage) {
                 page = totalPage;
             }
-            List<Map<String, Object>> userListP = dao.getAllUserWithPaging(page, PAGE_SIZE);
+            List<Map<String, Object>> userListS = dao.searchUsersWithPagination(txt, page, PAGE_SIZE);
+            request.setAttribute("data", userListS);
             request.setAttribute("page", page);
+            request.setAttribute("txt", txt);
             request.setAttribute("totalPage", totalPage);
-            request.setAttribute("data", userListP);
-             request.setAttribute("Url", "ManagerUserURL?");
+            request.setAttribute("Url", "SearchUserURL?txt="+txt+ "&");
             request.getRequestDispatcher("Admin/AdminManager.jsp").forward(request, response);
         }
     }
@@ -86,7 +78,6 @@ public class ManagerUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
@@ -100,52 +91,7 @@ public class ManagerUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOUser dao = new DAOUser();
-        String status = request.getParameter("status");
-        String role = request.getParameter("role");
-        String txtSearch = request.getParameter("txtSearch");
-
-        if ("all".equals(status) && "all".equals(role)) {
-            List<Map<String, Object>> userList = dao.getAllUsers();
-            request.setAttribute("data", userList);
-        } else if ("active".equals(status)) {
-            List<Map<String, Object>> userList = null;
-            if ("1".equals(role)) {
-                userList = dao.getAllActiveAdminUsers();
-            } else if ("2".equals(role)) {
-                userList = dao.getAllActiveTeacherUsers();
-            } else if ("3".equals(role)) {
-                userList = dao.getAllActiveStudentUsers();
-            } else {
-
-                userList = dao.getAllActiveUsers();
-            }
-            request.setAttribute("data", userList);
-        } else if ("suspended".equals(status)) {
-            List<Map<String, Object>> userList = null;
-            if ("1".equals(role)) {
-                userList = dao.getAllBanAdminUsers();
-            } else if ("2".equals(role)) {
-                userList = dao.getAllSuspendedTeacherUsers();
-            } else if ("3".equals(role)) {
-                userList = dao.getAllSuspendedStudentUsers();
-            } else {
-                userList = dao.getAllSuspendedUsers();
-            }
-            request.setAttribute("data", userList);
-        } else if ("all".equals(status)) {
-            List<Map<String, Object>> userList = null;
-            if ("1".equals(role)) {
-                userList = dao.getAllAdminUsers();
-            } else if ("2".equals(role)) {
-                userList = dao.getAllTeacherUsers();
-            } else if ("3".equals(role)) {
-                userList = dao.getAllStudentUsers();
-            }
-            request.setAttribute("data", userList);
-        }
-
-        request.getRequestDispatcher("Admin/AdminManager.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
