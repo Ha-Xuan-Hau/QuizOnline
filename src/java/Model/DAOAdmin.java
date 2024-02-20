@@ -4,7 +4,6 @@
  */
 package Model;
 
-
 import Entity.Admin;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,6 +69,20 @@ public class DAOAdmin extends DBConnect {
 
     }
 
+    public void insertAdmin(int accountId, String adminName, String phone) {
+        try {
+            String sql = "INSERT INTO [dbo].[Admin] ([AccountId], [AdminName], [Phone]) VALUES (?, ?, ?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, accountId);
+            stm.setString(2, adminName);
+            stm.setString(3, phone);
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void insertAdmin(Admin ad) {
         try {
             String sql = "INSERT INTO [dbo].[Admin]\n"
@@ -117,7 +130,7 @@ public class DAOAdmin extends DBConnect {
             stm.setString(1, a.getAdminName());
             stm.setString(2, a.getPhone());
             stm.setInt(3, a.getAccountId());
-           
+
             stm.executeUpdate();
 
         } catch (SQLException ex) {
@@ -125,17 +138,17 @@ public class DAOAdmin extends DBConnect {
         }
 
     }
-    public void deleteAdmin(int AccountId ){
-          try {
-            String sql= "delete from [admin] where AccountId = ?";
+
+    public void deleteAdmin(int AccountId) {
+        try {
+            String sql = "delete from [admin] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId );
+            stm.setInt(1, AccountId);
             stm.executeUpdate();
-           
-            
+
         } catch (Exception e) {
         }
-    
+
     }
 
     public static void main(String[] args) {
