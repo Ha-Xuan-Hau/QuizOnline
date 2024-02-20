@@ -4,10 +4,6 @@
  */
 package Controller;
 
-import Model.DAOAdmin;
-import Model.DAOStudent;
-import Model.DAOTeacher;
-import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,10 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Asus
+ * @author phamg
  */
-@WebServlet(name = "AddUserByAdmin", urlPatterns = {"/AddUserURL"})
-public class AddUserByAdmin extends HttpServlet {
+@WebServlet(name = "ControllerClassExamList", urlPatterns = {"/ClassExamListURL"})
+public class ControllerClassExamList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,26 +32,16 @@ public class AddUserByAdmin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            DAOUser daoU = new DAOUser();
-            DAOAdmin daoA = new DAOAdmin();
-            DAOTeacher daoT = new DAOTeacher();
-            DAOStudent daoS = new DAOStudent();
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String phone = request.getParameter("phone");
-            int roleId = Integer.parseInt(request.getParameter("roleId"));
-            String adminName = request.getParameter("adminName");
-            String teacherName = request.getParameter("teacherName");
-            String studentName = request.getParameter("studentName");
-            String studentDOB = request.getParameter("studentDOB");
-            String statusParam = request.getParameter("status");
-            boolean status = Boolean.parseBoolean(statusParam);
-
-         int AccountId= daoU.insertUserAndGetAccountId(username, email, password, roleId, status);
-         daoA.insertAdmin(AccountId, adminName, phone);
-          
-            response.sendRedirect("ManagerUserURL");
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ControllerClassExamList</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ControllerClassExamList at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

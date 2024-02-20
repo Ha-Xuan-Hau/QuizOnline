@@ -16,6 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -42,6 +43,8 @@ public class LoginController extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String service = request.getParameter("go");
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(7200);
             if (service == null) {
                 service = "showLogin";
             }

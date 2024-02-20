@@ -9,6 +9,7 @@ package Entity;
  * @author phamg
  */
 public class Subject {
+
     private int SubjectId;
     private String SubjectCode;
     private String SubjectName;
@@ -55,6 +56,5 @@ public class Subject {
     public String toString() {
         return "Subject{" + "SubjectId=" + SubjectId + ", SubjectCode=" + SubjectCode + ", SubjectName=" + SubjectName + '}';
     }
-    
-    
+
 }

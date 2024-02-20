@@ -49,6 +49,22 @@ public class DAOQuestionSet extends DBConnect {
 
     }
 
+    public ArrayList<Integer> getAllSubjectId() {
+        ArrayList<Integer> subjectIds = new ArrayList<>();
+        try {
+            String sql = "SELECT SubjectId FROM Subject";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                int subjectId = rs.getInt("SubjectId");
+                subjectIds.add(subjectId);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subjectIds;
+    }
+
     public void insertQuestionSet(QuestionSet qs) {
         try {
             String sql = "INSERT INTO [dbo].[QuestionSet]\n"
@@ -122,7 +138,7 @@ public class DAOQuestionSet extends DBConnect {
         } catch (Exception e) {
         }
     }
-    
+
     public int countQuest(String keyword) {
         try {
             String sql = "select count(*)  from QuestionSet where Title like ?";
@@ -292,6 +308,7 @@ public class DAOQuestionSet extends DBConnect {
         return set;
     }
 // lấy toàn bộ câu hỏi thuộc 1 set
+
     public ArrayList<NormalQuestion> getQues(int setId) {
         ArrayList<NormalQuestion> quesDetails = new ArrayList<>();
         try {
@@ -312,6 +329,7 @@ public class DAOQuestionSet extends DBConnect {
         return quesDetails;
     }
 // tương tự hàm dưới nhưng là arraylist
+
     public ArrayList<ArrayList<NormalQuestionAnswer>> getAnswer(int setId) {
         HashMap<Integer, ArrayList<NormalQuestionAnswer>> map = new HashMap<>();
         try {
@@ -345,6 +363,7 @@ public class DAOQuestionSet extends DBConnect {
         return allAnswer;
     }
 // map lưu QuestId - những câu tl tương ứng
+
     public HashMap<Integer, ArrayList<NormalQuestionAnswer>> getAnswerMap(int setId) {
         HashMap<Integer, ArrayList<NormalQuestionAnswer>> map = new HashMap<>();
         String sql = "SELECT NormalQuestionAnswer.* "
@@ -375,6 +394,29 @@ public class DAOQuestionSet extends DBConnect {
             e.printStackTrace();
         }
         return map;
+    }
+
+    public List<QuestionSet> searchByTitle(String keyword) {
+        List<QuestionSet> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM QuestionSet WHERE Title LIKE ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + keyword + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                QuestionSet qs = new QuestionSet();
+                qs.setSetId(rs.getInt(1));
+                qs.setTitle(rs.getString(2));
+                qs.setUserAccountId(rs.getInt(3));
+                qs.setSubjectId(rs.getInt(4));
+                qs.setSetVote(rs.getInt(5));
+
+                list.add(qs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 
     public static void main(String[] args) {
