@@ -27,7 +27,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sliderStyle3.css" />
 
         <style>
-
+            #backToHome {
+                display: none;
+            }
             .button a {
                 text-decoration: none;
                 border: 1px solid white;
@@ -97,7 +99,7 @@
                 border-radius: 15px;
                 width: 358px;
                 height: 180px;
-                background-color: #1c1e53;
+                background-color: #4257b4;
                 overflow: hidden;
                 transition: 0.5s;
                 margin:10px;
