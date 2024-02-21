@@ -99,7 +99,7 @@
     }
 
     .card1 {
-        background:#1c1e53;
+        background:#4257b4;
         ;
     }
 

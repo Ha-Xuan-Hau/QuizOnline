@@ -17,6 +17,9 @@
         margin: 0;
         color: yellow;
     }
+    .header-container{
+        background-color: #4257b4;
+    }
 </style>
 
 <div class="header-container">
@@ -24,7 +27,7 @@
     <div class="navbar">
         <div class="bold">
             <a href="HomeController">
-                <img src="${pageContext.request.contextPath}/assets/img/quiz.png" alt="alt" width="50px" style="margin: 10px"/>
+                <img src="${pageContext.request.contextPath}/assets/img/quiz.png" alt="alt" width="70px" style="margin: 10px"/>
             </a>
         </div>
         <div class="bold" id="backToHome">
@@ -54,7 +57,7 @@
                 <div class="dropdown">
                     <button class="dropbtn" onclick="toggleDropdown()">
                         Hi, ${acc.getUsername()}
-                    </button>
+                    </button>Ba
                     <div class="dropdown-content" id="myDropdown">
                         <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
                         <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>

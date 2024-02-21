@@ -99,7 +99,7 @@
                 border-radius: 15px;
                 width: 358px;
                 height: 180px;
-                background-color: #1c1e53;
+                background-color: #4257b4;
                 overflow: hidden;
                 transition: 0.5s;
                 margin:10px;
