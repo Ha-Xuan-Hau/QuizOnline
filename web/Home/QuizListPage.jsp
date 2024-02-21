@@ -34,7 +34,6 @@
         border: 1px solid #007bff;
     }
 </style>
-
 <form class="course-pagination">
     <nav aria-label="Page navigation example" class="d-flex justify-content-center">
         <ul class="pagination">

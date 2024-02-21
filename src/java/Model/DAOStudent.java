@@ -5,6 +5,7 @@
 package Model;
 
 import Entity.Student;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,21 @@ import java.util.logging.Logger;
  * @author admin
  */
 public class DAOStudent extends DBConnect {
+
+    public void insertStudent(int accountId, String studentName, String phone, String dob) {
+        try {
+            String sql = "INSERT INTO [dbo].[Student] ([AccountId], [StudentName], [Phone], [DoB]) VALUES (?, ?, ?, ?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, accountId);
+            stm.setString(2, studentName);
+            stm.setString(3, phone);
+            stm.setString(4, dob);
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public int CreateStudent(Student obj) {
         int n = 0;
@@ -59,8 +75,8 @@ public class DAOStudent extends DBConnect {
         }
         return n;
     }
-    
-    public int DeleteStudent(int id){
+
+    public int DeleteStudent(int id) {
         int n = 0;
         String sql = "delete from Student where AccountId = ?";
         try {
@@ -71,13 +87,14 @@ public class DAOStudent extends DBConnect {
         }
         return n;
     }
-    public Student getStudent(int AccountId){
+
+    public Student getStudent(int AccountId) {
         String sql = "select * from Student where AccountId = ?";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, AccountId);
             ResultSet rs = pre.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 Student obj = new Student();
                 obj.setAccountId(rs.getInt(1));
                 obj.setStudentName(rs.getString(2));
@@ -87,9 +104,10 @@ public class DAOStudent extends DBConnect {
             }
         } catch (Exception e) {
         }
-        return  null;
+        return null;
     }
-    public Vector<Student> getAll(){
+
+    public Vector<Student> getAll() {
         Vector<Student> vector = new Vector<Student>();
         String sql = "select * from Student";
         Statement state;
@@ -97,7 +115,7 @@ public class DAOStudent extends DBConnect {
             state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = state.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 int AccountId = rs.getInt(1);
                 String StudentName = rs.getString(2);
                 String Phone = rs.getString(3);
@@ -107,7 +125,7 @@ public class DAOStudent extends DBConnect {
             }
         } catch (Exception e) {
         }
-        
+
         return vector;
     }
 }
