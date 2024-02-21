@@ -31,7 +31,7 @@
             }
             li{
                 color: #2c3e50;
-                font-size: 18px;
+                font-size: 16px;
                 line-height: 30px;
                 text-align: justify;
                 letter-spacing: 1px;
@@ -59,82 +59,6 @@
                 background-color: rgba(28, 30, 83, 0.9);
             }
 
-            /*Styles */
-            .df{
-                list-style-type: disc;
-            }
-            .s1{
-                list-style-type: square;
-            }
-            .s2{
-                list-style-type: circle;
-            }
-            .s3{
-                list-style-type: decimal;
-            }
-            .s4{
-                list-style-type: decimal-leading-zero;
-            }
-            .s5{
-                list-style-type: lower-alpha;
-            }
-            .s6{
-                list-style-type: upper-alpha;
-            }
-            .s7{
-                list-style-type: lower-roman;
-            }
-            .s8{
-                list-style-type: upper-roman;
-            }
-            .s9{
-                list-style-type: lower-greek;
-            }
-            .s10{
-                list-style-type: georgian;
-            }
-            .s11{
-                list-style-type: hebrew;
-            }
-            .s12{
-                list-style-type: hiragana;
-            }
-            .s13{
-                list-style-type: hiragana-iroha;
-            }
-            .s14{
-                list-style-type: katakana;
-            }
-            .s15{
-                list-style-type: katakana-iroha;
-            }
-            .s16{
-                list-style-type: cjk-ideographic;
-            }
-            .s17{
-                list-style-image: url(//goo.gl/L3tqpe);
-            }
-            .s18{
-                list-style: none;
-            }
-            .s18 li:before{
-                content: '';
-                width: 20px;
-                height: 20px;
-                margin-right: 15px;
-                display: inline-block;
-                background: url(//goo.gl/lcPSVD);
-                background-position: 50%;
-            }
-            .s19{
-                list-style: none;
-            }
-            .s19 li:before{
-                content: '\f0a9';
-                margin-right: 15px;
-                font-family: FontAwesome;
-            }
-
             #toggleContainer {
                 background-color: white;
                 color: black;
@@ -144,13 +68,14 @@
                 cursor: pointer;
                 transition: background-color 0.3s ease;
                 outline: none;
+                margin: 0;
             }
             #toggleContainer:hover {
                 background-color: #cccccc;
                 border-radius: 0px;
             }
             #searchInput,
-            button {
+            .btn btn-save .button {
                 margin: 10px;
                 padding: 8px 12px;
                 border: none;
@@ -161,7 +86,7 @@
                 color: #333;
             }
 
-            button:hover {
+            .btn btn-save .button:hover {
                 background-color: #ddd;
             }
             .search-container {
@@ -169,13 +94,12 @@
                 align-items: center;
                 justify-content: center;
             }
-
-            #searchInput {
-            }
         </style>
     </head>
     <body>
-        <%@include file="/Home/header.jsp" %> 
+        <div class="header">
+            <%@include file="/Home/header.jsp" %> 
+        </div>
         <!--        Show Hide Edit-->
         <button type="button" id="toggleContainer" class="btn btn-info">Show Edit</button>
         <!--Search-->
@@ -183,7 +107,7 @@
             <input type="hidden" name="go" value="search">
             <div class="search-container">
                 <input type="text" id="searchInput" name="searchQuery" placeholder="Enter search ...">
-                <button type="submit">Search</button>
+                <button class="btn btn-save" type="submit">Search</button>
             </div>
         </form>
         <!--        List All Question Set -->
@@ -294,50 +218,50 @@
     </script>   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-                                                var selectedSetIds = [];
+                                            var selectedSetIds = [];
 
-                                                function saveSetId(setId) {
-                                                    var exists = false;
+                                            function saveSetId(setId) {
+                                                var exists = false;
 
-                                                    if (selectedSetIds.includes(setId)) {
-                                                        alert('Question Set is already selected.');
-                                                        return;
-                                                    }
-
-                                                    var questionSets = document.querySelectorAll(".question-set");
-                                                    questionSets.forEach(function (questionSet) {
-                                                        var setIdFromDiv = questionSet.getAttribute("data-setId");
-                                                        if (setIdFromDiv === setId) {
-                                                            exists = true;
-                                                            return;
-                                                        }
-                                                    });
-
-                                                    if (exists) {
-                                                        alert('Question Set is already in your class.');
-                                                        return;
-                                                    }
-
-                                                    selectedSetIds.push(setId);
-                                                    console.log(selectedSetIds);
-                                                    alert('Question Set has been saved.');
+                                                if (selectedSetIds.includes(setId)) {
+                                                    alert('Question Set is already selected.');
                                                     return;
                                                 }
 
-                                                function sendDataToServer() {
-                                                    $.ajax({
-                                                        url: 'EditQSClassURL',
-                                                        method: 'POST',
-                                                        data: {go: "add", selectedSetIds: selectedSetIds},
-                                                        success: function (response) {
-                                                            location.reload();
-                                                            console.log('Data sent successfully');
-                                                        },
-                                                        error: function (xhr, status, error) {
-                                                            console.error('Error sending data:', error);
-                                                        }
-                                                    });
+                                                var questionSets = document.querySelectorAll(".question-set");
+                                                questionSets.forEach(function (questionSet) {
+                                                    var setIdFromDiv = questionSet.getAttribute("data-setId");
+                                                    if (setIdFromDiv === setId) {
+                                                        exists = true;
+                                                        return;
+                                                    }
+                                                });
+
+                                                if (exists) {
+                                                    alert('Question Set is already in your class.');
+                                                    return;
                                                 }
+
+                                                selectedSetIds.push(setId);
+                                                console.log(selectedSetIds);
+                                                alert('Question Set has been saved.');
+                                                return;
+                                            }
+
+                                            function sendDataToServer() {
+                                                $.ajax({
+                                                    url: 'EditQSClassURL',
+                                                    method: 'POST',
+                                                    data: {go: "add", selectedSetIds: selectedSetIds},
+                                                    success: function (response) {
+                                                        location.reload();
+                                                        console.log('Data sent successfully');
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.error('Error sending data:', error);
+                                                    }
+                                                });
+                                            }
     </script>
 
 

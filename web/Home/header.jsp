@@ -9,22 +9,14 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
-    .profile-picture {
-        float: left;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #F1C40F;
-        display: flex;
-        margin-right: 10px;
-    }
-
     .role {
-        font-size: 12px;
-        opacity: 0.8;
+        font-size: 16px;
         font-weight: 300;
+        display: flex;
+        margin: 15px;
+        margin: 0;
+        color: yellow;
     }
-
 </style>
 
 <div class="header-container">
@@ -32,35 +24,37 @@
     <div class="navbar">
         <div class="bold">
             <a href="HomeController">
-               
-                <label style="cursor: pointer;">Back to Home</label>
+                <img src="${pageContext.request.contextPath}/assets/img/quiz.png" alt="alt" width="50px" style="margin: 10px"/>
+            </a>
+        </div>
+        <div class="bold" id="backToHome">
+            <a href="HomeController">
+                <label style="cursor: pointer;margin: 10px">Back To Home</label>
             </a>
         </div>
         <nav class="nav-header">
             <ul>
                 <li><a href="HomeController">HOME</a></li>
-                <c:if test="${acc != null}">
-                <li><a href="ClassJoinListURL">Class</a></li>
-                </c:if>
+                    <c:if test="${acc != null}">
+                    <li><a href="ClassJoinListURL">Class</a></li>
+                    </c:if>
                 <li><a href="QuestionSetURL">QUIZ</a></li>
             </ul>
         </nav>
         <div class="user-items">
             <%--<c:if test="${user != null}">--%>
             <c:if test="${acc != null}">
+                <span class="role"><c:choose>
+                        <c:when test="${acc.getRoleId() eq 1}">USER</c:when>
+                        <c:when test="${acc.getRoleId() eq 2}">DESIGNER</c:when>
+                        <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
+                        <%--<c:otherwise>UNKNOWN</c:otherwise>--%>
+                    </c:choose>
+                </span>
                 <div class="dropdown">
-                    <div class="profile-picture"></div>
                     <button class="dropbtn" onclick="toggleDropdown()">
                         Hi, ${acc.getUsername()}
                     </button>
-                    <br>
-                    <span class="role"><c:choose>
-                            <c:when test="${acc.getRoleId() eq 1}">USER</c:when>
-                            <c:when test="${acc.getRoleId() eq 2}">DESIGNER</c:when>
-                            <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
-                            <%--<c:otherwise>UNKNOWN</c:otherwise>--%>
-                        </c:choose>
-                    </span>
                     <div class="dropdown-content" id="myDropdown">
                         <a class="dropdown-item" href="UserController"><i class="fa-solid fa-user"></i>  Profile</a>
                         <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>

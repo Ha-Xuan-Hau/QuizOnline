@@ -27,7 +27,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sliderStyle3.css" />
 
         <style>
-
+            #backToHome {
+                display: none;
+            }
             .button a {
                 text-decoration: none;
                 border: 1px solid white;
