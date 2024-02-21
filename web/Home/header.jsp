@@ -55,9 +55,9 @@
                     </c:choose>
                 </span>
                 <div class="dropdown">
-                    <button class="dropbtn" onclick="toggleDropdown()">
+                    <button class="dropbtn" onclick="toggleDropdown()" style="background-color: #4257b4 ; color: yellow">
                         Hi, ${acc.getUsername()}
-                    </button>Ba
+                    </button>
                     <div class="dropdown-content" id="myDropdown">
                         <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
                         <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
