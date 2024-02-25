@@ -43,7 +43,7 @@ public class ControllerClassStudentList extends HttpServlet {
             ArrayList<User> StudentList = new ArrayList<>();
             studentIdlist = daoTC.getStudentIDbyClassID(classId);
             for (Integer studentIds : studentIdlist) {
-                int studentId = (int) studentIds;
+                int studentId = studentIds;
                 StudentList.add(daoU.getUserById(studentId));
             }
             request.setAttribute("StudentList", StudentList);

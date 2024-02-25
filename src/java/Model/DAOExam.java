@@ -185,4 +185,8 @@ public class DAOExam extends DBConnect {
         }
         return rs;
     }
+        public static void main(String[] args) {
+        DAOExam daoE = new DAOExam();
+            System.out.println(daoE.getExam("Select * from Exam where ClassId = " + 1));
+    }
 }

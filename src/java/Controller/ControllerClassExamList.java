@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import Entity.User;
+import Model.DAOExam;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
@@ -32,16 +36,15 @@ public class ControllerClassExamList extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControllerClassExamList</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControllerClassExamList at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String service = request.getParameter("go");
+            HttpSession session = request.getSession();
+            int classId = (int) Integer.parseInt(session.getAttribute("classId").toString());
+            User acc = (User) request.getSession().getAttribute("acc");
+            DAOExam daoE = new DAOExam();          
+            if (service == null) {
+                request.setAttribute("ExamList",daoE.getExam("Select * from Exam where ClassId = " + classId + "and TeacherAccountId = " + acc.getAccountId()));
+                request.getRequestDispatcher("/Class/classExamList.jsp").forward(request, response);               
+            }
         }
     }
 

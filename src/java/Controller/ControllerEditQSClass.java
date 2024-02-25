@@ -121,9 +121,7 @@ public class ControllerEditQSClass extends HttpServlet {
                     request.getRequestDispatcher("/Class/EditQuestionSetInClass.jsp").forward(request, response);
                 }
                 if (service.equals("add")) {
-                    String[] selectedSetIds = request.getParameterValues("selectedSetIds[]");
-                    ArrayList<Integer> setIdList = new ArrayList<>();
-                    if (selectedSetIds != null) {
+                    String[] selectedSetIds = request.getParameterValues("selectedSetIds[]");                    if (selectedSetIds != null) {
                         for (String setId : selectedSetIds) {
                             int setIdValue = Integer.parseInt(setId);
                             daoCQS.CreateClassQuestionSetById(classId, setIdValue);

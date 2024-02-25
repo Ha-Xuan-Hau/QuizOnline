@@ -24,13 +24,9 @@ public class DBConnect {
     Connection connection=null;
     public DBConnect(String url, String user, String pass) {
         try {
-            //call drive
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            //connect
+            //call drive            //connect
             connection=DriverManager.getConnection(url,user,pass);
             System.out.println("connected");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }

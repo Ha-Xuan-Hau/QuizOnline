@@ -12,7 +12,7 @@
 <%@ page import="Entity.Teacher" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -84,7 +84,7 @@
             <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
 
 
-            <a href="classExamList.jsp" target="_self">Exam</a>
+            <a href="ClassExamListURL" target="_self">Exam</a>
 
 
             <a href="" target="_self" class="current-page">People</a>

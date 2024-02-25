@@ -10,7 +10,7 @@
 <%@ page import="Entity.QuestionSet" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -127,7 +127,7 @@
             <a href="" target="_self" class="current-page">Practice</a>
 
 
-            <a href="classExamList.jsp" target="_self">Exam</a>
+            <a href="ClassExamListURL" target="_self">Exam</a>
 
             
             <a href="ClassStudentListURL" target="_self">People</a>

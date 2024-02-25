@@ -67,7 +67,7 @@
                         <c:if test="${acc.getRoleId() == '3'}">
                             <a class="dropdown-item admin-item" href="/admin"><i class="fa-solid fa-pen-to-square"></i> Manage Courses</a>
                         </c:if>
-                        <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
+                            <a class="dropdown-item" href="/logout" style="margin-bottom: 20px"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
                     </div>
                 </div>
             </c:if>

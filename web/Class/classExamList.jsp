@@ -10,7 +10,7 @@
 <%@ page import="Entity.QuestionSet" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -92,14 +92,19 @@
                 border-radius: 8px;
                 height: 70px;
             }
-
             .question-set-item h3 {
                 margin: 10px;
                 font-size: 20px;
                 color: #333;
                 line-height: 20px;
             }
-
+            .question-set-item h5 {
+                margin: 20px;
+                font-size: 15px;
+                color: #333;
+                line-height: 20px;
+                display: inline;
+            }            
             .question-set-item:hover a {
                 text-decoration: none;
             }
@@ -127,7 +132,7 @@
             <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
 
 
-            <a href="" target="_self">Exam</a>
+            <a href="" target="_self" class="current-page">Exam</a>
 
             
             <a href="ClassStudentListURL" target="_self">People</a>
@@ -135,21 +140,22 @@
         <ul class="question-set-list">
             <li>
                 <c:if test="${accId == teacher.getAccountId()}">
-                    <div class="question-set-item">
+                    <div class="question-set-item" style="">
                         <a style="display: flex;justify-content: center " href="EditQSClassURL">
                             <img src="${pageContext.request.contextPath}/Class/images/add.png" width="30px" style="margin: 10px" />                            
                         </a>
                     </div>
                 </c:if>    
             </li>
-            <c:forEach var="questionSet" items="${questionSetList}">
+            <c:forEach var="examList" items="${ExamList}">
                 <li>
-                    <div class="question-set-item">                     
-                        <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${questionSet.getSetId()}">
-                            <h3><img src="${pageContext.request.contextPath}/Class/images/studying.png" width="20px" style="margin-right: 30px ;flex-direction: row " />
-                                ${teacher.getTeacherName()} posted "${questionSet.getTitle()}"    
-                            </h3>      
-                        </a>
+                    <div class="question-set-item" style=" display: flex;">                     
+                            <h3 class="col-4"><img src="${pageContext.request.contextPath}/Class/images/exam-results.png" width="20px" style="margin-right: 30px ;flex-direction: row " />
+                              ${examList.getTitle()}      
+                            </h3>
+                            <h5 class="col-2">From ${examList.getStartDate().substring(0, 10)} To ${examList.getEndDate().substring(0, 10)}</h5>
+                            <h5 class="col-1">Score ${examList.getScore()}</h5>
+                            <h5 class="col-1">Time ${examList.getTimer()}</h5>
                     </div>
                 </li>
             </c:forEach>
