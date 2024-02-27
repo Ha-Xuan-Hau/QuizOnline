@@ -4,23 +4,20 @@
  */
 package Controller;
 
-import Entity.Content;
 import Entity.NormalQuestion;
 import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
+import Model.DAONormalQuestion;
+import Model.DAONormalQuestionAnswer;
 import Model.DAOQuestionSet;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  *
@@ -42,33 +39,90 @@ public class QuestionSetController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAOQuestionSet dao = new DAOQuestionSet();
+        DAONormalQuestion questionDAO = new DAONormalQuestion();
+        DAONormalQuestionAnswer answerDAO = new DAONormalQuestionAnswer();
         String service = request.getParameter("go");
         if (service == null) {
             service = "listAllSets";
         }
-        if(service.equals("listAllSets")){
+        if (service.equals("listAllSets")) {
             ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
             request.setAttribute("data", allQuesSet);
-            request.getRequestDispatcher("displayAllQuesSet.jsp").forward(request, response);
+            request.getRequestDispatcher("Question/displayAllQuesSet.jsp").forward(request, response);
         }
-        if (service.equals("setDetails")){
+        if (service.equals("setDetails")) {
+            ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
+            
             int setId = Integer.parseInt(request.getParameter("SetId"));
+
             ArrayList<NormalQuestion> Ques = dao.getQues(setId);
+
             ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+            request.setAttribute("data", allQuesSet);
             request.setAttribute("question", Ques);
             request.setAttribute("content", QuesAnswers);
-            request.getRequestDispatcher("setDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("Question/setDetail.jsp").forward(request, response);
         }
-        if(service.equals("add")){
-            String Title = request.getParameter("Title");
-            QuestionSet obj = new QuestionSet(Title);
-            dao.insertQuestion(obj);
-           response.sendRedirect("QuestionSetURL");
+        if (service.equals("addNewSet")) {
+            QuestionSet set = new QuestionSet("New Set", 1, 1, 0);
+            dao.insertQuestionSet(set);
+            QuestionSet setObj = dao.getNewest();
+            //    request.getRequestDispatcher("editSet.jsp").forward(request, response);
+            response.sendRedirect("EditQuestionSetURL?setId=" + setObj.getSetId());
         }
+        if (service.equals("addNewSetDetails")) {
+            String action = request.getParameter("submit");
+            if (action != null) {
+                int setId = Integer.parseInt(request.getParameter("setId"));
+                String title = request.getParameter("title");
+                int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
+                QuestionSet set = new QuestionSet(setId, title, 1, subjectId, 0);
+                dao.updateQuestionSet(set);
+                // lay cau hoi trong set
+                int index1 = questionDAO.getTotalQuestionInSet(setId);
+                for (int i = 0; i < index1; i++) {
+                    String question = request.getParameter("QuestionDetail" + i);
+                    int questionId = Integer.parseInt(request.getParameter("QuestionId" + i));
+
+                    NormalQuestion ques = new NormalQuestion(questionId, question, setId);
+                    questionDAO.update(ques);
+
+                    int index2 = answerDAO.getTotalAnswerOfQuestion(questionId);
+                    int correctCount = 0;
+                    for (int j = 0; j < index2; j++) {
+                        String isCorrect = request.getParameter("IsTrueAnswer" + i + "-" + j);
+                        if ("true".equals(isCorrect)) {
+                            correctCount++;
+                        }
+                    }
+                    float percentage = correctCount > 0 ? 100.0f / correctCount : 0.0f;
+
+                    for (int j = 0; j < index2; j++) {
+                        String answer = request.getParameter("AnswerDetail" + i + "-" + j);
+                        String isCorrect = request.getParameter("IsTrueAnswer" + i + "-" + j);
+                        String answerId = request.getParameter("AnswerId" + i + "-" + j);
+
+                        boolean correct = "true".equals(isCorrect);
+                        int id = Integer.parseInt(answerId);
+
+                        float percent = correct ? percentage : 0.0f;
+
+                        NormalQuestionAnswer quesAnswer = new NormalQuestionAnswer(id, questionId, answer, correct, percent);
+                        answerDAO.update(quesAnswer);
+                    }
+                }
+                response.sendRedirect("QuestionSetURL");
+            }
+        }
+        if (service.equals("deleteSet")) {
+            int setId = Integer.parseInt(request.getParameter("setId"));
+            dao.deleteQuestionSet(setId);
+            response.sendRedirect("QuestionSetURL");
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
