@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -7,6 +8,7 @@ package Controller;
 import Model.DAOAdmin;
 import Model.DAOStudent;
 import Model.DAOTeacher;
+
 import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -133,3 +135,4 @@ public class UpdateProfileByAdm extends HttpServlet {
     }// </editor-fold>
 
 }
+

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="Entity.User" %>
@@ -671,6 +672,7 @@
         $('#myToast').toast('hide');
     }, 6000); // 2 giây
 </script>
+
 
 
 
