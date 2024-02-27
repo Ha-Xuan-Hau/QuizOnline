@@ -5,8 +5,8 @@
 --%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import= "Entity.QuesContent"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import= "Entity.QuestionSet"%>
 <!DOCTYPE html>
 <style>
     li {
@@ -15,16 +15,17 @@
 
 </style>
 <html>
-
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-    </head>
 
-<style>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
+
+    </head>
+    <style>
         body {
             font-family: 'Arial', sans-serif;
-            margin: 20px;
+            /*            margin: 20px;*/
             text-align: center;
         }
 
@@ -70,9 +71,19 @@
     </style>
 </head>
 <body>
+    <%@include file="/Home/header.jsp" %> 
     <!-- Your existing HTML content -->
-    <h1>Set Details</h1>
-    <a href="importQues.jsp" style="color: #007BFF; text-decoration: none; font-weight: bold;">Import Question</a>
+    <h1>Set Details</h1>&nbsp; &nbsp; 
+
+
+        
+        <%
+        String go = request.getParameter("SetId");
+        if(go.length()!=0){
+        %><a href="FlashCardURL?go=flashCard&SetId=<%=go%>">FLASHCARD</a><%
+            }
+        %>
+
     <table border="1">
         <tr>
             <th>Question</th>
@@ -85,13 +96,13 @@
                     <ul>
                         <c:forEach items="${content[status.index]}" var="answer">
                             <li>${answer.getContent()}</li>
-                        </c:forEach>
+                            </c:forEach>
                         <li class="Result">Result</li>
-                        <c:forEach items="${content[status.index]}" var="answer">
-                            <c:if test="${answer.isCorrect() == true}">
+                            <c:forEach items="${content[status.index]}" var="answer">
+                                <c:if test="${answer.isCorrect() == true}">
                                 <li class="Correct">${answer.getContent()}</li>
-                            </c:if>
-                        </c:forEach>
+                                </c:if>
+                            </c:forEach>
                     </ul>
                 </td>
             </tr>
