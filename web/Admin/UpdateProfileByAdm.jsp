@@ -45,8 +45,9 @@
         <div class="container-xl px-4 mt-4">
             <!-- Account page navigation-->
             <nav class="nav nav-borders">
-                <a class="nav-link active ms-0"
-                   href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Profile</a>
+                <p>
+                    <a class="back_home-detail" href="HomeController" style="color: black;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
+                </p>
             </nav>
             <hr class="mt-0 mb-4">
             <div class="row">
@@ -56,8 +57,18 @@
                         <div class="card-header">Profile Picture</div>
                         <div class="card-body text-center">
                             <!-- Profile picture image-->
-                            <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                                 alt="">
+                            <c:if test="${data['RoleId'] == 1}">
+                                <img class="img-account-profile rounded-circle mb-2" src="https://img.freepik.com/premium-vector/avatar-graduate-student-icon-vector-illustration-flat-style-isolated-white_647193-1752.jpg"
+                                     style="width: 315px; height: 315px;"  alt="">
+                            </c:if>
+                            <c:if test="${data['RoleId'] == 2}">
+                                <img class="img-account-profile rounded-circle mb-2" src="https://cdn1.iconfinder.com/data/icons/flat-education-icons-1/512/37-512.png"
+                                     style="width: 315px; height: 315px;"  alt="">
+                            </c:if>
+                            <c:if test="${data['RoleId'] == 3}">
+                                <img class="img-account-profile rounded-circle mb-2" src="https://cdn4.iconfinder.com/data/icons/web-design-and-development-1-7/64/25-512.png"
+                                     style="width: 315px; height: 315px;"  alt="">
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -81,8 +92,8 @@
                                     <span class="form-message text-danger" id="username-error"></span>
                                 </div>
                                 <!-- Admin -->
-                                
-                                <c:if test="${data['RoleId'] == 1}">
+
+                                <c:if test="${data['RoleId'] == 3}">
                                     <div class="mb-3">
                                         <label class="small mb-1" >Name</label>
                                         <input class="form-control" id="inputAdminName" type="text" placeholder=""
@@ -101,7 +112,7 @@
 
                                 </c:if>
                                 <!-- Student -->
-                                <c:if test="${data['RoleId'] == 3}">
+                                <c:if test="${data['RoleId'] == 1}">
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputStudentName"> Name</label>
                                         <input class="form-control" id="inputStudentName" type="text" placeholder=""
@@ -147,20 +158,20 @@
                                         <select class="form-control" id="roleSelect" name="roleId" required>
                                             <option value="">Select</option>
                                             <c:choose>
-                                                <c:when test="${data['RoleId'] == 3}">
-                                                    <option value="1" >Admin</option>
+                                                <c:when test="${data['RoleId'] == 1}">
+                                                    <option value="3" >Admin</option>
                                                     <option value="2" >Teacher</option>
-                                                    <option value="3" selected>Student</option>
+                                                    <option value="1" selected>Student</option>
                                                 </c:when>
                                                 <c:when test="${data['RoleId'] == 2}">
-                                                    <option value="1" >Admin</option>
+                                                    <option value="3" >Admin</option>
                                                     <option value="2" selected>Teacher</option>
-                                                    <option value="3" >Student</option>
+                                                    <option value="1" >Student</option>
                                                 </c:when>
-                                                <c:when test="${data['RoleId'] == 1}">
-                                                    <option value="1" selected>Admin</option>
+                                                <c:when test="${data['RoleId'] == 3}">
+                                                    <option value="3" selected>Admin</option>
                                                     <option value="2" >Teacher</option>
-                                                    <option value="3" >Student</option>
+                                                    <option value="1" >Student</option>
                                                 </c:when>
                                             </c:choose>
                                         </select>
@@ -200,47 +211,55 @@
             </div>
         </div>
     </body>
+
     <script>
         function validateForm() {
-            var isValid = true; 
+            // Reset error messages
+            document.getElementById('username-error').innerText = "";
+            document.getElementById('phone-error').innerText = "";
+            document.getElementById('password-error').innerText = "";
+
+            // Get values of username, phone, and password fields
             var username = document.getElementById('inputUsername').value;
-            var dobInput = document.getElementById('inputDob').value;
-            var phoneNumber = document.getElementById('inputPhone').value;
+            var phone = document.getElementById('inputPhone').value;
             var password = document.getElementById('ipnPassword').value;
+
+            // Regular expressions for special characters and password length check
             var specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
-            var phoneRegex = /^\d{10}$/;
+            var passwordLengthRegex = /^.{8,32}$/; // Regex for password length between 8 and 32 characters
+
+            // Variable to track if any validation errors occurred
+            var hasErrors = false;
+
+            // Check if the username contains special characters
             if (specialCharacters.test(username)) {
                 document.getElementById('username-error').innerText = "Username cannot contain special characters";
-                isValid = false;
-            } else {
-                document.getElementById('username-error').innerText = "";
-            }
-            var dobDate = new Date(dobInput);
-            var currentDate = new Date();
-            if (dobDate > currentDate) {
-                document.getElementById('dob-error').innerText = "Date of birth cannot be in the future";
-                isValid = false;
-            } else {
-                document.getElementById('dob-error').innerText = "";
-            }
-            if (!phoneRegex.test(phoneNumber)) {
-                document.getElementById('phone-error').innerText = "Phone number must be 10 digits";
-                isValid = false;
-            } else {
-                document.getElementById('phone-error').innerText = "";
-            }
-            if (password.length < 8 || password.length > 32) {
-                document.getElementById('password-error').innerText = "Password must be between 8 and 32 characters";
-                isValid = false;
-            } else {
-                document.getElementById('password-error').innerText = "";
+                hasErrors = true;
             }
 
-            return isValid; 
+            // Check if the phone number is not exactly 10 digits
+            if (!/^\d{10}$/.test(phone)) {
+                document.getElementById('phone-error').innerText = "Phone number must be exactly 10 digits";
+                hasErrors = true;
+            }
+
+            // Check if the password length is within the specified range
+            if (!passwordLengthRegex.test(password)) {
+                document.getElementById('password-error').innerText = "Password must be between 8 and 32 characters";
+                hasErrors = true;
+            }
+
+            // If any validation errors occurred, prevent form submission
+            if (hasErrors) {
+                return false;
+            }
+
+            // If all validations pass, allow form submission
+            return true;
         }
 
-
     </script>
+
 
 
 </html>

@@ -337,7 +337,7 @@
     <div class="container-xl">
         <div class="table-responsive">
             <div class="table-wrapper">
-                <div class="table-title" style="background-color: #1C1E53;">
+                <div class="table-title" style="background-color:  #4257B4;">
                     <div class="row">
                         <div class="col-sm-6">
                              <p>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New Setting</span></a>
-                            <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>						
+                            					
                         </div>
                     </div>
                 </div>

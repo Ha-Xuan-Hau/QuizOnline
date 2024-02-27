@@ -329,17 +329,17 @@
     <div class="container-xl">
         <div class="table-responsive">
             <div class="table-wrapper">
-                <div class="table-title" style="background-color:  #1C1E53;">
+                <div class="table-title" style="background-color:  #4257B4;">
                     <div class="row">
                         <div class="col-sm-6">
                             <p>
                                 <a class="back_home-detail" href="HomeController" style="color: white;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                             </p>
-                            <a href="ManagerUserURL" style="color: white;"> <h2>User <b>Management</b></h2></a>
+                            <a href="ManagerUserURL" style="color: white;"> <h2>User <b>List</b></h2></a>
                         </div>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                            <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>						
+                            						
                         </div>
                     </div>
                 </div>
@@ -451,9 +451,9 @@
                                 <label for="roleDropdown">Role</label>
                                 <select id="roleDropdown" name="role">
                                     <option value="all" <% if ("all".equals(request.getParameter("role"))) { %> selected <% } %>>All</option>
-                                    <option value="1" <% if ("1".equals(request.getParameter("role"))) { %> selected <% } %>>Admin</option>
+                                    <option value="3" <% if ("3".equals(request.getParameter("role"))) { %> selected <% } %>>Admin</option>
                                     <option value="2" <% if ("2".equals(request.getParameter("role"))) { %> selected <% } %>>Teacher</option>
-                                    <option value="3" <% if ("3".equals(request.getParameter("role"))) { %> selected <% } %>>Student</option>
+                                    <option value="1" <% if ("1".equals(request.getParameter("role"))) { %> selected <% } %>>Student</option>
                                 </select>
                             </div>
                         </div>
@@ -504,13 +504,13 @@
                                     <td>${user['Phone']}</td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${user['RoleId'] == 1}">
+                                            <c:when test="${user['RoleId'] == 3}">
                                                 Admin
                                             </c:when>
                                             <c:when test="${user['RoleId'] == 2}">
                                                 Teacher
                                             </c:when>
-                                            <c:when test="${user['RoleId'] == 3}">
+                                            <c:when test="${user['RoleId'] == 1}">
                                                 Student
                                             </c:when>
                                         </c:choose>

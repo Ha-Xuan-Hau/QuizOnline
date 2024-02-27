@@ -48,8 +48,8 @@
             <%--<c:if test="${user != null}">--%>
             <c:if test="${acc != null}">
                 <span class="role"><c:choose>
-                        <c:when test="${acc.getRoleId() eq 1}">USER</c:when>
-                        <c:when test="${acc.getRoleId() eq 2}">DESIGNER</c:when>
+                        <c:when test="${acc.getRoleId() eq 1}">STUDENT</c:when>
+                        <c:when test="${acc.getRoleId() eq 2}">TEACHER</c:when>
                         <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
                         <%--<c:otherwise>UNKNOWN</c:otherwise>--%>
                     </c:choose>
@@ -60,14 +60,12 @@
                     </button>
                     <div class="dropdown-content" id="myDropdown">
                         <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
-                        <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
-                        <c:if test="${acc.getRoleId() == '1'}">
-                            <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i>Manager User</a>
-                             <a class="dropdown-item admin-item" href="/QuizzesOnline/SettingControllerURL"><i class="fa-solid fa-pen-to-square"></i> Setting List</a>
-                        </c:if>
+                       
                         <c:if test="${acc.getRoleId() == '3'}">
-                            <a class="dropdown-item admin-item" href="/admin"><i class="fa-solid fa-pen-to-square"></i> Manage Courses</a>
+                            <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i>Manager User</a>
+                             <a class="dropdown-item admin-item" href="/QuizzesOnline/SettingControllerURL"><i class="fa-solid fa-gear"></i> Setting List</a>
                         </c:if>
+                        
                         <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
                     </div>
                 </div>
