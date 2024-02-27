@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -36,6 +37,7 @@ public class AddUserByAdmin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            String error = "";
             DAOUser daoU = new DAOUser();
             DAOAdmin daoA = new DAOAdmin();
             DAOTeacher daoT = new DAOTeacher();
@@ -50,11 +52,22 @@ public class AddUserByAdmin extends HttpServlet {
             String studentName = request.getParameter("studentName");
             String studentDOB = request.getParameter("studentDOB");
             String statusParam = request.getParameter("status");
-            boolean status = Boolean.parseBoolean(statusParam);
+            int status = Integer.parseInt(statusParam);
 
-         int AccountId= daoU.insertUserAndGetAccountId(username, email, password, roleId, status);
-         daoA.insertAdmin(AccountId, adminName, phone);
-          
+            if (daoU.emailCheck(email) || daoU.usernameExists(username)) {
+                HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Cannot add Username or Email already exists.");
+
+            }else
+            {
+                int AccountId = daoU.insertUserAndGetAccountId(username, email, password, roleId, status);
+                daoA.insertAdmin(AccountId, adminName, phone);
+                daoT.insertTeacher(AccountId, teacherName, phone);
+                daoS.insertStudent(AccountId, studentName, phone, studentDOB);
+            }
+            
             response.sendRedirect("ManagerUserURL");
         }
     }

@@ -20,6 +20,25 @@ import java.util.logging.Logger;
  */
 public class DAOTeacher extends DBConnect {
 
+    public void updateTeacher(int accountId, String teacherName, String phone) {
+        try {
+            String sql = "UPDATE [dbo].[Teacher]\n"
+                    + "SET \n"
+                    + "    [TeacherName] = ?,\n"
+                    + "    [Phone] = ?\n"
+                    + "WHERE AccountId = ?;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, teacherName);
+            stm.setString(2, phone);
+            stm.setInt(3, accountId);
+
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void insertTeacher(int accountId, String teacherName, String phone) {
         try {
             String sql = "INSERT INTO [dbo].[Teacher] ([AccountId], [TeacherName], [Phone]) VALUES (?, ?, ?)";
@@ -175,6 +194,7 @@ public class DAOTeacher extends DBConnect {
                 return obj;
             }
         } catch (Exception e) {
+//             e.printStackTrace();
         }
         return null;
     }

@@ -59,7 +59,41 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public int insertUserAndGetAccountId(String username, String email, String password, int roleId, boolean status) {
+    public int updateUserAndGetAccountId(int accountId, String username, String email, String password, int roleId, int isActive) {
+        try {
+            String sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, email);
+            stm.setString(3, password);
+            stm.setInt(4, roleId);
+            stm.setInt(5, isActive);
+            stm.setInt(6, accountId);
+            stm.executeUpdate();
+            return accountId;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+
+    public int updateUserAndGetAccountId(int accountId, String username, String email, String password) {
+        try {
+            String sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ? WHERE [AccountId] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, email);
+            stm.setString(3, password);
+            stm.setInt(4, accountId);
+            stm.executeUpdate();
+            return accountId;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+
+    public int insertUserAndGetAccountId(String username, String email, String password, int roleId, int isActive) {
         int accountId = -1;
         try {
             String sql = "INSERT INTO [User] ([Username], [Email], [Password], [RoleId], [IsActive]) VALUES (?, ?, ?, ?, ?)";
@@ -68,7 +102,7 @@ public class DAOUser extends DBConnect {
             stm.setString(2, email);
             stm.setString(3, password);
             stm.setInt(4, roleId);
-            stm.setBoolean(5, status);
+            stm.setInt(5, isActive);
             stm.executeUpdate();
 
             ResultSet generatedKeys = stm.getGeneratedKeys();
@@ -97,11 +131,11 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public User getUserById(int AccountId) {
+    public User getUserById(int accountId) {
         try {
             String sql = "select *from [User] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId);
+            stm.setInt(1, accountId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getBoolean(6));
@@ -180,6 +214,24 @@ public class DAOUser extends DBConnect {
         }
         return t;
     }
+
+    public boolean usernameExists(String username) {
+    boolean result = false;
+    try {
+        String sql = "SELECT * FROM [User] WHERE Username=?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            result = true; // Tên người dùng đã tồn tại trong cơ sở dữ liệu
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return result;
+}
 
     public boolean emailCheck(String email) {
         boolean result = false;
@@ -692,6 +744,11 @@ public class DAOUser extends DBConnect {
         return userList;
     }
 
+    public boolean isUserSearchResultEmpty(String keyword, int page, int pageSize) {
+        List<Map<String, Object>> userList = searchUsersWithPagination(keyword, page, pageSize);
+        return userList.isEmpty();
+    }
+
     public int getTotalUser() {
         try {
             String sql = "SELECT COUNT(u.AccountId) FROM [User] u";
@@ -756,16 +813,18 @@ public class DAOUser extends DBConnect {
         return total;
     }
 
-    public HashMap<String, Object> getUserByIdd(int accountId) {
+    public HashMap<String, Object> getUserByIdd(int AccountId) {
         try {
-            String sql = "SELECT u.AccountId, u.Username, u.Email, COALESCE(s.Phone, t.Phone, a.Phone) AS Phone, s.Dob AS Dob, u.RoleId, u.IsActive "
+            String sql = "SELECT u.AccountId, u.Username, u.Email, COALESCE(s.Phone, t.Phone, a.Phone) AS Phone, s.Dob AS Dob, "
+                    + "s.StudentName, t.TeacherName, a.AdminName, "
+                    + "u.RoleId, u.IsActive, u.Password "
                     + "FROM [User] AS u "
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
                     + "WHERE u.AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, accountId);
+            stm.setInt(1, AccountId);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 HashMap<String, Object> userMap = new HashMap<>();
@@ -774,8 +833,12 @@ public class DAOUser extends DBConnect {
                 userMap.put("Email", rs.getString("Email"));
                 userMap.put("Phone", rs.getString("Phone"));
                 userMap.put("Dob", rs.getDate("Dob")); // Đảm bảo cột "Dob" là kiểu ngày trong cơ sở dữ liệu
+                userMap.put("StudentName", rs.getString("StudentName"));
+                userMap.put("TeacherName", rs.getString("TeacherName"));
+                userMap.put("AdminName", rs.getString("AdminName"));
                 userMap.put("RoleId", rs.getInt("RoleId"));
                 userMap.put("IsActive", rs.getBoolean("IsActive"));
+                userMap.put("Password", rs.getString("Password")); // Lấy password
                 return userMap;
             }
         } catch (Exception e) {
@@ -794,20 +857,22 @@ public class DAOUser extends DBConnect {
 //        }
 //        User u = dao.getUserById(1);
 //        System.out.println(u);
-        Map<String, Object> user = dao.getUserByIdd(3);
-        if (user != null) {
-            System.out.println("AccountId: " + user.get("AccountId"));
-            System.out.println("Username: " + user.get("Username"));
-            System.out.println("Email: " + user.get("Email"));
-            System.out.println("Phone: " + user.get("Phone"));
-            System.out.println("RoleId: " + user.get("RoleId"));
-            System.out.println("Dob: " + user.get("Dob"));
-            System.out.println("IsActive: " + user.get("IsActive"));
-            System.out.println();
-        } else {
-            System.out.println("User not found!");
-        }
-        
+        int accountId = dao.insertUserAndGetAccountId("testUser", "test@example.com", "testPassword", 1, 1);
+        System.out.println("Account ID: " + accountId);
+
+//        if (user != null) {
+//            System.out.println("AccountId: " + user.get("AccountId"));
+//            System.out.println("Username: " + user.get("Username"));
+//            System.out.println("Email: " + user.get("Email"));
+//            System.out.println("Phone: " + user.get("Phone"));
+//            System.out.println("RoleId: " + user.get("RoleId"));
+//            System.out.println("Dob: " + user.get("Dob"));
+//            System.out.println("IsActive: " + user.get("IsActive"));
+//            System.out.println();
+//        } else {
+//            System.out.println("User not found!");
+//        }
+        dao.deleteUser(15);
     }
 
 }

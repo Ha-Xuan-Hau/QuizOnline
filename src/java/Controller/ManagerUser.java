@@ -46,7 +46,7 @@ public class ManagerUser extends HttpServlet {
             DAOUser dao = new DAOUser();
            
             
-            final int PAGE_SIZE = 3;
+            final int PAGE_SIZE = 8;
             //phân trang
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -103,7 +103,7 @@ public class ManagerUser extends HttpServlet {
         DAOUser dao = new DAOUser();
         String status = request.getParameter("status");
         String role = request.getParameter("role");
-        String txtSearch = request.getParameter("txtSearch");
+        
 
         if ("all".equals(status) && "all".equals(role)) {
             List<Map<String, Object>> userList = dao.getAllUsers();

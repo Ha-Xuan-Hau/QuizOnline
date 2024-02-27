@@ -35,6 +35,27 @@ public class DAOStudent extends DBConnect {
         }
     }
 
+    public void updateStudent(int accountId, String studentName, String phone, String dob) {
+        try {
+            String sql = "UPDATE [dbo].[Student]\n"
+                    + "SET \n"
+                    + "    [StudentName] = ?,\n"
+                    + "    [Phone] = ?,\n"
+                    + "    [DoB] = ?\n"
+                    + "WHERE AccountId = ?;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, studentName);
+            stm.setString(2, phone);
+            stm.setString(3, dob);
+            stm.setInt(4, accountId);
+
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public int CreateStudent(Student obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[Student]\n"

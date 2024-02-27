@@ -67,7 +67,8 @@ public class RegisterController extends HttpServlet {
                 if (dao.emailCheck(email)) {
                     error += "Email provided is already registered!";
                     request.getSession().setAttribute("Email_DUP", error);
-                } if(dao.usernameCheck(username)) {
+                } 
+                if(dao.usernameCheck(username)) {
                     error += "\nUsername provided is already registered!";
                     request.getSession().setAttribute("Email_DUP", error);
                 }

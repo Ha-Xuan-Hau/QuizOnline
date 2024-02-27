@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +56,19 @@ public class SearchUserByAD extends HttpServlet {
             if (page > totalPage) {
                 page = totalPage;
             }
-            List<Map<String, Object>> userListS = dao.searchUsersWithPagination(txt, page, PAGE_SIZE);
-            request.setAttribute("data", userListS);
+            
+            if(!dao.isUserSearchResultEmpty(txt, page, PAGE_SIZE)){
+                 List<Map<String, Object>> userListS = dao.searchUsersWithPagination(txt, page, PAGE_SIZE);
+                 request.setAttribute("data", userListS);
+            }else{
+                 HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messageeee", "Not Found!!!!!");
+            }
+            
+            
+            
             request.setAttribute("page", page);
             request.setAttribute("txt", txt);
             request.setAttribute("totalPage", totalPage);

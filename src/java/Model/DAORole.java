@@ -41,6 +41,43 @@ public class DAORole extends DBConnect {
 
     }
 
+    public boolean checkRoleExists(int roleId) {
+        boolean exists = false;
+        try {
+            String sql = "SELECT COUNT(*) AS count FROM [dbo].[Role] WHERE RoleId = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleId);
+
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                if (count > 0) {
+                    exists = true;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAORole.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exists;
+    }
+
+    public void insertRole(int roleId, String roleName) {
+        try {
+            String sql = "INSERT INTO [dbo].[Role]\n"
+                    + "           ([RoleId]\n"
+                    + "           ,[Role])\n"
+                    + "     VALUES\n"
+                    + "           (?,?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleId);
+            stm.setString(2, roleName);
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAORole.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void insertRole(Role rl) {
         try {
             String sql = "INSERT INTO [dbo].[Role]\n"
@@ -93,6 +130,18 @@ public class DAORole extends DBConnect {
 
     }
 
+    public void deleteRole(int roleId) {
+        try {
+            String sql = "DELETE FROM [dbo].[Role] WHERE [RoleId] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleId);
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAORole.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void deleteAdmin(int RoleId) {
         try {
             String sql = "DELETE FROM [dbo].[Role]\n"
@@ -104,5 +153,18 @@ public class DAORole extends DBConnect {
         } catch (Exception e) {
         }
 
+    }
+
+    public static void main(String[] args) {
+        DAORole dao = new DAORole();
+      boolean exists = dao.checkRoleExists(4);
+      int roleIdToCheck = 1; // Id bạn muốn kiểm tra
+        
+        // In ra kết quả
+        if (exists) {
+            System.out.println("Role with roleId " + roleIdToCheck + " exists.");
+        } else {
+            System.out.println("Role with roleId " + roleIdToCheck + " does not exist.");
+        }
     }
 }
