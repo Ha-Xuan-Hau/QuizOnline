@@ -68,6 +68,7 @@ public class SearchSubject extends HttpServlet {
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("SubNav", listSub);
             request.setAttribute("Blog", listBlog);
+            request.setAttribute("page", page);
             request.setAttribute("url", "SearchSubject?SubjectId=" + SubjectId + "&");
             request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);
           

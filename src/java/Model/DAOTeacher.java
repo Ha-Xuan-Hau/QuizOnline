@@ -20,6 +20,39 @@ import java.util.logging.Logger;
  */
 public class DAOTeacher extends DBConnect {
 
+    public void updateTeacher(int accountId, String teacherName, String phone) {
+        try {
+            String sql = "UPDATE [dbo].[Teacher]\n"
+                    + "SET \n"
+                    + "    [TeacherName] = ?,\n"
+                    + "    [Phone] = ?\n"
+                    + "WHERE AccountId = ?;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, teacherName);
+            stm.setString(2, phone);
+            stm.setInt(3, accountId);
+
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void insertTeacher(int accountId, String teacherName, String phone) {
+        try {
+            String sql = "INSERT INTO [dbo].[Teacher] ([AccountId], [TeacherName], [Phone]) VALUES (?, ?, ?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, accountId);
+            stm.setString(2, teacherName);
+            stm.setString(3, phone);
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOTeacher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public int insertTeacher(Teacher obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[Teacher]([AccountId], [TeacherName], [phone])\n"
@@ -94,8 +127,8 @@ public class DAOTeacher extends DBConnect {
         }
         return n;
     }
-    
-    public ArrayList<Teacher> getTeacher(String sql){
+
+    public ArrayList<Teacher> getTeacher(String sql) {
         ArrayList<Teacher> list = new ArrayList<Teacher>();
         Statement statement = null;
         ResultSet rs = null;
@@ -107,7 +140,7 @@ public class DAOTeacher extends DBConnect {
             while (rs.next()) {
                 int accountId = rs.getInt("AccountId");
                 String name = rs.getString("TeacherName");
-                String phone = rs.getString("Phone");           
+                String phone = rs.getString("Phone");
                 Teacher obj = new Teacher(accountId, name, phone);
                 list.add(obj);
             }
@@ -131,7 +164,8 @@ public class DAOTeacher extends DBConnect {
         }
         return list;
     }
-        public ResultSet getTeacherDB(String sql) {
+
+    public ResultSet getTeacherDB(String sql) {
         ResultSet rs = null;
         Statement state;
         try {
@@ -144,10 +178,10 @@ public class DAOTeacher extends DBConnect {
         }
         return rs;
     }
-        
-        public Teacher getTeacherByAccountId(int accountId) {
-    String sql = "SELECT * FROM Teacher WHERE AccountId = ?";
-       try {
+
+    public Teacher getTeacherByAccountId(int accountId) {
+        String sql = "SELECT * FROM Teacher WHERE AccountId = ?";
+        try {
 
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, accountId);
@@ -160,8 +194,9 @@ public class DAOTeacher extends DBConnect {
                 return obj;
             }
         } catch (Exception e) {
+//             e.printStackTrace();
         }
         return null;
     }
-    
+
 }

@@ -4,10 +4,6 @@
  */
 package Controller;
 
-import Entity.Student;
-import Entity.Teacher;
-import Entity.User;
-import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,20 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Asus
+ * @author phamg
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "ControllerClassExamList", urlPatterns = {"/ClassExamListURL"})
+public class ControllerClassExamList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +36,10 @@ public class UserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserController</title>");
+            out.println("<title>Servlet ControllerClassExamList</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ControllerClassExamList at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,12 +57,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOUser dao = new DAOUser();
-        List<Map<String, Object>> userListP = dao.getAllUsers();
-        request.setAttribute("data", userListP);
-
-        request.getRequestDispatcher("/Profile/listUser.jsp").forward(request, response);
-
+        processRequest(request, response);
     }
 
     /**

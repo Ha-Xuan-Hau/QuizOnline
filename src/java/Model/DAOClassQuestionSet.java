@@ -37,6 +37,23 @@ public class DAOClassQuestionSet extends DBConnect {
         return n;
     }
 
+    public int CreateClassQuestionSetById(int ClassId, int SetId) {
+        int n = 0;
+        String sql = "INSERT INTO [dbo].[ClassQuestionSet]\n"
+                + "           ([ClassId]\n"
+                + "           ,[SetId])\n"
+                + "     VALUES(?,?)";
+
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, ClassId);
+            pre.setInt(2, SetId);
+            n = pre.executeUpdate();
+        } catch (Exception e) {
+        }
+        return n;
+    }
+
     public int UpdateClassQuestionSet(ClassQuestionSet obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[ClassQuestionSet]\n"
@@ -62,6 +79,31 @@ public class DAOClassQuestionSet extends DBConnect {
             pre.setInt(1, id);
             n = pre.executeUpdate();
         } catch (Exception e) {
+        }
+        return n;
+    }
+
+    public int DeleteQuestionSet(int id, int classId) {
+        int n = 0;
+        String sql = "delete from ClassQuestionSet where SetId = ? and ClassId = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, id);
+            pre.setInt(2, classId);
+            n = pre.executeUpdate();
+        } catch (SQLException e) {
+        }
+        return n;
+    }
+
+    public int DeleteQuestionSetInClass(int classId) {
+        int n = 0;
+        String sql = "delete from ClassQuestionSet where ClassId = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, classId);
+            n = pre.executeUpdate();
+        } catch (SQLException e) {
         }
         return n;
     }
@@ -105,28 +147,29 @@ public class DAOClassQuestionSet extends DBConnect {
         }
         return vector;
     }
-    public ArrayList<Integer> getSetIdbyClassId(int classId) {
-    ArrayList<Integer> setIdList = new ArrayList<>();
-    String sql = "SELECT SetId FROM ClassQuestionSet WHERE ClassId = ?";
-    
-    try {
-        PreparedStatement pre = connection.prepareStatement(sql);
-        pre.setInt(1, classId);
-        ResultSet rs = pre.executeQuery();
 
-        while (rs.next()) {
-            int setId = rs.getInt("SetId");
-            setIdList.add(setId);
+    public ArrayList<Integer> getSetIdbyClassId(int classId) {
+        ArrayList<Integer> setIdList = new ArrayList<>();
+        String sql = "SELECT SetId FROM ClassQuestionSet WHERE ClassId = ?";
+
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, classId);
+            ResultSet rs = pre.executeQuery();
+
+            while (rs.next()) {
+                int setId = rs.getInt("SetId");
+                setIdList.add(setId);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOClassQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (SQLException ex) {
-        Logger.getLogger(DAOClassQuestionSet.class.getName()).log(Level.SEVERE, null, ex);
+
+        return setIdList;
     }
 
-    return setIdList;
-}
-
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         DAOClassQuestionSet dao = new DAOClassQuestionSet();
-        System.out.println(dao.getSetIdbyClassId(1));
+        System.out.println(dao.DeleteQuestionSet(6, 1));
     }
 }

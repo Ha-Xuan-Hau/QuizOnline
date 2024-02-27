@@ -4,10 +4,8 @@
  */
 package Controller;
 
-import Entity.Student;
-import Entity.Teacher;
-import Entity.User;
-import Model.DAOUser;
+import Model.DAORole;
+import Model.DAOSubject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,20 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Asus
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "AddNewSetting", urlPatterns = {"/AddSettingURL"})
+public class AddNewSetting extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +39,10 @@ public class UserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserController</title>");
+            out.println("<title>Servlet AddNewSetting</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddNewSetting at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,11 +60,48 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOUser dao = new DAOUser();
-        List<Map<String, Object>> userListP = dao.getAllUsers();
-        request.setAttribute("data", userListP);
+        DAORole daoR = new DAORole();
+        DAOSubject daoS = new DAOSubject();
+        String name = request.getParameter("name");
+        String type = request.getParameter("typeId");
+        String idParam = request.getParameter("id");
+        int id = -1;
 
-        request.getRequestDispatcher("/Profile/listUser.jsp").forward(request, response);
+        if (idParam != null && !idParam.isEmpty()) {
+            id = Integer.parseInt(idParam);
+        }
+
+        String subjectCode = request.getParameter("subjectCode");
+
+        if ("role".equals(type)) {
+            if ((daoR.checkRoleExists(id))) {
+                HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Role with roleId " + id + " already exists.");
+            } else {
+                daoR.insertRole(id, name);
+
+                HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Added successfully");
+            }
+        } else if ("subject".equals(type)) {
+            if (daoS.checkSubjectCodeExistence(subjectCode)) {
+                HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Subject Code " + name + " already exists.");
+            } else {
+                HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Added successfully");
+                daoS.insertSubject(subjectCode, name);
+            }
+        }
+        response.sendRedirect("SettingControllerURL");
 
     }
 

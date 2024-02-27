@@ -124,10 +124,10 @@
         <!-- End Header sesion-->       
         <div class="select_class">
 
-            <a href="" target="_self" class="current-page">Practice</a>
+            <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
 
 
-            <a href="classExamList.jsp" target="_self">Exam</a>
+            <a href="" target="_self">Exam</a>
 
             
             <a href="ClassStudentListURL" target="_self">People</a>

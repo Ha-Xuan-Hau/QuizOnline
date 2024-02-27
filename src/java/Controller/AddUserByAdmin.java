@@ -4,9 +4,9 @@
  */
 package Controller;
 
-import Entity.Student;
-import Entity.Teacher;
-import Entity.User;
+import Model.DAOAdmin;
+import Model.DAOStudent;
+import Model.DAOTeacher;
 import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,20 +15,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Asus
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "AddUserByAdmin", urlPatterns = {"/AddUserURL"})
+public class AddUserByAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,16 +37,42 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String error = "";
+            DAOUser daoU = new DAOUser();
+            DAOAdmin daoA = new DAOAdmin();
+            DAOTeacher daoT = new DAOTeacher();
+            DAOStudent daoS = new DAOStudent();
+            String username = request.getParameter("username");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String phone = request.getParameter("phone");
+            int roleId = Integer.parseInt(request.getParameter("roleId"));
+            String adminName = request.getParameter("adminName");
+            String teacherName = request.getParameter("teacherName");
+            String studentName = request.getParameter("studentName");
+            String studentDOB = request.getParameter("studentDOB");
+            String statusParam = request.getParameter("status");
+            int status = Integer.parseInt(statusParam);
+
+            if (daoU.emailCheck(email) || daoU.usernameExists(username)) {
+                HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Cannot add Username or Email already exists.");
+
+            }else
+            {
+                int AccountId = daoU.insertUserAndGetAccountId(username, email, password, roleId, status);
+                daoA.insertAdmin(AccountId, adminName, phone);
+                daoT.insertTeacher(AccountId, teacherName, phone);
+                daoS.insertStudent(AccountId, studentName, phone, studentDOB);
+                  HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Add Success!!");
+            }
+            
+            response.sendRedirect("ManagerUserURL");
         }
     }
 
@@ -68,12 +88,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOUser dao = new DAOUser();
-        List<Map<String, Object>> userListP = dao.getAllUsers();
-        request.setAttribute("data", userListP);
-
-        request.getRequestDispatcher("/Profile/listUser.jsp").forward(request, response);
-
+        processRequest(request, response);
     }
 
     /**

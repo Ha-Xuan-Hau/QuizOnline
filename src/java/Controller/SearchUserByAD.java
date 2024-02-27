@@ -4,9 +4,6 @@
  */
 package Controller;
 
-import Entity.Student;
-import Entity.Teacher;
-import Entity.User;
 import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,20 +12,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Hashtable;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Asus
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "SearchUserByAD", urlPatterns = {"/SearchUserURL"})
+public class SearchUserByAD extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,16 +36,44 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String txt = request.getParameter("txt");
+            DAOUser dao = new DAOUser();
+            final int PAGE_SIZE = 2;
+            //phân trang
+            int page = 1;
+            String pageStr = request.getParameter("page");
+            if (pageStr != null) {
+                page = Integer.parseInt(pageStr);
+            }
+            if (page < 1) {
+                page = 1;
+            }
+            int totalUser = dao.getTotalSearch(txt);
+            int totalPage = totalUser / PAGE_SIZE;
+            if (totalUser % PAGE_SIZE != 0) {
+                totalPage += 1;
+            }
+            if (page > totalPage) {
+                page = totalPage;
+            }
+            
+            if(!dao.isUserSearchResultEmpty(txt, page, PAGE_SIZE)){
+                 List<Map<String, Object>> userListS = dao.searchUsersWithPagination(txt, page, PAGE_SIZE);
+                 request.setAttribute("data", userListS);
+            }else{
+                 HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messageeee", "Not Found!!!!!");
+            }
+            
+            
+            
+            request.setAttribute("page", page);
+            request.setAttribute("txt", txt);
+            request.setAttribute("totalPage", totalPage);
+            request.setAttribute("Url", "SearchUserURL?txt="+txt+ "&");
+            request.getRequestDispatcher("Admin/AdminManager.jsp").forward(request, response);
         }
     }
 
@@ -68,12 +89,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOUser dao = new DAOUser();
-        List<Map<String, Object>> userListP = dao.getAllUsers();
-        request.setAttribute("data", userListP);
-
-        request.getRequestDispatcher("/Profile/listUser.jsp").forward(request, response);
-
+        processRequest(request, response);
     }
 
     /**

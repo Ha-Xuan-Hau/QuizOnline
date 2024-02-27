@@ -110,7 +110,7 @@ public class QuestionSetController extends HttpServlet {
                         answerDAO.update(quesAnswer);
                     }
                 }
-                response.sendRedirect("QuestionSetURL");
+                response.sendRedirect("EditQuestionSetURL?setId=" + setId);
             }
         }
         if (service.equals("deleteSet")) {

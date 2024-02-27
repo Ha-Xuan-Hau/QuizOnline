@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="Entity.User" %>
+<%@ page import="Entity.Role" %>
+<%@ page import="Entity.Subject" %>
 <%@ page import="Entity.Admin" %>
 <%@ page import="Entity.Teacher" %>
 <%@ page import="Entity.Student" %>
@@ -203,6 +204,9 @@
                 top: 50px;
                 right: 20px;
             }
+            #idField, #subjectCodeField {
+                display: none;
+            }
 
         </style>
         <script>
@@ -300,6 +304,9 @@
                 $('a[href="#addEmployeeModal"]').click(function () {
                     $("#addEmployeeModal").modal('show');
                 });
+                $('a[href="#updateEmployeeModal"]').click(function () {
+                    $("#updateEmployeeModal").modal('show');
+                });
             });
             $(document).ready(function () {
                 $('#statusDropdown, #roleDropdown, #searchInput').change(function () {
@@ -308,7 +315,6 @@
             });
 
         </script>
-
 
 
     <div id="myToast" class="toast custom-toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
@@ -323,6 +329,8 @@
         </div>
     </div>
 
+
+
 </head>
 <body>
 
@@ -332,96 +340,67 @@
                 <div class="table-title" style="background-color:  #4257B4;">
                     <div class="row">
                         <div class="col-sm-6">
-                            <p>
+                             <p>
                                 <a class="back_home-detail" href="HomeController" style="color: white;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                             </p>
-                            <a href="ManagerUserURL" style="color: white;"> <h2>User <b>List</b></h2></a>
+                            <a href="SettingControllerURL" style="color: white;"> <h2>Setting <b>List</b></h2></a>
+                            <%-- N?u session có thông báo, hi?n th? c?a s? thông báo --%>
+
+
+
                         </div>
                         <div class="col-sm-6">
-                            <a href="#addEmployeeModal" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                            						
+                            <a href="#addEmployeeModal" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New Setting</span></a>
+                            					
                         </div>
                     </div>
                 </div>
                 <div id="addEmployeeModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="AddUserURL" method="get" id="form1">
+                            <form action="AddSettingURL" method="get" id="form1" onsubmit="return validateForm()">
+
 
                                 <div class="modal-header">						
-                                    <h4 class="modal-title">Add New User</h4>
+                                    <h4 class="modal-title">Add New Setting</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 </div>
 
 
                                 <div class="modal-body">					
+
+
                                     <div class="form-group">
-                                        <label for="username">UserName</label>
-                                        <input type="text" class="form-control" name="username" id="username" required>
+                                        <label for="roleSelect">Type</label>
+                                        <select class="form-control" id="typeSelect" name="typeId" required>
+                                            <option value="">Select</option>
+                                            <option value="role">Role</option>
+                                            <option value="subject">Subject</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="idField">
+                                        <label for="id">ID</label>
+                                        <input type="text" class="form-control" name="id" id="id">
+                                        <span class="form-message text-danger" id="id-error"></span>
+                                    </div>
+
+
+
+                                    <div class="form-group" id="subjectCodeField">
+                                        <label for="subjectCode">Subject Code</label>
+                                        <input type="text" class="form-control" name="subjectCode" id="subjectCode">
+                                        <span class="form-message text-danger" id="subjectCode-error"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="username">Name</label>
+                                        <input type="text" class="form-control" name="name" id="username" required>
                                         <span class="form-message text-danger" id="username-error"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" id="email" required>
-                                        <c:if test="${not empty sessionScope.error}">
-
-                                            <span class="form-message text-danger">${sessionScope.error}</span>
-
-                                        </c:if>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                        <span class="form-message text-danger" id="password-error"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" name="phone" id="phone" required>
-                                        <span class="form-message text-danger" id="phone-error"></span>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="roleSelect">RoleID</label>
-                                        <select class="form-control" id="roleSelect" name="roleId" required>
-                                            <option value="">Select</option>
-                                            <option value="3">Admin</option>
-                                            <option value="2">Teacher</option>
-                                            <option value="1">Student</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group additionalFields adminFields" style="display: none;">
-                                        <label for="adminName">AdminName</label>
-                                        <input type="text" class="form-control" name="adminName" id="adminName">
-                                    </div>
-
-                                    <div class="form-group additionalFields teacherFields" style="display: none;">
-                                        <label for="teacherName">TeacherName</label>
-                                        <input type="text" class="form-control" name="teacherName" id="teacherName">
-                                    </div>
-
-                                    <div class="form-group additionalFields studentFields" style="display: none;">
-                                        <label for="studentName">Student Name</label>
-                                        <input type="text" class="form-control" name="studentName" id="studentName">
-                                    </div>
-
-                                    <div class="form-group additionalFields studentFields" style="display: none;">
-                                        <label for="studentDOB">Date of Birth</label>
-                                        <input type="date" class="form-control" name="studentDOB" id="studentDOB">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="statusSelect">Status</label>
-                                        <select class="form-control" id="statusSelect" name="status" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">Suspended</option>
-                                        </select>
                                     </div>
 
                                 </div>
-<!--                                    <span class="error_msg text-danger">${Email_DUPP}</span>-->
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-success">Add</button>
@@ -432,34 +411,24 @@
                 </div>
 
 
-
-
-
-
                 <div class="row align-items-center" style="padding-bottom: 15px;">
-                    <form id="filterForm" class="col-sm-8" action="ManagerUserURL" method="post">
+                    <form id="filterForm" class="col-sm-8" action="FilterSetting" method="">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label for="statusDropdown">Status</label>
-                                <select id="statusDropdown" name="status">
-                                    <option value="all" <% if ("all".equals(request.getParameter("status"))) { %> selected <% } %>>All</option>
-                                    <option value="active" <% if ("active".equals(request.getParameter("status"))) { %> selected <% } %>>Active</option>
-                                    <option value="suspended" <% if ("suspended".equals(request.getParameter("status"))) { %> selected <% } %>>Suspended</option>
+                                <label for="statusDropdown">Type</label>
+                                <select id="statusDropdown" name="type">
+                                    <option value="all" <% if ("all".equals(request.getParameter("type"))) { %> selected <% } %>>All</option>
+                                    <option value="role" <% if ("role".equals(request.getParameter("type"))) { %> selected <% } %>>Role</option>
+                                    <option value="subject" <% if ("subject".equals(request.getParameter("type"))) { %> selected <% } %>>Subject</option>
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <label for="roleDropdown">Role</label>
-                                <select id="roleDropdown" name="role">
-                                    <option value="all" <% if ("all".equals(request.getParameter("role"))) { %> selected <% } %>>All</option>
-                                    <option value="3" <% if ("3".equals(request.getParameter("role"))) { %> selected <% } %>>Admin</option>
-                                    <option value="2" <% if ("2".equals(request.getParameter("role"))) { %> selected <% } %>>Teacher</option>
-                                    <option value="1" <% if ("1".equals(request.getParameter("role"))) { %> selected <% } %>>Student</option>
-                                </select>
+
                             </div>
                         </div>
                     </form>
                     <div class="col-sm-4">
-                        <form action="SearchUserURL" method="get">
+                        <form action="SearchSettingURL" method="">
                             <div class="search-box">
                                 <label for="searchInput">Search</label>
                                 <input type="text" value="${txt}" id="searchInput" name="txt" placeholder="Search...">
@@ -474,203 +443,189 @@
 
 
 
-                <c:if test="${empty sessionScope.messageeee}">
+                <c:if test="${empty sessionScope.messageee}">
                     <table class="table table-striped table-hover">
-                        <caption>List of Users</caption>
+
                         <thead>
                             <tr>
-                                <th>AccountID
-
-                                </th>
-                                <th>UserName
-                                    <i class="fa fa-sort"></i>
-                                </th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Role
-                                    <i class="fa fa-sort"></i>
-                                </th>
-                                <th>Status</th>
+                                <th>#</th>
+                                <th>Name
+                                    <i class="fa fa-sort"></i></th>
+                                <th>Type</th>
+                                <th>Value</th>
+                                <th>Id </th>
                                 <th>Action</th>
+
+
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="user" items="${data}">
 
-                                <tr data-status="<c:out value="${user.active ? 'active' : 'suspended'}" />">
-                                    <td>${user['AccountId']}</td>
-                                    <td>${user['Username']}</td>
-                                    <td>${user['Email']}</td>
-                                    <td>${user['Phone']}</td>
+
+                            <c:forEach var="setting" items="${data}" varStatus="status">
+                                <tr>
+                                    <td>${status.index + 1}</td>
+                                    <td>${setting['Name']}</td>
+                                    <td>${setting['Type']}</td>
+                                    <td>${setting['Value']}</td>
+                                    <td>${setting['Order']}</td>
                                     <td>
-                                        <c:choose>
-                                            <c:when test="${user['RoleId'] == 3}">
-                                                Admin
-                                            </c:when>
-                                            <c:when test="${user['RoleId'] == 2}">
-                                                Teacher
-                                            </c:when>
-                                            <c:when test="${user['RoleId'] == 1}">
-                                                Student
-                                            </c:when>
-                                        </c:choose>
-                                    </td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${user['IsActive'] == true}">
-                                                <span class="status text-success">&bull;</span> Active
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="status text-danger">&bull;</span> Suspended
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td>
-                                        <a href="UdProfilebyAdminURL?sid=${user['AccountId']}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                        <a href="DeleteUserURL?sid=${user['AccountId']}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
+                                        <c:url value="UpdateSettingURL" var="updateUrl">
+                                            <c:param name="sid" value="${setting['Order']}" />
+                                            <c:param name="type" value="${setting['Type']}" />
+                                        </c:url>
+
+                                        <c:url value="DeleteSettingURL" var="deleteUrl">
+                                            <c:param name="sid" value="${setting['Order']}" />
+                                            <c:param name="type" value="${setting['Type']}" />
+                                        </c:url>
+
+                                        <a href="${updateUrl}" class="settings" title="Settings" data-toggle="tooltip">
+                                            <i class="material-icons">&#xE8B8;</i>
+                                        </a>
+                                        <a href="${deleteUrl}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
                                             <i class="material-icons" style="color: red;">&#xE5C9;</i>
                                         </a>
-
                                     </td>
                                 </tr>
                             </c:forEach>   
                         </tbody>
-
                     </table>
                 </c:if>
-                <c:if test="${not empty sessionScope.messageeee}">
-                    <div class="alert alert-danger">${sessionScope.messageeee}</div>
+                <c:if test="${not empty sessionScope.messageee}">
+                    <div class="alert alert-danger">${sessionScope.messageee}</div>
                     <c:remove var="sessionScope.messageee" />
                 </c:if>
 
-                <c:if test="${empty sessionScope.messageeee}">
+
+                <c:if test="${empty sessionScope.messageee}">
                     <div class="clearfix">
-                        <div class="hint-text">Showing <b>${page}</b> of <b>${totalPage}</b> total page</div>
+                        <div class="hint-text">Page <b>${page}</b>of <b>${totalPage}</b> total pages</div>
                         <ul class="pagination">
                             <li class="page-item ">
-                                <a href="${requestScope.Url}page=${page-1}" class="page-link">Previous</a>
+                                <a href="${requestScope.Ur}page=${page-1}" class="page-link">Previous</a>
                             </li>
                             <c:forEach begin="1" end="${totalPage}" var="i">
                                 <li class="page-item ${page==i ? "active" : ""}">
 
-                                    <a href="${requestScope.Url}page=${i}" class="page-link">${i}</a>
+                                    <a href="${requestScope.Ur}page=${i}" class="page-link">${i}</a>
                                 </li>
                             </c:forEach>
                             <li class="page-item">
-                                <a href="${requestScope.Url}page=${page+1}" class="page-link">Next</a>
+                                <a href="${requestScope.Ur}page=${page+1}" class="page-link">Next</a>
                             </li>
                         </ul>
 
                     </div>
                 </c:if>
-
             </div>
         </div>
     </div>     
 </body>
+
 </html>
 
-
 <script>
-    document.getElementById('statusDropdown').addEventListener('change', function () {
-        document.getElementById('filterForm').submit();
-    });
-
-    document.getElementById('roleDropdown').addEventListener('change', function () {
-        document.getElementById('filterForm').submit();
-    });
-    $(document).ready(function () {
-        $('#roleSelect').change(function () {
-            var selectedRole = $(this).val();
-            if (selectedRole == '3') {
-                $('.adminFields').show();
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("typeSelect").addEventListener("change", function () {
+            var selectedType = this.value;
+            var idField = document.getElementById("idField");
+            var subjectCodeField = document.getElementById("subjectCodeField");
+            if (selectedType === "role") {
+                idField.style.display = "block";
+                subjectCodeField.style.display = "none";
+            } else if (selectedType === "subject") {
+                idField.style.display = "none";
+                subjectCodeField.style.display = "block";
             } else {
-                $('.adminFields').hide();
-            }
-        });
-    });
-    $(document).ready(function () {
-        $('#roleSelect').change(function () {
-            var selectedRole = $(this).val();
-            if (selectedRole == '2') {
-                $('.teacherFields').show();
-            } else {
-                $('.teacherFields').hide();
+                idField.style.display = "none";
+                subjectCodeField.style.display = "none";
             }
         });
     });
 
-    $(document).ready(function () {
-        $('#roleSelect').change(function () {
-            var selectedRole = $(this).val();
-            if (selectedRole == '1') {
-                $('.studentFields').show();
-            } else {
-                $('.studentFields').hide();
-            }
-        });
-    });
-
-
-
-    document.getElementById('form1').addEventListener('submit', function (event) {
-        var phoneInput = document.getElementById('phone');
-        var phoneValue = phoneInput.value.trim();
-        var phoneError = document.getElementById('phone-error');
-
-        var passwordInput = document.getElementById('password');
-        var passwordValue = passwordInput.value.trim();
-        var passwordError = document.getElementById('password-error');
-
-        var usernameInput = document.getElementById('username');
-        var usernameValue = usernameInput.value.trim();
-        var usernameError = document.getElementById('username-error');
-
-
-        phoneError.innerHTML = '';
-        passwordError.innerHTML = '';
-        usernameError.innerHTML = '';
-
-
-        if (phoneValue === '') {
-            phoneError.innerHTML = 'Phone number is required.';
-            event.preventDefault();
-        } else if (phoneValue.length !== 10) {
-            phoneError.innerHTML = 'Phone number must be 10 digits.';
-            event.preventDefault();
-        } else if (!(/^\d+$/.test(phoneValue))) {
-            phoneError.innerHTML = 'Phone number must contain only digits.';
-            event.preventDefault();
-            t
-        }
-
-        // Ki?m tra ?? dài c?a m?t kh?u
-        if (passwordValue.length < 8 || passwordValue.length > 32) {
-            passwordError.innerHTML = 'Password must be between 8 and 32 characters.';
-            event.preventDefault(); // Ng?n form submit
-        }
-
-
-        var regex = /^[a-zA-Z0-9]+$/;
-        if (!regex.test(usernameValue)) {
-            usernameError.innerHTML = 'Username must contain only letters and numbers.';
-            event.preventDefault(); // 
-        }
-    });
-
-</script>
-<script>
     $(document).ready(function () {
         // Hi?n th? toast n?u session ch?a thông báo
-        var messagee = "<c:out value='${sessionScope.messagee}' />";
-        if (messagee.trim() !== "") {
+        var message = "<c:out value='${sessionScope.messagee}' />";
+        if (message.trim() !== "") {
             $('.toast').toast('show');
         }
     });
     setTimeout(function () {
         $('#myToast').toast('hide');
-    }, 6000); // 2 giây
+    }, 5000); // 2 giây
+
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // L?y các ph?n t? c?n ki?m tra
+        var nameInput = document.getElementById("username");
+        var idInput = document.getElementById("id");
+        var subjectCodeInput = document.getElementById("subjectCode");
+        var form = document.getElementById("form1");
+        var nameErrorSpan = document.getElementById("username-error");
+        var idErrorSpan = document.getElementById("id-error");
+        var subjectCodeErrorSpan = document.getElementById("subjectCode-error");
+
+        // Thêm s? ki?n submit cho form
+        form.addEventListener("submit", function (event) {
+            // Ki?m tra ?i?u ki?n cho tr??ng Name
+            if (!isValidName(nameInput.value)) {
+                nameErrorSpan.textContent = "Name cannot contain digits or special characters.";
+                event.preventDefault(); // Ng?n ch?n vi?c submit form n?u ?i?u ki?n không h?p l?
+            } else {
+                nameErrorSpan.textContent = ""; // Xóa thông báo l?i n?u ?i?u ki?n h?p l?
+            }
+
+            // Ki?m tra ?i?u ki?n cho tr??ng ID
+            if (!isValidId(idInput.value)) {
+                idErrorSpan.textContent = "ID must contain only digits.";
+                event.preventDefault(); // Ng?n ch?n vi?c submit form n?u ?i?u ki?n không h?p l?
+            } else {
+                idErrorSpan.textContent = ""; // Xóa thông báo l?i n?u ?i?u ki?n h?p l?
+            }
+
+            // Ki?m tra ?i?u ki?n cho tr??ng Subject Code
+            if (!isValidSubjectCode(subjectCodeInput.value)) {
+                subjectCodeErrorSpan.textContent = "Subject Code cannot contain special characters.";
+                event.preventDefault(); // Ng?n ch?n vi?c submit form n?u ?i?u ki?n không h?p l?
+            } else {
+                subjectCodeErrorSpan.textContent = ""; // Xóa thông báo l?i n?u ?i?u ki?n h?p l?
+            }
+        });
+
+        // Hàm ki?m tra tên h?p l?
+        function isValidName(name) {
+            return /^[a-zA-Z\s]*$/.test(name); // Ki?m tra xem name ch? ch?a ch? cái và kho?ng tr?ng
+        }
+
+        // Hàm ki?m tra ID h?p l?
+        function isValidId(id) {
+            return /^[0-9]*$/.test(id); // Ki?m tra xem ID ch? ch?a s?
+        }
+
+        // Hàm ki?m tra Subject Code h?p l?
+        function isValidSubjectCode(subjectCode) {
+            return /^[a-zA-Z0-9]*$/.test(subjectCode); // Ki?m tra xem subjectCode ch? ch?a ch? cái và s?
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

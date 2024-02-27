@@ -9,12 +9,12 @@ package Entity;
  * @author Asus
  */
 public class QuestionSet {
+
     private int SetId;
     private String Title;
     private int UserAccountId;
     private int SubjectId;
     private int SetVote;
-
 
     public QuestionSet() {
     }

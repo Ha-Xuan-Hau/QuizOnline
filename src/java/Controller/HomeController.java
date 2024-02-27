@@ -70,6 +70,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("SubNav", listSub);
             request.setAttribute("Blog", listBlog);
             request.setAttribute("listS", listS);
+            request.setAttribute("page", page);
             request.setAttribute("url", "HomeController?");
             request.getRequestDispatcher("/Home/Home.jsp").forward(request, response);
         }

@@ -35,6 +35,56 @@ public class DAOSubject extends DBConnect {
         }
         return n;
     }
+ public boolean checkSubjectCodeExistence(String subjectCode) {
+        boolean isExist = false;
+        String sql = "SELECT COUNT(*) AS count FROM [dbo].[Subject] WHERE [SubjectCode] = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, subjectCode);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                isExist = count > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isExist;
+    }
+
+    public boolean checkSubjectNameExists(String subjectName) {
+        boolean exists = false;
+        String sql = "SELECT COUNT(*) AS count FROM [dbo].[Subject] WHERE [SubjectName] = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, subjectName);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                exists = count > 0;
+            }
+            rs.close();
+            stm.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exists;
+    }
+
+    public int insertSubject(String subjectCode, String subjectName) {
+        int numRowsInserted = 0;
+        String sql = "INSERT INTO [dbo].[Subject] ([SubjectCode], [SubjectName]) VALUES (?, ?)";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, subjectCode);
+            stm.setString(2, subjectName);
+
+            numRowsInserted = stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return numRowsInserted;
+    }
 
     public int update(Subject obj) {
         int n = 0;
@@ -53,6 +103,8 @@ public class DAOSubject extends DBConnect {
         }
         return n;
     }
+
+    
 
     public int delete(int SubjectId) {
         int n = 0;
@@ -125,14 +177,10 @@ public class DAOSubject extends DBConnect {
     }
 
     public static void main(String[] args) {
-        Subject sub = new Subject("SWT", "Software Testing");
+
         DAOSubject dao = new DAOSubject();
 
-        dao.insert(sub);
-        Subject sub1 = new Subject("SWT", "Software ");
-//        dao.delete("SWT");
-        String sql = "SELECT * FROM Subject";
-        System.out.println(dao.getData(sql));
+      
 
     }
 }
