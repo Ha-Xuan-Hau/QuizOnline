@@ -196,7 +196,13 @@
                 display: inline-block;
                 margin-left: 5px;
             }
-
+            .custom-toast {
+                width: 300px;
+                position: absolute;
+                z-index: 1000;
+                top: 50px;
+                right: 20px;
+            }
 
         </style>
         <script>
@@ -295,147 +301,172 @@
                     $("#addEmployeeModal").modal('show');
                 });
             });
-        </script>
-        <script>
             $(document).ready(function () {
                 $('#statusDropdown, #roleDropdown, #searchInput').change(function () {
                     $('#filterForm').submit();
                 });
             });
+
         </script>
 
-        <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>
-    </head>
-    <body>
-        <div class="container-xl">
-            <div class="table-responsive">
-                <div class="table-wrapper">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <a href="ManagerUserURL" style="color: white;"> <h2>User <b>Management</b></h2></a>
-                            </div>
-                            <div class="col-sm-7">
-                                <a href="#addEmployeeModal" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>						
-                            </div>
+
+
+    <div id="myToast" class="toast custom-toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            Thông Báo!!!!
+            <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            <c:out value="${sessionScope.messagee}" />
+        </div>
+    </div>
+
+</head>
+<body>
+
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title" style="background-color:  #1C1E53;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p>
+                                <a class="back_home-detail" href="HomeController" style="color: white;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
+                            </p>
+                            <a href="ManagerUserURL" style="color: white;"> <h2>User <b>Management</b></h2></a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#addEmployeeModal" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                            <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>						
                         </div>
                     </div>
-                    <div id="addEmployeeModal" class="modal fade">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form action="AddUserURL" method="get">
-                                    <div class="modal-header">						
-                                        <h4 class="modal-title">Add New User</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    </div>
-                                    
-                                    
-                                    <div class="modal-body">					
-                                        <div class="form-group">
-                                            <label for="username">UserName</label>
-                                            <input type="text" class="form-control" name="username" id="username" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="email" class="form-control" name="email" id="email" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password">Password</label>
-                                            <input class="form-control" id="password" name="password" required></input>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="phone">Phone</label>
-                                            <input type="text" class="form-control" name="phone" id="phone" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="roleSelect">RoleID</label>
-                                            <select class="form-control" id="roleSelect" name="roleId" required>
-                                                <option value="">Select</option>
-                                                <option value="3">Admin</option>
-                                                <option value="2">Teacher</option>
-                                                <option value="1">Student</option>
-                                            </select>
-                                        </div>
+                </div>
+                <div id="addEmployeeModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="AddUserURL" method="get" id="form1">
 
-                                        <div class="form-group additionalFields adminFields" style="display: none;">
-                                            <label for="adminName">AdminName</label>
-                                            <input type="text" class="form-control" name="adminName" id="adminName">
-                                        </div>
-
-                                        <div class="form-group additionalFields teacherFields" style="display: none;">
-                                            <label for="teacherName">TeacherName</label>
-                                            <input type="text" class="form-control" name="teacherName" id="teacherName">
-                                        </div>
-
-                                        <div class="form-group additionalFields studentFields" style="display: none;">
-                                            <label for="studentName">Student Name</label>
-                                            <input type="text" class="form-control" name="studentName" id="studentName">
-                                        </div>
-
-                                        <div class="form-group additionalFields studentFields" style="display: none;">
-                                            <label for="studentDOB">Date of Birth</label>
-                                            <input type="date" class="form-control" name="studentDOB" id="studentDOB">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="statusSelect">Status</label>
-                                            <select class="form-control" id="statusSelect" name="status" required>
-                                                <option value="">Select</option>
-                                                <option value="Active">Active</option>
-                                                <option value="Suspended">Suspended</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-success">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-
-                    <div class="row align-items-center" style="padding-bottom: 15px;">
-                        <form id="filterForm" class="col-sm-8" action="ManagerUserURL" method="post">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="statusDropdown">Status</label>
-                                    <select id="statusDropdown" name="status">
-                                        <option value="all" <% if ("all".equals(request.getParameter("status"))) { %> selected <% } %>>All</option>
-                                        <option value="active" <% if ("active".equals(request.getParameter("status"))) { %> selected <% } %>>Active</option>
-                                        <option value="suspended" <% if ("suspended".equals(request.getParameter("status"))) { %> selected <% } %>>Suspended</option>
-                                    </select>
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">Add New User</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label for="roleDropdown">Role</label>
-                                    <select id="roleDropdown" name="role">
-                                        <option value="all" <% if ("all".equals(request.getParameter("role"))) { %> selected <% } %>>All</option>
-                                        <option value="1" <% if ("1".equals(request.getParameter("role"))) { %> selected <% } %>>Admin</option>
-                                        <option value="2" <% if ("2".equals(request.getParameter("role"))) { %> selected <% } %>>Teacher</option>
-                                        <option value="3" <% if ("3".equals(request.getParameter("role"))) { %> selected <% } %>>Student</option>
-                                    </select>
+
+
+                                <div class="modal-body">					
+                                    <div class="form-group">
+                                        <label for="username">UserName</label>
+                                        <input type="text" class="form-control" name="username" id="username" required>
+                                        <span class="form-message text-danger" id="username-error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" name="email" id="email" required>
+                                        <c:if test="${not empty sessionScope.error}">
+
+                                            <span class="form-message text-danger">${sessionScope.error}</span>
+
+                                        </c:if>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                        <span class="form-message text-danger" id="password-error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" name="phone" id="phone" required>
+                                        <span class="form-message text-danger" id="phone-error"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="roleSelect">RoleID</label>
+                                        <select class="form-control" id="roleSelect" name="roleId" required>
+                                            <option value="">Select</option>
+                                            <option value="3">Admin</option>
+                                            <option value="2">Teacher</option>
+                                            <option value="1">Student</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group additionalFields adminFields" style="display: none;">
+                                        <label for="adminName">AdminName</label>
+                                        <input type="text" class="form-control" name="adminName" id="adminName">
+                                    </div>
+
+                                    <div class="form-group additionalFields teacherFields" style="display: none;">
+                                        <label for="teacherName">TeacherName</label>
+                                        <input type="text" class="form-control" name="teacherName" id="teacherName">
+                                    </div>
+
+                                    <div class="form-group additionalFields studentFields" style="display: none;">
+                                        <label for="studentName">Student Name</label>
+                                        <input type="text" class="form-control" name="studentName" id="studentName">
+                                    </div>
+
+                                    <div class="form-group additionalFields studentFields" style="display: none;">
+                                        <label for="studentDOB">Date of Birth</label>
+                                        <input type="date" class="form-control" name="studentDOB" id="studentDOB">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="statusSelect">Status</label>
+                                        <select class="form-control" id="statusSelect" name="status" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">Suspended</option>
+                                        </select>
+                                    </div>
+
                                 </div>
-                            </div>
-                        </form>
-                        <div class="col-sm-4">
-                            <form action="SearchUserURL" method="get">
-                                <div class="search-box">
-                                    <label for="searchInput">Search</label>
-                                    <input type="text" value="${txt}" id="searchInput" name="txt" placeholder="Search...">
+<!--                                    <span class="error_msg text-danger">${Email_DUPP}</span>-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Add</button>
                                 </div>
                             </form>
                         </div>
                     </div>
+                </div>
+
+
+
+
+
+
+                <div class="row align-items-center" style="padding-bottom: 15px;">
+                    <form id="filterForm" class="col-sm-8" action="ManagerUserURL" method="post">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="statusDropdown">Status</label>
+                                <select id="statusDropdown" name="status">
+                                    <option value="all" <% if ("all".equals(request.getParameter("status"))) { %> selected <% } %>>All</option>
+                                    <option value="active" <% if ("active".equals(request.getParameter("status"))) { %> selected <% } %>>Active</option>
+                                    <option value="suspended" <% if ("suspended".equals(request.getParameter("status"))) { %> selected <% } %>>Suspended</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="roleDropdown">Role</label>
+                                <select id="roleDropdown" name="role">
+                                    <option value="all" <% if ("all".equals(request.getParameter("role"))) { %> selected <% } %>>All</option>
+                                    <option value="1" <% if ("1".equals(request.getParameter("role"))) { %> selected <% } %>>Admin</option>
+                                    <option value="2" <% if ("2".equals(request.getParameter("role"))) { %> selected <% } %>>Teacher</option>
+                                    <option value="3" <% if ("3".equals(request.getParameter("role"))) { %> selected <% } %>>Student</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-sm-4">
+                        <form action="SearchUserURL" method="get">
+                            <div class="search-box">
+                                <label for="searchInput">Search</label>
+                                <input type="text" value="${txt}" id="searchInput" name="txt" placeholder="Search...">
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
 
 
@@ -443,8 +474,9 @@
 
 
 
-
+                <c:if test="${empty sessionScope.messageeee}">
                     <table class="table table-striped table-hover">
+                        <caption>List of Users</caption>
                         <thead>
                             <tr>
                                 <th>AccountID
@@ -495,15 +527,25 @@
                                     </td>
                                     <td>
                                         <a href="UdProfilebyAdminURL?sid=${user['AccountId']}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color: red;">&#xE5C9;</i></a>
+                                        <a href="DeleteUserURL?sid=${user['AccountId']}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
+                                            <i class="material-icons" style="color: red;">&#xE5C9;</i>
+                                        </a>
+
                                     </td>
                                 </tr>
                             </c:forEach>   
                         </tbody>
 
                     </table>
+                </c:if>
+                <c:if test="${not empty sessionScope.messageeee}">
+                    <div class="alert alert-danger">${sessionScope.messageeee}</div>
+                    <c:remove var="sessionScope.messageee" />
+                </c:if>
+
+                <c:if test="${empty sessionScope.messageeee}">
                     <div class="clearfix">
-                        <div class="hint-text">Showing <b>1</b> out of <b>${totalPage}</b> entries</div>
+                        <div class="hint-text">Showing <b>${page}</b> of <b>${totalPage}</b> total page</div>
                         <ul class="pagination">
                             <li class="page-item ">
                                 <a href="${requestScope.Url}page=${page-1}" class="page-link">Previous</a>
@@ -520,15 +562,16 @@
                         </ul>
 
                     </div>
-                </div>
+                </c:if>
+
             </div>
-        </div>     
-    </body>
+        </div>
+    </div>     
+</body>
 </html>
 
 
 <script>
-
     document.getElementById('statusDropdown').addEventListener('change', function () {
         document.getElementById('filterForm').submit();
     });
@@ -536,8 +579,6 @@
     document.getElementById('roleDropdown').addEventListener('change', function () {
         document.getElementById('filterForm').submit();
     });
-</script>
-<script>
     $(document).ready(function () {
         $('#roleSelect').change(function () {
             var selectedRole = $(this).val();
@@ -571,7 +612,66 @@
     });
 
 
+
+    document.getElementById('form1').addEventListener('submit', function (event) {
+        var phoneInput = document.getElementById('phone');
+        var phoneValue = phoneInput.value.trim();
+        var phoneError = document.getElementById('phone-error');
+
+        var passwordInput = document.getElementById('password');
+        var passwordValue = passwordInput.value.trim();
+        var passwordError = document.getElementById('password-error');
+
+        var usernameInput = document.getElementById('username');
+        var usernameValue = usernameInput.value.trim();
+        var usernameError = document.getElementById('username-error');
+
+
+        phoneError.innerHTML = '';
+        passwordError.innerHTML = '';
+        usernameError.innerHTML = '';
+
+
+        if (phoneValue === '') {
+            phoneError.innerHTML = 'Phone number is required.';
+            event.preventDefault();
+        } else if (phoneValue.length !== 10) {
+            phoneError.innerHTML = 'Phone number must be 10 digits.';
+            event.preventDefault();
+        } else if (!(/^\d+$/.test(phoneValue))) {
+            phoneError.innerHTML = 'Phone number must contain only digits.';
+            event.preventDefault();
+            t
+        }
+
+        // Ki?m tra ?? dài c?a m?t kh?u
+        if (passwordValue.length < 8 || passwordValue.length > 32) {
+            passwordError.innerHTML = 'Password must be between 8 and 32 characters.';
+            event.preventDefault(); // Ng?n form submit
+        }
+
+
+        var regex = /^[a-zA-Z0-9]+$/;
+        if (!regex.test(usernameValue)) {
+            usernameError.innerHTML = 'Username must contain only letters and numbers.';
+            event.preventDefault(); // 
+        }
+    });
+
 </script>
+<script>
+    $(document).ready(function () {
+        // Hi?n th? toast n?u session ch?a thông báo
+        var messagee = "<c:out value='${sessionScope.messagee}' />";
+        if (messagee.trim() !== "") {
+            $('.toast').toast('show');
+        }
+    });
+    setTimeout(function () {
+        $('#myToast').toast('hide');
+    }, 6000); // 2 giây
+</script>
+
 
 
 

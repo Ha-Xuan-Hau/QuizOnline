@@ -15,12 +15,29 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="/CSS/profile.css" />
+        <!-- font awesome 5.13.1 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
         <title>Profile</title>
 
+
+
+
         <script>
-            function confirmUpdate() {
-                return confirm("Are you sure you want to save changes?");
-            }
+            // step 1
+            const ipnElement = document.querySelector('#ipnPassword')
+            const btnElement = document.querySelector('#btnPassword')
+
+            // step 2
+            btnElement.addEventListener('click', function () {
+                // step 3
+                const currentType = ipnElement.getAttribute('type')
+                // step 4
+                ipnElement.setAttribute(
+                        'type',
+                        currentType === 'password' ? 'text' : 'password'
+                        )
+            })
         </script>
     </head>
 
@@ -49,89 +66,181 @@
                     <div class="card mb-4">
                         <div class="card-header">Account Details</div>
                         <div class="card-body">
-                          
-                                <form action="" method="post" onsubmit="return confirmUpdate();">
-                                    <!-- Form Group (username)-->
+
+                            <form action="" method="post" id="form-1" onsubmit="return validateForm();">
+                                <!-- Form Group (username)-->
+                                <input class="form-control" id="inputAccId" type="text" placeholder="Nhập tên người dùng"
+                                       name="accId" value="${data['AccountId']}" readonly>
+
+
+
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputUsername">User Name</label>
                                     <input class="form-control" id="inputUsername" type="text" placeholder="Nhập tên người dùng"
-                                           name="accId" value="${user['AccountId']}" readonly>
-
-
+                                           name="user" value="${data['Username']}">
+                                    <span class="form-message text-danger" id="username-error"></span>
+                                </div>
+                                <!-- Admin -->
+                                
+                                <c:if test="${data['RoleId'] == 1}">
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="inputUsername">Tên người dùng</label>
-                                        <input class="form-control" id="inputUsername" type="text" placeholder="Nhập tên người dùng"
-                                               name="user" value="${user['Username']}">
+                                        <label class="small mb-1" >Name</label>
+                                        <input class="form-control" id="inputAdminName" type="text" placeholder=""
+                                               name="adName" value="${data['AdminName']}">
+
+                                    </div>
+                                </c:if>
+
+                                <!-- Teacher -->
+                                <c:if test="${data['RoleId'] == 2}">
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="inputTeacherName">Name</label>
+                                        <input class="form-control" id="inputTeacherName" type="text" placeholder=""
+                                               name="tcName" value="${data['TeacherName']}">
                                     </div>
 
-                                    <!-- Admin -->
-                                    <c:if test="${user['RoleId'] == 1}">
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="inputUsername">Điện thoại</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder="Nhập số điện thoại"
-                                                   name="phone" value="${user['Phone']}">
-                                        </div>
-                                    </c:if>
-
-                                    <!-- Teacher -->
-                                    <c:if test="${user['RoleId'] == 2}">
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="inputUsername">Teacher Name</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder=""
-                                                   name="tcName" value="${user['Username']}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="inputUsername">Điện thoại</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder="Nhập số điện thoại"
-                                                   name="phonee" value="${user['Phone']}">
-                                        </div>
-                                    </c:if>
-                                    <!-- Student -->
-                                    <c:if test="${user['RoleId'] == 3}">
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="inputUsername">Student Name</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder=""
-                                                   name="stName" value="${user['Username']}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="inputUsername">Điện thoại</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder="Nhập số điện thoại"
-                                                   name="phoneee" value="${user['Phone']}">
-                                            <p>${mess}</p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="inputUsername">Dob</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder=""
-                                                   name="dob" value="${user['Dob']}">
-                                        </div>
-                                    </c:if>
-
-                                    <!-- Mật khẩu -->
+                                </c:if>
+                                <!-- Student -->
+                                <c:if test="${data['RoleId'] == 3}">
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="inputUsername">Mật khẩu</label>
-                                        <input class="form-control" id="inputEmailAddress" type="text" placeholder="Mật khẩu" name="pass"
-                                               value="${user.getPassword()}">
+                                        <label class="small mb-1" for="inputStudentName"> Name</label>
+                                        <input class="form-control" id="inputStudentName" type="text" placeholder=""
+                                               name="stName" value="${data['StudentName']}">
                                     </div>
 
-                                    <!-- Nhóm biểu mẫu (địa chỉ email)-->
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="inputEmailAddress">Địa chỉ email</label>
-                                        <input class="form-control" id="inputEmailAddress" type="email" name="email"
-                                               placeholder="Nhập địa chỉ email" value="${user.get('Email')}" readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="small mb-1" for="inputEmailAddress">Role</label>
-                                        <input class="form-control" id="inputEmailAddress" type="email" name="role"
-                                               placeholder="Nhập địa chỉ email" value="${user['RoleId']}" readonly>
+                                        <label class="small mb-1" for="inputDob">Dob</label>
+                                        <input class="form-control" id="inputDob" type="date" placeholder="" name="dob" value="${data['Dob']}">
+                                        <span class="form-message text-danger" id="dob-error"></span>
                                     </div>
 
-                                    <!-- Nút Lưu thay đổi-->
-                                    <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
-                                </form>
-                         
+                                </c:if>
+                                <!<!-- Phone -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputPhone">Phone</label>
+                                    <input class="form-control" id="inputPhone" type="text" placeholder="Nhập số điện thoại"
+                                           name="phone" value="${data['Phone']}" onblur="validatePhoneNumber(this)">
+                                    <span class="form-message text-danger" id="phone-error"></span>
+                                </div>
+                                <!-- Mật khẩu -->
+
+
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputPassword">Password</label>
+                                    <input type="password" class="form-control" id="ipnPassword" name="pass" value="${data['Password']}" onblur="validatePassword(this)">
+
+                                    <span class="form-message text-danger" id="password-error"></span>
+                                </div>
+
+
+
+
+                                <!-- Nhóm biểu mẫu (địa chỉ email)-->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">Email</label>
+                                    <input class="form-control" id="inputEmailAddress" type="email" name="email"
+                                           placeholder="Nhập địa chỉ email" value="${data.get('Email')}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="roleSelect">Role</label>
+                                    <div class="form-group">
+                                        <select class="form-control" id="roleSelect" name="roleId" required>
+                                            <option value="">Select</option>
+                                            <c:choose>
+                                                <c:when test="${data['RoleId'] == 3}">
+                                                    <option value="1" >Admin</option>
+                                                    <option value="2" >Teacher</option>
+                                                    <option value="3" selected>Student</option>
+                                                </c:when>
+                                                <c:when test="${data['RoleId'] == 2}">
+                                                    <option value="1" >Admin</option>
+                                                    <option value="2" selected>Teacher</option>
+                                                    <option value="3" >Student</option>
+                                                </c:when>
+                                                <c:when test="${data['RoleId'] == 1}">
+                                                    <option value="1" selected>Admin</option>
+                                                    <option value="2" >Teacher</option>
+                                                    <option value="3" >Student</option>
+                                                </c:when>
+                                            </c:choose>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="statusSelect">Status</label>
+                                    <div class="form-group">
+                                        <select class="form-control" id="statusSelect" name="status" required>
+                                            <option value="">Select</option>
+                                            <c:choose>
+                                                <c:when test="${data['IsActive'] == true}">
+                                                    <option value="1" selected>Active</option>
+                                                    <option value="0" >Suspended</option>
+                                                </c:when>
+                                                <c:when test="${data['IsActive'] == false}">
+                                                    <option value="0" selected>Suspended</option>
+                                                    <option value="1" >Active</option>
+                                                </c:when>
+                                            </c:choose>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+
+                                <!-- Nút Lưu thay đổi-->
+                                <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                            </form>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </body>
+    <script>
+        function validateForm() {
+            var isValid = true; 
+            var username = document.getElementById('inputUsername').value;
+            var dobInput = document.getElementById('inputDob').value;
+            var phoneNumber = document.getElementById('inputPhone').value;
+            var password = document.getElementById('ipnPassword').value;
+            var specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
+            var phoneRegex = /^\d{10}$/;
+            if (specialCharacters.test(username)) {
+                document.getElementById('username-error').innerText = "Username cannot contain special characters";
+                isValid = false;
+            } else {
+                document.getElementById('username-error').innerText = "";
+            }
+            var dobDate = new Date(dobInput);
+            var currentDate = new Date();
+            if (dobDate > currentDate) {
+                document.getElementById('dob-error').innerText = "Date of birth cannot be in the future";
+                isValid = false;
+            } else {
+                document.getElementById('dob-error').innerText = "";
+            }
+            if (!phoneRegex.test(phoneNumber)) {
+                document.getElementById('phone-error').innerText = "Phone number must be 10 digits";
+                isValid = false;
+            } else {
+                document.getElementById('phone-error').innerText = "";
+            }
+            if (password.length < 8 || password.length > 32) {
+                document.getElementById('password-error').innerText = "Password must be between 8 and 32 characters";
+                isValid = false;
+            } else {
+                document.getElementById('password-error').innerText = "";
+            }
+
+            return isValid; 
+        }
+
+
+    </script>
+
 
 </html>

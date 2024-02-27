@@ -39,7 +39,7 @@
             <ul>
                 <li><a href="HomeController">HOME</a></li>
                     <c:if test="${acc != null}">
-                    <li><a href="ClassJoinListURL">Class</a></li>
+                    <li><a href="ClassJoinListURL">ClASS</a></li>
                     </c:if>
                 <li><a href="QuestionSetURL">QUIZ</a></li>
             </ul>
@@ -62,7 +62,8 @@
                         <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
                         <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
                         <c:if test="${acc.getRoleId() == '1'}">
-                            <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i> Administration</a>
+                            <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i>Manager User</a>
+                             <a class="dropdown-item admin-item" href="/QuizzesOnline/SettingControllerURL"><i class="fa-solid fa-pen-to-square"></i> Setting List</a>
                         </c:if>
                         <c:if test="${acc.getRoleId() == '3'}">
                             <a class="dropdown-item admin-item" href="/admin"><i class="fa-solid fa-pen-to-square"></i> Manage Courses</a>
