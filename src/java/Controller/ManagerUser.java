@@ -110,11 +110,11 @@ public class ManagerUser extends HttpServlet {
             request.setAttribute("data", userList);
         } else if ("active".equals(status)) {
             List<Map<String, Object>> userList = null;
-            if ("1".equals(role)) {
+            if ("3".equals(role)) {
                 userList = dao.getAllActiveAdminUsers();
             } else if ("2".equals(role)) {
                 userList = dao.getAllActiveTeacherUsers();
-            } else if ("3".equals(role)) {
+            } else if ("1".equals(role)) {
                 userList = dao.getAllActiveStudentUsers();
             } else {
 
@@ -123,11 +123,11 @@ public class ManagerUser extends HttpServlet {
             request.setAttribute("data", userList);
         } else if ("suspended".equals(status)) {
             List<Map<String, Object>> userList = null;
-            if ("1".equals(role)) {
+            if ("3".equals(role)) {
                 userList = dao.getAllBanAdminUsers();
             } else if ("2".equals(role)) {
                 userList = dao.getAllSuspendedTeacherUsers();
-            } else if ("3".equals(role)) {
+            } else if ("1".equals(role)) {
                 userList = dao.getAllSuspendedStudentUsers();
             } else {
                 userList = dao.getAllSuspendedUsers();
@@ -135,11 +135,11 @@ public class ManagerUser extends HttpServlet {
             request.setAttribute("data", userList);
         } else if ("all".equals(status)) {
             List<Map<String, Object>> userList = null;
-            if ("1".equals(role)) {
+            if ("3".equals(role)) {
                 userList = dao.getAllAdminUsers();
             } else if ("2".equals(role)) {
                 userList = dao.getAllTeacherUsers();
-            } else if ("3".equals(role)) {
+            } else if ("1".equals(role)) {
                 userList = dao.getAllStudentUsers();
             }
             request.setAttribute("data", userList);

@@ -448,7 +448,7 @@ public class DAOUser extends DBConnect {
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 1 AND u.IsActive = 1"; // Thêm điều kiện WHERE RoleId = 1 và IsActive = 1
+                    + "WHERE u.RoleId = 3 AND u.IsActive = 1"; // Thêm điều kiện WHERE RoleId = 1 và IsActive = 1
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -538,7 +538,7 @@ public class DAOUser extends DBConnect {
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 3 AND u.IsActive = 1"; // Thêm điều kiện WHERE RoleId = 3 và IsActive = 1
+                    + "WHERE u.RoleId = 1 AND u.IsActive = 1"; // Thêm điều kiện WHERE RoleId = 3 và IsActive = 1
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -568,7 +568,7 @@ public class DAOUser extends DBConnect {
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 3 AND u.IsActive = 0"; // Thêm điều kiện WHERE RoleId = 3 và IsActive = 0
+                    + "WHERE u.RoleId = 1 AND u.IsActive = 0"; // Thêm điều kiện WHERE RoleId = 3 và IsActive = 0
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -598,7 +598,7 @@ public class DAOUser extends DBConnect {
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 1 AND u.IsActive = 0"; // Thêm điều kiện WHERE RoleId = 1 và IsActive = 1
+                    + "WHERE u.RoleId = 3 AND u.IsActive = 0"; // Thêm điều kiện WHERE RoleId = 1 và IsActive = 1
 
             PreparedStatement stm = connection.prepareStatement(sql);
 

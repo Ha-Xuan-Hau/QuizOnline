@@ -66,6 +66,10 @@ public class AddUserByAdmin extends HttpServlet {
                 daoA.insertAdmin(AccountId, adminName, phone);
                 daoT.insertTeacher(AccountId, teacherName, phone);
                 daoS.insertStudent(AccountId, studentName, phone, studentDOB);
+                  HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "Add Success!!");
             }
             
             response.sendRedirect("ManagerUserURL");

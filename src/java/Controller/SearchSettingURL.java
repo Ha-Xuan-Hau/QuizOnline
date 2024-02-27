@@ -37,7 +37,7 @@ public class SearchSettingURL extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
            String txt = request.getParameter("txt");
         DAOAdmin dao = new DAOAdmin();
-        final int PAGE_SIZE = 3;
+        final int PAGE_SIZE = 8;
         //phân trang
         int page = 1;
         String pageStr = request.getParameter("page");
@@ -66,7 +66,7 @@ public class SearchSettingURL extends HttpServlet {
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
                 session.setAttribute("messageee", "Not Found!!!!!");
         }
-        
+        request.setAttribute("txt", txt);
         request.setAttribute("page", page);
         request.setAttribute("totalPage", totalPage);
         request.setAttribute("Ur", "SearchSettingURL?txt=" + txt + "&");
