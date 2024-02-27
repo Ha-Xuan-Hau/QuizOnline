@@ -50,8 +50,8 @@
             <c:if test="${acc != null}">
                 <span class="role"><c:choose>
 
-                        <c:when test="${acc.getRoleId() eq 1}">STUDENT</c:when>
-                        <c:when test="${acc.getRoleId() eq 2}">TEACHER</c:when>
+                        <c:when test="${acc.getRoleId() eq 2}">STUDENT</c:when>
+                        <c:when test="${acc.getRoleId() eq 1}">TEACHER</c:when>
                         <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
                         <%--<c:otherwise>UNKNOWN</c:otherwise>--%>
                     </c:choose>

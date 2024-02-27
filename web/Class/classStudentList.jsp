@@ -1,4 +1,3 @@
-
 <%-- 
     Document   : classList
     Created on : Jan 20, 2024, 1:24:13 PM
@@ -13,7 +12,7 @@
 <%@ page import="Entity.Teacher" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -79,13 +78,21 @@
     <body class="sub_page">
         <!-- Header sesion-->
         <%@include file="/Home/header.jsp" %> 
-        <!-- End Header sesion-->       
+        <!-- End Header sesion-->    
+        <c:set var="accId" value="${sessionScope.acc.getAccountId()}" />
         <div class="select_class">
 
             <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
 
 
-            <a href="classExamList.jsp" target="_self">Exam</a>
+            <c:choose>
+                <c:when test="${accId == teacher.getAccountId()}">
+                    <a href="ClassExamListURL" target="_self">Exam</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="ScoreListForStudentURL" target="_self">Exam</a>
+                </c:otherwise>
+            </c:choose>
 
 
             <a href="" target="_self" class="current-page">People</a>

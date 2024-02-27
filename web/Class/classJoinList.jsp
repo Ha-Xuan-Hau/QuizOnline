@@ -47,7 +47,7 @@
         <!-- End Header sesion-->       
         <div class="select_class">          
             <!-- My Class -->
-            <c:if test="${acc.getRoleId()== 1}">
+            <c:if test="${acc.getRoleId()== 2}">
                 <a href="ClassListURL" target="_self">My Class</a>
             </c:if>
 
