@@ -1,7 +1,6 @@
-
 <%-- 
-    Document   : classList
-    Created on : Jan 20, 2024, 1:24:13 PM
+    Document   : classScoreForTeacher
+    Created on : Feb 27, 2024, 4:10:53 PM
     Author     : phamg
 --%>
 
@@ -13,7 +12,7 @@
 <%@ page import="Entity.Teacher" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -63,7 +62,6 @@
                 margin: 10px;
             }
             .box_student{
-                border-bottom: #333 solid 1px;
                 display: flex;
             }
             .student-list p {
@@ -82,51 +80,50 @@
         <!-- End Header sesion-->       
         <div class="select_class">
 
-            <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
+            <a href="ClassExamListURL" target="_self" >Go Back </a>
 
 
-            <a href="classExamList.jsp" target="_self">Exam</a>
+            <a href="" target="_self" class="current-page">Detail</a>
 
-
-            <a href="" target="_self" class="current-page">People</a>
         </div>
         <div class="content">
-            <h1>Teacher</h1>
-            <div class="student-list">
-                <c:if test="${not empty teacher}">
-                    <div class="teacher-info">
-                        <p><strong>${teacher.getUsername()}</strong></p>
-                        <p title="${teacher.getEmail()}" onclick="openGmailCompose('${teacher.getEmail()}')">
-                            <img src="${pageContext.request.contextPath}/Class/images/gmail.png" width="30px" alt="alt"/>
-                        </p>
-                    </div>
-                </c:if>
-            </div>
-
-            <h1>Classmates<span style="margin-left: auto; font-size: 20px" class="classmates-count">${StudentList.size()} Students</span></h1>           
+            <h1>Score Board<span style="margin-left: auto; font-size: 20px" class="classmates-count">${StudentList.size()} Students</span></h1>           
             <div class="student-list">
                 <c:if test="${not empty StudentList}">
                     <c:forEach var="student" items="${StudentList}">
-                        <div class="box_student"> 
-                            <p><img src="${pageContext.request.contextPath}/Class/images/student-card.png" width="30px" alt="alt"/></p>
-                            <p style="margin-top: 35px"><strong>${student.getUsername()}</strong></p>
-                            <p title="${student.getEmail()}" style="float: right; margin-left: auto;" onclick="openGmailCompose('${student.getEmail()}')">
-                                <img src="${pageContext.request.contextPath}/Class/images/gmail.png" width="30px" alt="alt"/>
-                            </p>
+                        <div class="List" style="display: flex; border: #888 solid 0.5px">
+                            <div class="col-2"> 
+                                <div class="box_student"> 
+                                    <p style="margin-top: 35px"><strong>${student.username}</strong></p>
+                                </div>
+                            </div>
+                            <c:set var="isEmpty" value="true" />
+                            <c:forEach var="score" items="${ScoreList}">
+                                <c:if test="${score.studentAccountId == student.accountId}">                                 
+                                    <p class="col-2" style="margin-top: 35px">Score: ${score.score}</p>
+                                    <p class="col-2" style="margin-top: 35px">Status: ${score.status} </p>
+                                    <p class="col-3" style="margin-top: 35px">From ${score.getStartDate().substring(0, 10)} To ${score.getEndDate().substring(0, 10)}</p>
+                                    <div class="col-2" style="margin-top: 30px">
+                                        <a href="" class="btn btn-primary">Detail</a>
+                                    </div>  
+                                    <c:set var="isEmpty" value="false" />
+                                </c:if>                                     
+                            </c:forEach>
+                            <c:if test="${isEmpty}">                                 
+                                <p class="col-8" style="margin-top: 35px;text-align: center; color: red">Haven't taken the Exam yet</p>
+                            </c:if> 
                         </div>
+
                     </c:forEach>
                 </c:if>
             </div>
         </div>
+
         <!-- footer section -->
 
         <!-- footer section -->
     </body>
     <script>
-        function openGmailCompose(email) {
-            window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + email, '_blank');
-        }
-
     </script>
 </html>
 

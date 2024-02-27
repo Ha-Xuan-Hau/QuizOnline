@@ -16,14 +16,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 
 /**
  *
  * @author phamg
  */
-@WebServlet(name = "ControllerClassExamList", urlPatterns = {"/ClassExamListURL"})
-public class ControllerClassExamList extends HttpServlet {
+@WebServlet(name = "ControllerScoreListForStudent", urlPatterns = {"/ScoreListForStudentURL"})
+public class ControllerScoreListForStudent extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,17 +45,11 @@ public class ControllerClassExamList extends HttpServlet {
             DAOClass daoC = new DAOClass();
             DAOTeacher daoT = new DAOTeacher();
             if (service == null) {
-                request.setAttribute("ExamList", daoE.getExam("Select * from Exam where ClassId = " + classId + "and TeacherAccountId = " + acc.getAccountId()));
                 Entity.Class myClass = daoC.ClassByClassID(classId);
                 Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
+                request.setAttribute("ExamList", daoE.getExam("Select * from Exam where ClassId = " + classId + "and TeacherAccountId = " + teacher.getAccountId()+ "and Permission = 1"));
                 request.setAttribute("teacher", teacher);
-                request.getRequestDispatcher("/Class/classExamList.jsp").forward(request, response);
-            } else {
-                if (service.equals("active")) {
-                    int examId = Integer.parseInt(request.getParameter("examId"));
-                    boolean isChecked = Boolean.parseBoolean(request.getParameter("isChecked"));
-                    daoE.updateExamPermission(examId, isChecked);
-                };
+                request.getRequestDispatcher("/Class/classScoreForStudent.jsp").forward(request, response);
             }
         }
     }

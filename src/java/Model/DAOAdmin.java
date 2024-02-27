@@ -66,6 +66,8 @@ public class DAOAdmin extends DBConnect {
 
             }
         } catch (Exception e) {
+                    e.printStackTrace();
+
         }
         return ad;
 

@@ -40,6 +40,7 @@
                 <li><a href="HomeController">HOME</a></li>
                     <c:if test="${acc != null}">
                     <li><a href="ClassJoinListURL">ClASS</a></li>
+
                     </c:if>
                 <li><a href="QuestionSetURL">QUIZ</a></li>
             </ul>
@@ -48,6 +49,7 @@
             <%--<c:if test="${user != null}">--%>
             <c:if test="${acc != null}">
                 <span class="role"><c:choose>
+
                         <c:when test="${acc.getRoleId() eq 1}">STUDENT</c:when>
                         <c:when test="${acc.getRoleId() eq 2}">TEACHER</c:when>
                         <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
@@ -65,6 +67,7 @@
                             <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i>Manager User</a>
                              <a class="dropdown-item admin-item" href="/QuizzesOnline/SettingControllerURL"><i class="fa-solid fa-gear"></i> Setting List</a>
                         </c:if>
+
                         
                         <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
                     </div>

@@ -4,10 +4,11 @@
  */
 package Controller;
 
+import Entity.TakeExam;
 import Entity.User;
-import Model.DAOClass;
-import Model.DAOExam;
-import Model.DAOTeacher;
+import Model.DAOTakeClass;
+import Model.DAOTakeExam;
+import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,8 +23,8 @@ import java.util.ArrayList;
  *
  * @author phamg
  */
-@WebServlet(name = "ControllerClassExamList", urlPatterns = {"/ClassExamListURL"})
-public class ControllerClassExamList extends HttpServlet {
+@WebServlet(name = "ControllerTakeExamDetail", urlPatterns = {"/TakeExamDetailURL"})
+public class ControllerTakeExamDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,24 +41,17 @@ public class ControllerClassExamList extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();
+            int ExamId = (int) Integer.parseInt(request.getParameter("ExamId"));
+            session.setAttribute("ExamId", ExamId);
             int classId = (int) Integer.parseInt(session.getAttribute("classId").toString());
             User acc = (User) request.getSession().getAttribute("acc");
-            DAOExam daoE = new DAOExam();
-            DAOClass daoC = new DAOClass();
-            DAOTeacher daoT = new DAOTeacher();
+            DAOTakeExam daoTE = new DAOTakeExam();;
+            ArrayList<TakeExam> ScoreList = new ArrayList<>();
             if (service == null) {
-                request.setAttribute("ExamList", daoE.getExam("Select * from Exam where ClassId = " + classId + "and TeacherAccountId = " + acc.getAccountId()));
-                Entity.Class myClass = daoC.ClassByClassID(classId);
-                Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
-                request.setAttribute("teacher", teacher);
-                request.getRequestDispatcher("/Class/classExamList.jsp").forward(request, response);
-            } else {
-                if (service.equals("active")) {
-                    int examId = Integer.parseInt(request.getParameter("examId"));
-                    boolean isChecked = Boolean.parseBoolean(request.getParameter("isChecked"));
-                    daoE.updateExamPermission(examId, isChecked);
-                };
-            }
+            ScoreList = daoTE.getTakeExam("SELECT * FROM [dbo].[TakeExam] WHERE [ExamId] = "+ ExamId +"and StudentAccountId = " + acc.getAccountId());
+            request.setAttribute("ScoreList", ScoreList);
+            request.getRequestDispatcher("/Class/ClassExamDetail.jsp").forward(request, response);
+            }             
         }
     }
 

@@ -103,7 +103,7 @@ public class UpdateProfileByAdm extends HttpServlet {
         int roleId = Integer.parseInt(request.getParameter("roleId"));
         int status = Integer.parseInt(request.getParameter("status"));
         int AccountId = dao.updateUserAndGetAccountId(acc, username, email, password, roleId, status);
-        if ("1".equals(roleId)) {
+        if ("3".equals(roleId)) {
             daoA.updateAdmin(AccountId, adName, phone);
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(2);
@@ -114,7 +114,7 @@ public class UpdateProfileByAdm extends HttpServlet {
             session.setMaxInactiveInterval(2);
             session.setAttribute("messagee", "Update Success");
 
-        } else {
+        } else if("3".equals(roleId)){
             daoS.updateStudent(AccountId, studentName, phone, dob);
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(1);

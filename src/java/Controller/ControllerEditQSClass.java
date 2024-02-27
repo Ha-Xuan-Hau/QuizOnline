@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -123,7 +122,6 @@ public class ControllerEditQSClass extends HttpServlet {
                 }
                 if (service.equals("add")) {
                     String[] selectedSetIds = request.getParameterValues("selectedSetIds[]");
-                    ArrayList<Integer> setIdList = new ArrayList<>();
                     if (selectedSetIds != null) {
                         for (String setId : selectedSetIds) {
                             int setIdValue = Integer.parseInt(setId);
@@ -131,6 +129,14 @@ public class ControllerEditQSClass extends HttpServlet {
                         }
                     }
                     response.sendRedirect("EditQSClassURL");
+                }
+                if (service.equals("add")) {
+                    int setIdParam = Integer.parseInt(request.getParameter("setId"));
+                    daoCQS.CreateClassQuestionSetById(classId, setIdParam);
+                    QuestionSet newQuestionSet = daoQS.getQuestionSetById(setIdParam);
+                    Integer subID = newQuestionSet.getSubjectId();
+                    Entity.Subject subject = daoS.getSubject(subID);
+
                 }
 
             }
@@ -177,4 +183,3 @@ public class ControllerEditQSClass extends HttpServlet {
     }// </editor-fold>
 
 }
-

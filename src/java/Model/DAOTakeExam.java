@@ -112,7 +112,8 @@ public class DAOTakeExam extends DBConnect {
         }
         return n;
     }
-    public ArrayList<TakeExam> getTakeExam(String sql){
+
+    public ArrayList<TakeExam> getTakeExam(String sql) {
         ArrayList<TakeExam> list = new ArrayList<TakeExam>();
         Statement statement = null;
         ResultSet rs = null;
@@ -154,8 +155,8 @@ public class DAOTakeExam extends DBConnect {
         }
         return list;
     }
-    
-        public ResultSet getTakeExamDB(String sql) {
+
+    public ResultSet getTakeExamDB(String sql) {
         ResultSet rs = null;
         Statement state;
         try {
@@ -167,5 +168,35 @@ public class DAOTakeExam extends DBConnect {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
+    }
+
+    public ArrayList<TakeExam> getTakeExamByExamId(int examId) {
+        ArrayList<TakeExam> list = new ArrayList<TakeExam>();
+        PreparedStatement pre = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM [dbo].[TakeExam] WHERE [ExamId] = ?";
+        try {
+            pre = connection.prepareStatement(sql);
+            pre.setInt(1, examId);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                int takeExamId = rs.getInt("TakeExamId");
+                int studentAccountId = rs.getInt("StudentAccountId");
+                String status = rs.getString("Status");
+                double score = rs.getDouble("Score");
+                String startDate = rs.getString("StartDate");
+                String endDate = rs.getString("EndDate");
+
+                TakeExam obj = new TakeExam(takeExamId, studentAccountId, examId, status, score, startDate, endDate);
+                list.add(obj);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOTakeExam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    public static void main(String[] args) {
+        DAOTakeExam dao = new DAOTakeExam();
+        System.out.println(dao.getTakeExamByExamId(1));
     }
 }

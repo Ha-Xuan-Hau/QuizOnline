@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : classList
     Created on : Jan 20, 2024, 1:24:13 PM
@@ -10,7 +11,7 @@
 <%@ page import="Entity.Teacher" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -56,7 +57,7 @@
             <img style="height:20px; margin: 5px 0px " onclick="openForm()"
                  src="${pageContext.request.contextPath}/Class/images/add-user.png" alt="alt" />
         </div>
-        <!-- Class List -->
+        <!-- Class ssList -->
         <section class="service_section layout_padding">
             <div class="service_container">
                 <div class="container">
@@ -231,5 +232,4 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
             document.getElementById("popupBehind").style.display = "none";
         }
     </script>
-
 </html>
