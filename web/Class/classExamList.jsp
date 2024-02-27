@@ -228,7 +228,10 @@
                         </h3>
                         <h5 class="col-2">From ${examList.getStartDate().substring(0, 10)} To ${examList.getEndDate().substring(0, 10)}</h5>
                         <h5 class="col-2">Maximum Score ${examList.getScore()}</h5>
-                        <h5 class="col-2">Time ${examList.getTimer() / 60} minutes</h5> 
+                        <h5 class="col-1">Time ${examList.getTimer() / 60} minutes</h5> 
+                            <div class="col-1" style="margin: 10px 0px;">
+                                <a href="" class="btn btn-primary" style="width: 67px">Edit</a>
+                            </div>
                             <div class="col-1" style="margin: 10px 0px">
                                 <a href="ScoreListForTeacherURL?ExamId=${examList.getExamId()}" class="btn btn-primary">Detail</a>
                             </div>   
