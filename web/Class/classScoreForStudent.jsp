@@ -1,7 +1,7 @@
 <%-- 
-   Document   : classList
-   Created on : Jan 20, 2024, 1:24:13 PM
-   Author     : phamg
+    Document   : classScoreForStudent
+    Created on : Feb 27, 2024, 11:29:50 PM
+    Author     : phamg
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -194,17 +194,16 @@
     <body class="sub_page">
         <!-- Header sesion-->
         <%@include file="/Home/header.jsp" %> 
-        <!-- End Header sesion-->     
+        <!-- End Header sesion-->
         <c:set var="accId" value="${sessionScope.acc.getAccountId()}" />
         <div class="select_class">
-
             <a href="ClassDetailURL?classId=${classId}" target="_self" >Practice</a>
             <c:choose>
                 <c:when test="${accId == teacher.getAccountId()}">
-                    <a href="ClassExamListURL" target="_self" class="current-page">Exam</a>
+                    <a href="" target="_self" class="current-page">Exam</a>
                 </c:when>
                 <c:otherwise>
-                    <a href="ScoreListForStudentURL" target="_self" class="current-page">Exam</a>
+                    <a href="" target="_self" class="current-page">Exam</a>
                 </c:otherwise>
             </c:choose>
             <a href="ClassStudentListURL" target="_self">People</a>
@@ -228,16 +227,10 @@
                         </h3>
                         <h5 class="col-2">From ${examList.getStartDate().substring(0, 10)} To ${examList.getEndDate().substring(0, 10)}</h5>
                         <h5 class="col-2">Maximum Score ${examList.getScore()}</h5>
-                        <h5 class="col-2">Time ${examList.getTimer() / 60} minutes</h5> 
-                            <div class="col-1" style="margin: 10px 0px">
-                                <a href="ScoreListForTeacherURL?ExamId=${examList.getExamId()}" class="btn btn-primary">Detail</a>
-                            </div>   
-                            <div class="col-1 text-right" title="Active">
-                                <label class="switch d-inline-block">
-                                    <input type="checkbox" id="checkbox_${examList.getExamId()}" name="checkbox_${examList.getExamId()}" ${examList.isPermission() ? 'checked' : ''}>                       
-                                    <span class="slider"></span>                          
-                                </label>
-                            </div>  
+                        <h5 class="col-3">Time ${examList.getTimer() / 60} minutes</h5> 
+                        <div class="col-1" style="margin: 10px 0px">
+                            <a href="TakeExamDetailURL?ExamId=${examList.getExamId()}" class="btn btn-primary">Detail</a>
+                        </div>   
                     </div>
                 </li>
             </c:forEach>

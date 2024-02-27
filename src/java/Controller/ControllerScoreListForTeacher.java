@@ -5,9 +5,12 @@
 package Controller;
 
 import Entity.User;
+import Entity.TakeExam;
 import Model.DAOClass;
-import Model.DAOExam;
+import Model.DAOTakeClass;
+import Model.DAOTakeExam;
 import Model.DAOTeacher;
+import Model.DAOUser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,8 +25,8 @@ import java.util.ArrayList;
  *
  * @author phamg
  */
-@WebServlet(name = "ControllerClassExamList", urlPatterns = {"/ClassExamListURL"})
-public class ControllerClassExamList extends HttpServlet {
+@WebServlet(name = "ControllerScoreListForTeacher", urlPatterns = {"/ScoreListForTeacherURL"})
+public class ControllerScoreListForTeacher extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,24 +43,29 @@ public class ControllerClassExamList extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();
+            int ExamId = (int) Integer.parseInt(request.getParameter("ExamId"));
+            session.setAttribute("ExamId", ExamId);
             int classId = (int) Integer.parseInt(session.getAttribute("classId").toString());
-            User acc = (User) request.getSession().getAttribute("acc");
-            DAOExam daoE = new DAOExam();
-            DAOClass daoC = new DAOClass();
-            DAOTeacher daoT = new DAOTeacher();
+            DAOTakeClass daoTC = new DAOTakeClass();
+            DAOUser daoU = new DAOUser();
+            DAOTakeExam daoTE = new DAOTakeExam();
+            ArrayList<Integer> studentIdlist = new ArrayList<>();
+            ArrayList<User> StudentList = new ArrayList<>();
+            ArrayList<TakeExam> ScoreList = new ArrayList<>();
             if (service == null) {
-                request.setAttribute("ExamList", daoE.getExam("Select * from Exam where ClassId = " + classId + "and TeacherAccountId = " + acc.getAccountId()));
-                Entity.Class myClass = daoC.ClassByClassID(classId);
-                Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
-                request.setAttribute("teacher", teacher);
-                request.getRequestDispatcher("/Class/classExamList.jsp").forward(request, response);
-            } else {
-                if (service.equals("active")) {
-                    int examId = Integer.parseInt(request.getParameter("examId"));
-                    boolean isChecked = Boolean.parseBoolean(request.getParameter("isChecked"));
-                    daoE.updateExamPermission(examId, isChecked);
-                };
+            studentIdlist = daoTC.getStudentIDbyClassID(classId);
+            for (Integer studentIds : studentIdlist) {
+                int studentId = studentIds;
+                StudentList.add(daoU.getUserById(studentId));
+            ScoreList = daoTE.getTakeExamByExamId(ExamId);
             }
+            request.setAttribute("StudentList", StudentList);
+            request.setAttribute("ScoreList", ScoreList);
+            request.getRequestDispatcher("/Class/classScoreForTeacher.jsp").forward(request, response);
+            } 
+//            else {
+//            
+//            }
         }
     }
 

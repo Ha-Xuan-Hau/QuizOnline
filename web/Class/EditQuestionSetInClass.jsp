@@ -134,7 +134,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-info">
-                        <div class="panel-body">
+                        <div id="contentList" class="panel-body">
                             <c:forEach var="questionSet" items="${questionSetList}">
                                 <div class="row question-set" id="questionSet_${questionSet.getSetId()}" data-setId="${questionSet.getSetId()}">
                                     <div class="col-xs-2"><img class="img-responsive" src="${pageContext.request.contextPath}/Class/images/subject.jpg" style="margin-bottom: 5px">
@@ -215,56 +215,31 @@
                                                     });
                                                 }
                                             }
-    </script>   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-                                            var selectedSetIds = [];
-
-                                            function saveSetId(setId) {
-                                                var exists = false;
-
-                                                if (selectedSetIds.includes(setId)) {
-                                                    alert('Question Set is already selected.');
-                                                    return;
-                                                }
-
-                                                var questionSets = document.querySelectorAll(".question-set");
-                                                questionSets.forEach(function (questionSet) {
-                                                    var setIdFromDiv = questionSet.getAttribute("data-setId");
-                                                    if (setIdFromDiv === setId) {
-                                                        exists = true;
-                                                        return;
-                                                    }
-                                                });
-
-                                                if (exists) {
-                                                    alert('Question Set is already in your class.');
-                                                    return;
-                                                }
-
-                                                selectedSetIds.push(setId);
-                                                console.log(selectedSetIds);
-                                                alert('Question Set has been saved.');
-                                                return;
-                                            }
-
-                                            function sendDataToServer() {
-                                                $.ajax({
-                                                    url: 'EditQSClassURL',
-                                                    method: 'POST',
-                                                    data: {go: "add", selectedSetIds: selectedSetIds},
-                                                    success: function (response) {
-                                                        location.reload();
-                                                        console.log('Data sent successfully');
-                                                    },
-                                                    error: function (xhr, status, error) {
-                                                        console.error('Error sending data:', error);
-                                                    }
-                                                });
-                                            }
     </script>
+    <script>
+        function saveSetId(setId) {
+            if (!questionSetExists(setId)) {
+                $.ajax({
+                    url: "/QuizzesOnline/EditQSClassURL",
+                    method: "POST",
+                    data: {go: "add", setId: setId},
+                    success: function (data) {
+                        alert("Question set added successfully!");
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                alert("This question set already exists in the class.");
+            }
+        }
 
-
+        function questionSetExists(setId) {
+            return $("#questionSet_" + setId).length > 0;
+        }
+    </script>
     <script>
         var currentPage = 1; // Trang hiện tại
         var itemsPerPage = 5; // Số lượng mục trên mỗi trang

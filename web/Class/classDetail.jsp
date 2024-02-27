@@ -121,15 +121,19 @@
     <body class="sub_page">
         <!-- Header sesion-->
         <%@include file="/Home/header.jsp" %> 
-        <!-- End Header sesion-->       
+        <!-- End Header sesion--> 
+        <c:set var="accId" value="${sessionScope.acc.getAccountId()}" />
         <div class="select_class">
 
             <a href="" target="_self" class="current-page">Practice</a>
-
-
-            <a href="ClassExamListURL" target="_self">Exam</a>
-
-            
+            <c:choose>
+                <c:when test="${accId == teacher.getAccountId()}">
+                    <a href="ClassExamListURL" target="_self">Exam</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="ScoreListForStudentURL" target="_self">Exam</a>
+                </c:otherwise>
+            </c:choose>
             <a href="ClassStudentListURL" target="_self">People</a>
         </div>
         <div class="info">

@@ -174,13 +174,9 @@
 
 
                     <section class="carousel-screen">
-                        <img src="https://toquoc.mediacdn.vn/280518851207290880/2022/12/22/12-1671683430473740576022.jpg" alt="This is a picture of slider" />
-                        <section class="text-container">
-                            <p>MATH</p>
-                            <p>Lecturer:LE VAN KIEN </p>
-                        </section>
+                        <img src="https://www.generalatlantic.com/wp-content/uploads/2020/05/quizlet-logo-indigo-rgb.jpg" alt="This is a picture of slider" />
                     </section>
-                    </a>
+
 
                     <!--These are not screens. They will always be on carousel-->
                     <section class="circle-container">

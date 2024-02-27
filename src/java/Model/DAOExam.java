@@ -126,8 +126,8 @@ public class DAOExam extends DBConnect {
         }
         return n;
     }
-    
-    public ArrayList<Exam> getExam(String sql){
+
+    public ArrayList<Exam> getExam(String sql) {
         ArrayList<Exam> list = new ArrayList<Exam>();
         Statement statement = null;
         ResultSet rs = null;
@@ -171,8 +171,8 @@ public class DAOExam extends DBConnect {
         }
         return list;
     }
-    
-        public ResultSet getExamDB(String sql) {
+
+    public ResultSet getExamDB(String sql) {
         ResultSet rs = null;
         Statement state;
         try {
@@ -185,8 +185,34 @@ public class DAOExam extends DBConnect {
         }
         return rs;
     }
-        public static void main(String[] args) {
+
+    public int updateExamPermission(int examId, boolean permission) {
+        int n = 0;
+        String sql = "UPDATE [dbo].[Exam]\n"
+                + "SET [Permission] = ?\n"
+                + "WHERE [ExamId] = ?";
+        PreparedStatement pre = null;
+        try {
+            pre = connection.prepareStatement(sql);
+            pre.setBoolean(1, permission);
+            pre.setInt(2, examId);
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOExam.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (pre != null) {
+                try {
+                    pre.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return n;
+    }
+
+    public static void main(String[] args) {
         DAOExam daoE = new DAOExam();
-            System.out.println(daoE.getExam("Select * from Exam where ClassId = " + 1));
+       daoE.updateExamPermission(1, false);
     }
 }
