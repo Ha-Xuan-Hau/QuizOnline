@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,7 @@
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    <a class="back_home-detail" href="HomeController"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
+                    <a class="back_home-detail" href="HomeURL"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
             <div class="container-form">
@@ -47,7 +47,9 @@
                         </div>
                         <div class="form-group">
                             <input id="password" name="password" value="${password==null?'':password}" type="password" placeholder="Password" class="form-control">
-                            <span class="form-message"></span>
+                            <span class="form-message"></span><br>
+                            
+
                         </div>
                         <span class="validate-message">${validate}</span>
                         <div class="form-remember">
@@ -55,10 +57,11 @@
                             <label for="remember-account" class="remember-detail"> Remember me</label>
                         </div>
                         <button id="form-submit" class="form-submit">Login</button>
-                        <div class="logreg-link">
-                            <span>Don't have an account? <a href="RegisterURL">Register now</a></span>
-                        </div>
                     </form>
+                        <button class="form-submit email-login-button" onclick="redirectToEmailLogin()"><i class="fab fa-google"></i> Login with email</button>
+                    <div class="logreg-link">
+                        <span>Don't have an account? <a href="RegisterURL">Register now</a></span>
+                    </div>
                     <div class="spacing_bottom"></div>
                 </div>
                 <div class="right-part_space"></div>
@@ -66,16 +69,17 @@
         </div>
         <script src="assets/js/login.js"></script>
         <script>
-            Validator({
-                form: "#form-1",
-                formGroupSelector: ".form-group",
-                querySelector: ".form-message",
-                rules: [
-                    //Validator.isEmail("#email"),
-                    Validator.isRequired("#username"),
-                    Validator.isRequired("#password")
-                ]
-            });
+
+                        Validator({
+                            form: "#form-1",
+                            formGroupSelector: ".form-group",
+                            querySelector: ".form-message",
+                            rules: [
+                                //Validator.isEmail("#email"),
+                                Validator.isRequired("#username"),
+                                Validator.isRequired("#password")
+                            ]
+                        });
         </script>
     </body>
 

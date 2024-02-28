@@ -69,7 +69,7 @@
                         </c:if>
 
                         
-                        <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
+                        <a class="dropdown-item" href="LogoutURL"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
                     </div>
                 </div>
             </c:if>

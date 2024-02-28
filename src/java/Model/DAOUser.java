@@ -879,7 +879,22 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
+    public User getUserByEmail(String email) {
+        String sql = "select * from [User] where [Email] = ?";
+        PreparedStatement ps;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return fromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+        return null;
+    }
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
 

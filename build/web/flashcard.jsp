@@ -52,7 +52,7 @@
             .front,
             .back {
                 width: 600px; /* Increase width */
-                height: 200px; /* Increase height */
+                height: 300px; /* Increase height */
                 line-height: 50px; /* Match height for vertical centering */
                 text-align: center;
                 font-size: 30px;
@@ -70,6 +70,9 @@
                 bottom: 0;
                 margin: auto; /* Center the card vertically and horizontally */
                 text-align: center;
+                border-radius: 10px;
+                border: #0b67a3 solid thick;
+                font-family: Arial, sans-serif;            
             }
 
             .front i {
@@ -81,7 +84,7 @@
                 transform: rotateY(180deg);
                 font-size: 18px;
                 border: 1px solid;
-/*                font-family: Verdana;*/
+                border: #0b67a3 solid thick;
                 color: white;
             }
 
@@ -90,8 +93,8 @@
             }
 
             .ac-bicycle .back {
-                background: #0b67a3; /* Darken color for back face */
-                border-color: #30aee6; /* Lighten color for border */
+                background: #1189d1; 
+                border-color: #30aee6; 
             }
 
             .button-container {
@@ -105,7 +108,7 @@
                 background-color: #1189d1;
                 color: white;
                 font-size: 16px;
-                border-radius: 5px;
+                border-radius: 10px;
                 cursor: pointer;
                 transition: background-color 0.3s;
                 margin-right: 10px;

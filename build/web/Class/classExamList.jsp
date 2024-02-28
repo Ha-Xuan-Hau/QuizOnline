@@ -214,7 +214,7 @@
             <li>
                 <c:if test="${accId == teacher.getAccountId()}">
                     <div class="question-set-item" style="">
-                        <a style="display: flex;justify-content: center " href="">
+                        <a style="display: flex;justify-content: center " href="NewExamURL">
                             <img alt="add button" src="${pageContext.request.contextPath}/Class/images/add.png" width="30px" style="margin: 10px" />                            
                         </a>
                     </div>
@@ -230,7 +230,7 @@
                         <h5 class="col-2">Maximum Score ${examList.getScore()}</h5>
                         <h5 class="col-1">Time ${examList.getTimer() / 60} minutes</h5> 
                             <div class="col-1" style="margin: 10px 0px;">
-                                <a href="" class="btn btn-primary" style="width: 67px">Edit</a>
+                                <a href="EditExamURL?examId=${examList.getExamId()}" class="btn btn-primary" style="width: 67px">Edit</a>
                             </div>
                             <div class="col-1" style="margin: 10px 0px">
                                 <a href="ScoreListForTeacherURL?ExamId=${examList.getExamId()}" class="btn btn-primary">Detail</a>
