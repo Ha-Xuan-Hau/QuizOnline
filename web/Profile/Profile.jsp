@@ -46,6 +46,7 @@
     </head>
 
     <body>
+        <c:set var="accId" value="${sessionScope.acc.getAccountId()}" />
         <div class="container-xl px-4 mt-4">
             <!-- Account page navigation-->
             <nav class="nav nav-borders">
@@ -62,7 +63,9 @@
                             <!-- Profile picture image-->
                             <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png"
                                  alt="">
+                            <a href="/QuizzesOnline/change?username=${acc.getUsername()}">Change Password</a>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-xl-8">

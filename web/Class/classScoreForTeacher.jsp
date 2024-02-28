@@ -100,7 +100,7 @@
                             <c:set var="isEmpty" value="true" />
                             <c:forEach var="score" items="${ScoreList}">
                                 <c:if test="${score.studentAccountId == student.accountId}">                                 
-                                    <p class="col-2" style="margin-top: 35px">Score: ${score.score}</p>
+                                    <p class="col-1" style="margin-top: 35px">Score: ${score.score}</p>
                                     <p class="col-2" style="margin-top: 35px">Status: ${score.status} </p>
                                     <p class="col-3" style="margin-top: 35px">From ${score.getStartDate().substring(0, 10)} To ${score.getEndDate().substring(0, 10)}</p>
                                     <div class="col-2" style="margin-top: 30px">

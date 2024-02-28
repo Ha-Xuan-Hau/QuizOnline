@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Utils.EncryptionUtils;
 
 /**
  *
@@ -216,22 +217,22 @@ public class DAOUser extends DBConnect {
     }
 
     public boolean usernameExists(String username) {
-    boolean result = false;
-    try {
-        String sql = "SELECT * FROM [User] WHERE Username=?";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, username);
-        ResultSet rs = ps.executeQuery();
+        boolean result = false;
+        try {
+            String sql = "SELECT * FROM [User] WHERE Username=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            result = true; // Tên người dùng đã tồn tại trong cơ sở dữ liệu
+            if (rs.next()) {
+                result = true; // Tên người dùng đã tồn tại trong cơ sở dữ liệu
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return result;
     }
-    return result;
-}
 
     public boolean emailCheck(String email) {
         boolean result = false;
@@ -845,6 +846,38 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
         return new HashMap<>();
+    }
+
+    public User checkAccount(String username, String password) {
+
+        String sql = "select * from [User] where Username = ? and Password = ?";
+        try {
+            EncryptionUtils encryptionUtils = new EncryptionUtils();
+            String opass = encryptionUtils.toMD5(password);
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, opass);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new User(username, password);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void ChangePass(User u) {
+        String sql = "update [User] set Password = ? where Username = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            EncryptionUtils e = new EncryptionUtils();
+            pre.setString(1, e.toMD5(u.getPassword()));
+            pre.setString(2, u.getUsername());
+            pre.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
