@@ -34,7 +34,8 @@ function Validator(options) {
         // lặp qua từng rule và ktra
         for (var i = 0; i < rules.length; ++i) {
             errorMessage = rules[i](inputElement.value);
-            if (errorMessage) break;
+            if (errorMessage)
+                break;
         }
 
         if (errorMessage) {
@@ -118,7 +119,7 @@ Validator.isRequired = function (selector, msg) {
         selector: selector,
         test: function (value) {
             return value ? undefined : msg ||
-                'Please enter this field!';
+                    'Please enter this field!';
         }
     };
 };
@@ -131,3 +132,6 @@ Validator.isEmail = function (selector, msg) {
         }
     };
 };
+function redirectToEmailLogin() {
+    window.location.href = "https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/QuizzesOnline/LoginGoogleURL&response_type=code&client_id=792958604853-t1da5rg9q5fblc145j7a30814recg0js.apps.googleusercontent.com&approval_prompt=force";
+}

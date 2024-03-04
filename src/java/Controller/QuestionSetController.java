@@ -51,12 +51,14 @@ public class QuestionSetController extends HttpServlet {
             request.getRequestDispatcher("Question/displayAllQuesSet.jsp").forward(request, response);
         }
         if (service.equals("setDetails")) {
+            ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
+            
             int setId = Integer.parseInt(request.getParameter("SetId"));
 
             ArrayList<NormalQuestion> Ques = dao.getQues(setId);
 
             ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
-
+            request.setAttribute("data", allQuesSet);
             request.setAttribute("question", Ques);
             request.setAttribute("content", QuesAnswers);
             request.getRequestDispatcher("Question/setDetail.jsp").forward(request, response);

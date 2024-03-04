@@ -194,7 +194,7 @@ public class DAOTeacher extends DBConnect {
                 return obj;
             }
         } catch (Exception e) {
-//             e.printStackTrace();
+
         }
         return null;
     }

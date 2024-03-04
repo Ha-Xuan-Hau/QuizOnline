@@ -52,6 +52,18 @@ public class Exam {
         this.permission = permission;
     }
 
+    public Exam(int examId, String title, String summary, Double score, String startDate, String endDate, int timer, int takingTime, boolean permission) {
+        this.examId = examId;
+        this.title = title;
+        this.summary = summary;
+        this.score = score;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timer = timer;
+        this.takingTimes = takingTime;
+        this.permission = permission; 
+    }
+
     public int getExamId() {
         return examId;
     }

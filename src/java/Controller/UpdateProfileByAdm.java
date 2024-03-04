@@ -5,6 +5,9 @@
  */
 package Controller;
 
+import Entity.Admin;
+import Entity.Student;
+import Entity.Teacher;
 import Model.DAOAdmin;
 import Model.DAOStudent;
 import Model.DAOTeacher;
@@ -68,7 +71,8 @@ public class UpdateProfileByAdm extends HttpServlet {
             throws ServletException, IOException {
         DAOUser dao = new DAOUser();
         int sid = Integer.parseInt(request.getParameter("sid"));
-        Map<String, Object> user = dao.getUserByIdd(sid);
+        int roleId = Integer.parseInt(request.getParameter("role"));
+        Map<String, Object> user = dao.getUserByAccountIdAndRoleId(sid, roleId);
 
         request.setAttribute("data", user);
         request.getRequestDispatcher("/Admin/UpdateProfileByAdm.jsp").forward(request, response);
@@ -88,9 +92,6 @@ public class UpdateProfileByAdm extends HttpServlet {
             throws ServletException, IOException {
         // Lấy giá trị từ các trường dữ liệu khi form được submit
         DAOUser dao = new DAOUser();
-        DAOAdmin daoA = new DAOAdmin();
-        DAOTeacher daoT = new DAOTeacher();
-        DAOStudent daoS = new DAOStudent();
         int acc = Integer.parseInt(request.getParameter("accId"));
         String username = request.getParameter("user");
         String phone = request.getParameter("phone");
@@ -102,24 +103,18 @@ public class UpdateProfileByAdm extends HttpServlet {
         String email = request.getParameter("email");
         int roleId = Integer.parseInt(request.getParameter("roleId"));
         int status = Integer.parseInt(request.getParameter("status"));
-        int AccountId = dao.updateUserAndGetAccountId(acc, username, email, password, roleId, status);
-        if ("3".equals(roleId)) {
-            daoA.updateAdmin(AccountId, adName, phone);
-            HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(2);
-            session.setAttribute("messagee", "Update Success");
-        } else if ("2".equals(roleId)) {
-            daoT.updateTeacher(AccountId, teacherName, phone);
-            HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(2);
-            session.setAttribute("messagee", "Update Success");
-
-        } else if("3".equals(roleId)){
-            daoS.updateStudent(AccountId, studentName, phone, dob);
-            HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(1);
-            session.setAttribute("messagee", "Update Success");
-        }
+     
+        
+       int n =  dao.updateUserByAccountIDAndRoleID(acc, roleId, username, email, password, status, phone, adName, teacherName, studentName, dob);
+       if(n!= 0){
+           HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "UpdateSuccess!!");
+           
+       }
+         
+         
 
         response.sendRedirect("ManagerUserURL");
     }

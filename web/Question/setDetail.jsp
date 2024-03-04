@@ -73,6 +73,13 @@
      <%@include file="/Home/header.jsp" %> 
     <!-- Your existing HTML content -->
     <h1>Set Details</h1>
+    
+    <%
+        String go = request.getParameter("SetId");
+        if(go.length()!=0){
+        %><a href="FlashCardURL?go=flashCard&SetId=<%=go%>">FLASHCARD</a><%
+            }
+        %>
     <table border="1">
         <tr>
             <th>Question</th>

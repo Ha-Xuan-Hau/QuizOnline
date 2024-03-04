@@ -34,6 +34,12 @@ public class User {
         this.Password = Password;
         this.RoleId = RoleId;
     }
+
+    public User(String Username, String Password) {
+        this.Username = Username;
+        this.Password = Password;
+    }
+
     
 
     public int getAccountId() {

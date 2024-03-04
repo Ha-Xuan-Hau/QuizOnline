@@ -50,8 +50,8 @@
             <c:if test="${acc != null}">
                 <span class="role"><c:choose>
 
-                        <c:when test="${acc.getRoleId() eq 1}">STUDENT</c:when>
-                        <c:when test="${acc.getRoleId() eq 2}">TEACHER</c:when>
+                        <c:when test="${acc.getRoleId() eq 2}">STUDENT</c:when>
+                        <c:when test="${acc.getRoleId() eq 1}">TEACHER</c:when>
                         <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
                         <%--<c:otherwise>UNKNOWN</c:otherwise>--%>
                     </c:choose>
@@ -69,7 +69,7 @@
                         </c:if>
 
                         
-                        <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
+                        <a class="dropdown-item" href="LogoutURL"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
                     </div>
                 </div>
             </c:if>
