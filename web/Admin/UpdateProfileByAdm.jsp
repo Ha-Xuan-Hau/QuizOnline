@@ -81,7 +81,7 @@
 
                             <form action="" method="post" id="form-1" onsubmit="return validateForm();">
                                 <!-- Form Group (username)-->
-                                <input class="form-control" id="inputAccId" type="text" placeholder="Nhập tên người dùng"
+                                <input class="form-control" id="inputAccId" type="text" placeholder=""
                                        name="accId" value="${data['AccountId']}" readonly>
 
 
@@ -89,7 +89,7 @@
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputUsername">User Name</label>
                                     <input class="form-control" id="inputUsername" type="text" placeholder="Nhập tên người dùng"
-                                           name="user" value="${data['Username']}">
+                                           name="user" value="${data['Username']}" readonly>
                                     <span class="form-message text-danger" id="username-error"></span>
                                 </div>
                                 <!-- Admin -->
