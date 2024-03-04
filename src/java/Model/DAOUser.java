@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Utils.EncryptionUtils;
-import java.sql.Date;
+
 
 /**
  *
@@ -848,7 +848,6 @@ public class DAOUser extends DBConnect {
     }
 
     public User checkAccount(String username, String password) {
-
         String sql = "select * from [User] where Username = ? and Password = ?";
         try {
             EncryptionUtils encryptionUtils = new EncryptionUtils();
@@ -878,7 +877,6 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
-
     public User getUserByEmail(String email) {
         String sql = "select * from [User] where [Email] = ?";
         PreparedStatement ps;
@@ -895,6 +893,7 @@ public class DAOUser extends DBConnect {
 
         return null;
     }
+  
 
     public HashMap<String, Object> getUserByUidAndRoleId(int userId, int roleId) {
         try {
