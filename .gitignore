@@ -1,0 +1,6 @@
+lib/
+nbproject/
+build.xml
+web/META-INF/context.xml
+/dist/
+*.xml
