@@ -22,15 +22,15 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>.jsp</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthorizationFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>.jsp</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>DispatcherFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>.jsp</url-pattern>
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
