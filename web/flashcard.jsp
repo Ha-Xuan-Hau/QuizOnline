@@ -45,17 +45,16 @@
             }
 
             .flipme {
-                transform: rotateY(180deg);
+                transform: rotateX(180deg);
             }
 
             .flip-container,
             .front,
             .back {
                 width: 600px; /* Increase width */
-                height: 200px; /* Increase height */
+                height: 300px; /* Increase height */
                 line-height: 50px; /* Match height for vertical centering */
                 text-align: center;
-                font-size: 30px;
                 border-radius: 5px;
                 vertical-align: middle; /* Align text vertically */
             }
@@ -68,8 +67,11 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                margin: auto; /* Center the card vertically and horizontally */
+                margin: auto; 
                 text-align: center;
+                border-radius: 10px;
+                border: whitesmoke solid thick;
+                font-family: Arial, sans-serif;
             }
 
             .front i {
@@ -78,95 +80,184 @@
             }
 
             .back {
-                transform: rotateY(180deg);
+                transform: rotateX(180deg);
                 font-size: 18px;
                 border: 1px solid;
-/*                font-family: Verdana;*/
-                color: white;
+                border: whitesmoke solid thick;
+                color: black;
             }
 
             .ac-bicycle .front {
-                background: #1189d1;
+                background: whitesmoke;
             }
 
             .ac-bicycle .back {
-                background: #0b67a3; /* Darken color for back face */
-                border-color: #30aee6; /* Lighten color for border */
+                background: whitesmoke;
+                border-color: whitesmoke;
             }
 
             .button-container {
                 text-align: center;
                 margin-top: 20px;
+                background: white;
             }
 
             .button {
                 display: inline-block;
                 padding: 10px 20px;
-                background-color: #1189d1;
-                color: white;
+                background-color: whitesmoke;
+                color: black;
                 font-size: 16px;
-                border-radius: 5px;
+                border-radius: 10px;
                 cursor: pointer;
                 transition: background-color 0.3s;
                 margin-right: 10px;
             }
 
             .button:hover {
-                background-color: #0b67a3;
+                background-color: whitesmoke;
             }
+            .content-front .p{
+                font-size: 20px;
+                margin: 0px;
+                padding: 0px;
+            }          
+            #mySelect {
+  padding: 10px; /* Khoảng cách giữa nội dung và biên của select */
+  font-size: 16px; /* Kích thước chữ của select */
+  border: 1px solid #ccc; /* Đường viền của select */
+  border-radius: 5px; /* Bo tròn góc của select */
+  width: 200px; /* Độ rộng của select */
+  background-color: #fff; /* Màu nền của select */
+  cursor: pointer; /* Con trỏ chuột khi di chuyển qua select */
+  outline: none; /* Loại bỏ đường viền khi select được focus */
+}
+
+#mySelect:hover {
+  border-color: #999; /* Đổi màu đường viền khi hover qua select */
+}
+
+#mySelect:focus {
+  border-color: #333; /* Đổi màu đường viền khi select được focus */
+}
+.return-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ccc;
+  color: #333;
+  text-decoration: none; /* Loại bỏ gạch chân */
+  border-radius: 5px;
+}
+
+.return-link:hover {
+  background-color: #999;
+  color: #fff;
+}
+.a {
+  display: flex; /* Hiển thị các phần tử cùng một hàng */
+   justify-content: space-between;
+}
         </style>
+    <div class="a">
+        <select id="mySelect" onchange="navigate()">
+    <option value="flashcard">FlashCard</option>    
+    <option value="test">Test Exam</option>
+    <option value="home">Home</option>
+</select>
+<a href="javascript:history.back()" class="return-link">Return</a></div>
+
     </head>
     <body>
-        <div class="container">
-            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-                <div class="flippable ac-bicycle" >
-
-                    <c:forEach items="${question}" var="ques" varStatus="status">
-
-
-                        <div class="front">
-                            <div style="display: flex; flex-direction: column;">
-                                <i>${ques.getContent()}</i>&nbsp;
+        
+        <div class="container" >
+            <c:forEach items="${question}" var="ques" varStatus="status">
+                <div class="flip-container">
+                    <div class="flippable ac-bicycle">
+                        <div class="front" onclick="this.nextElementSibling.classList.toggle('flipme');">
+                            <div class="content-front" style="display: flex; flex-direction: column;">
+                                <h2>${ques.getContent()}</h2>
                                 <c:forEach items="${content[status.index]}" var="answer">
-                                    ${answer.getContent()}
+                                    <p>${answer.getContent()}</p>
                                 </c:forEach>
                             </div>
                         </div>
-                        <div class="back" style="display: flex; justify-content: center; align-items: center; font-family: Arial, sans-serif;">
-                            <c:forEach items="${content[status.index]}" var="answer">
-                                <c:if test="${answer.isCorrect() == true}">
-                                    <i class="Correct">${answer.getContent()}</i>
-                                </c:if>
-                            </c:forEach>
+                        <div class="back">
+                            <div class="content-back" style="">
+                                <c:forEach items="${content[status.index]}" var="answer">
+                                    <c:if test="${answer.isCorrect() == true}">
+                                        <p class="Correct">${answer.getContent()}</p>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
                         </div>
-                    </c:forEach>
+                    </div>
                 </div>
-            </div>
-
+            </c:forEach>
 
             <div class="button-container">
-                <div class="button" id="returnButton">Return</div>
-                <div class="button" id="nextButton">Next</div>
-
+                <div class="button" onclick="previousPage()" id="returnButton"><</div>
+                <div class="button" onclick="nextPage()" id="nextButton">></div>
             </div>
-
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".flippable").click(function () {
-                    $(this).toggleClass("flipme");
-                });
-
-                $("#nextButton").click(function () {
-                    // Add logic to move to the next question
-                });
-
-                $("#returnButton").click(function () {
-                    // Add logic to return to the previous question
-                });
-            });
+        <script> $(document).ready(function () {
+                        $(".flippable").click(function () {
+                            $(this).toggleClass("flipme");
+                        });
+                    });
         </script>
+        <script>
+            var currentPage = 1; // Trang hiện tại
+            var itemsPerPage = 1; // Số lượng mục trên mỗi trang
+
+            function displayPage(page) {
+                var startIndex = (page - 1) * itemsPerPage;
+                var endIndex = startIndex + itemsPerPage;
+                var questionSets = document.getElementsByClassName("flip-container");
+                for (var i = 0; i < questionSets.length; i++) {
+                    if (i >= startIndex && i < endIndex) {
+                        questionSets[i].style.display = "block";
+                    } else {
+                        questionSets[i].style.display = "none";
+                    }
+                }
+
+                // Hiển thị trang hiện tại
+                document.getElementById("currentPage").innerText = currentPage;
+            }
+
+            // Hiển thị trang đầu tiên khi trang được tải
+            displayPage(currentPage);
+            function nextPage() {
+                var totalQuestions = document.getElementsByClassName("flip-container").length;
+                var totalPages = Math.ceil(totalQuestions / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                }
+            }
+
+            function previousPage() {
+                currentPage--;
+                if (currentPage < 1) {
+                    currentPage = 1;
+                }
+                displayPage(currentPage);
+            }
+        </script>
+        <script>
+    function navigate() {
+        var selectBox = document.getElementById("mySelect");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        if (selectedValue === "flashcard") {
+            window.location.href = "#"; // Link for FlashCard
+        } else if (selectedValue === "home") {
+            window.location.href = "HomeController"; // Link for Home
+        } else if (selectedValue === "test") {
+            window.location.href = "#"; // Link for Test
+        }
+    }
+</script>
     </body>
 </html>
