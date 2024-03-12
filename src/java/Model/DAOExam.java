@@ -297,6 +297,8 @@ public class DAOExam extends DBConnect {
 
     public static void main(String[] args) {
         DAOExam daoE = new DAOExam();
-       daoE.updateExamPermission(1, false);
+       //daoE.updateExamPermission(1, false);
+       Exam e = daoE.getExamById(5);
+        System.out.println(e);
     }
 }

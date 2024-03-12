@@ -10,17 +10,17 @@ import java.io.Serializable;
  *
  * @author ACER
  */
-public class questionExamAnswer implements Serializable{
+public class QuestionExamAnswer implements Serializable{
     private int AnswerId;
     private int QuesId;
     private String Content;
     private boolean Correct;
     private double Percent;
 
-    public questionExamAnswer() {
+    public QuestionExamAnswer() {
     }
 
-    public questionExamAnswer(int AnswerId, int QuesId, String Content, boolean Correct, double Percent) {
+    public QuestionExamAnswer(int AnswerId, int QuesId, String Content, boolean Correct, double Percent) {
         this.AnswerId = AnswerId;
         this.QuesId = QuesId;
         this.Content = Content;

@@ -60,6 +60,7 @@ public class MyApplicationConstants {
     public class ClassExamFeature {
         public static final String CLASS_EXAM_LIST_PAGE = "classExamListPage";
         public static final String CLASS_EXAM_DETAIL_PAGE = "classExamDetailPage";
+        public static final String CLASS_EXAM_ATTEMPT_ACTION = "attemptExamAction";
     }
     public class TeacherClassFeature {
         //    public static final String JOIN_CLASS_ACTION = "joinClassAction";

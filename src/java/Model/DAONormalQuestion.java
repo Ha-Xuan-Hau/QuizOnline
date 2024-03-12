@@ -105,25 +105,24 @@ public class DAONormalQuestion extends DBConnect {
         return normalQuestions;
     }
 
-public int getTotalQuestionInSet(int setId) {
-    int n = 0;
-    String sql = "SELECT COUNT(*) as totalQuestion FROM NormalQuestion WHERE SetId = ? group by SetId";
-    try (PreparedStatement pre = connection.prepareStatement(sql)) {
-        pre.setInt(1, setId);
-        try (ResultSet rs = pre.executeQuery()) {
-            if (rs.next()) {
-                n = rs.getInt("totalQuestion");
+    public int getTotalQuestionInSet(int setId) {
+        int n = 0;
+        String sql = "SELECT COUNT(*) as totalQuestion FROM NormalQuestion WHERE SetId = ? group by SetId";
+        try ( PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, setId);
+            try ( ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    n = rs.getInt("totalQuestion");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return n;
     }
-
-    return n;
-}
-
 
     public static void main(String[] args) {
         DAONormalQuestion dao = new DAONormalQuestion();
@@ -131,6 +130,7 @@ public int getTotalQuestionInSet(int setId) {
 //        dao.insert(normalQuestion);
 //        NormalQuestion updatedNormalQuestion = new NormalQuestion(1, "Updated Content");
 //        dao.update(updatedNormalQuestion);
-        System.out.println(dao.getTotalQuestionInSet(1));
+//        System.out.println(dao.getTotalQuestionInSet(1));
+
     }
 }

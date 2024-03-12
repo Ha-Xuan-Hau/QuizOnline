@@ -21,7 +21,7 @@
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    <a class="back_home-detail" href="HomeURL"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
+                    <a class="back_home-detail" href="homeAction"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
             <div class="container-form">

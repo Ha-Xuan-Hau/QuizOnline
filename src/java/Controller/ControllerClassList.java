@@ -76,7 +76,7 @@ public class ControllerClassList extends HttpServlet {
                     subject = cleanAndFormatInput(subject);
                     String FullClassName = className + " " + subject;
                     Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-                    Class create = new Class(FullClassName, 1, currentDate.toString());
+                    Class create = new Class(FullClassName, acc.getAccountId(), currentDate.toString());
                     dao.CreateClass(create);
                     url=siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_LIST_ACION);
                     response.sendRedirect(url);

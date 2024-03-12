@@ -39,7 +39,7 @@
             <ul>
                 <li><a href="HomeController">HOME</a></li>
                     <c:if test="${acc != null}">
-                    <li><a href="ClassJoinListURL">ClASS</a></li>
+                    <li><a href="ClassJoinListURL">CLASS</a></li>
 
                     </c:if>
                 <li><a href="QuestionSetURL">QUIZ</a></li>

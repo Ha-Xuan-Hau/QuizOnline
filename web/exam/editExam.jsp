@@ -31,6 +31,7 @@
 
                 .course-editor-main {
                     padding: 2rem;
+                    
                 }
                 input[type=text], select {
                     width: 100%;

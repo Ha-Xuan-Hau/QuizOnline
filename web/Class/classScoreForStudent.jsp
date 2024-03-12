@@ -229,7 +229,7 @@
                         <h5 class="col-2">Maximum Score ${examList.getScore()}</h5>
                         <h5 class="col-3">Time ${examList.getTimer() / 60} minutes</h5> 
                         <div class="col-1" style="margin: 10px 0px">
-                            <a href="TakeExamDetailURL?ExamId=${examList.getExamId()}" class="btn btn-primary">Detail</a>
+                            <a href="ClassExamURL?examId=${examList.getExamId()}" class="btn btn-primary">Detail</a>
                         </div>   
                     </div>
                 </li>

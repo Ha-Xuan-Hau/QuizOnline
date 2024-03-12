@@ -1,17 +1,22 @@
 package Model;
 
-import Entity.takeAnswer;
+import Entity.QuestionExam;
+import Entity.QuestionExamAnswer;
+import Entity.TakeAnswer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DAOTakeAnswer extends DBConnect {
 
-    public int insertTakeAnswer(takeAnswer obj) {
+    public int insertTakeAnswer(TakeAnswer obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[TakeAnswer]\n"
                 + "           ([TakeExamId]\n"
@@ -33,7 +38,7 @@ public class DAOTakeAnswer extends DBConnect {
         return n;
     }
 
-    public int updateTakeAnswer(takeAnswer obj) {
+    public int updateTakeAnswer(TakeAnswer obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[TakeAnswer]\n"
                 + "   SET [TakeExamId] = ?\n"
@@ -66,8 +71,8 @@ public class DAOTakeAnswer extends DBConnect {
         return n;
     }
 
-    public ArrayList<takeAnswer> getData(String sql) {
-        ArrayList<takeAnswer> List = new ArrayList<>();
+    public ArrayList<TakeAnswer> getData(String sql) {
+        ArrayList<TakeAnswer> List = new ArrayList<>();
         Statement state;
         try {
             state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -78,7 +83,7 @@ public class DAOTakeAnswer extends DBConnect {
                 int TakeExamId = rs.getInt(2);
                 int QuesId = rs.getInt(3);
                 int AnswerId = rs.getInt(4);
-                takeAnswer obj = new takeAnswer(TakeAnswerId, TakeExamId, QuesId, AnswerId);
+                TakeAnswer obj = new TakeAnswer(TakeAnswerId, TakeExamId, QuesId, AnswerId);
 
                 List.add(obj);
             }
@@ -86,5 +91,61 @@ public class DAOTakeAnswer extends DBConnect {
             ex.printStackTrace();
         }
         return List;
+    }
+
+    public Map<QuestionExam, QuestionExamAnswer> getUserAnswers(List<QuestionExam> questionList, int takeExamId) {
+        Map<QuestionExam, QuestionExamAnswer> userAnswers = new HashMap<>();
+        PreparedStatement pre = null;
+        ResultSet rs = null;
+        String sql = "  select QuestionExamAnswer.* from TakeAnswer \n"
+                + "  join QuestionExamAnswer on TakeAnswer.AnswerId = QuestionExamAnswer.AnswerId\n"
+                + "  where TakeAnswer.QuesId = ? and TakeExamId = ?";
+        for (QuestionExam q : questionList) {
+            try {
+                pre = connection.prepareStatement(sql);
+                pre.setInt(1, q.getQuesId());
+                pre.setInt(2, takeExamId);
+                rs = pre.executeQuery();
+                if (rs.next()) {
+                    int answerId = rs.getInt(1);
+                    int QuesId = rs.getInt(2);
+                    String content = rs.getString(3);
+                    boolean correct = rs.getBoolean(4);
+                    double percent = rs.getDouble(5);
+                    QuestionExamAnswer obj = new QuestionExamAnswer(answerId, QuesId, content, correct, percent);
+                    userAnswers.put(q, obj);
+                } else {
+                    userAnswers.put(q, null);
+                }
+                rs.close();
+                pre.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DAOTakeAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return userAnswers;
+    }
+
+    public static void main(String[] args) {
+        DAOTakeAnswer dao = new DAOTakeAnswer();
+        DAOQuestionExam dao1 = new DAOQuestionExam();
+        List<QuestionExam> questionList = dao1.getQues(5);
+        Map<QuestionExam, QuestionExamAnswer> getUserAnswers = dao.getUserAnswers(questionList, 3);
+        for (Map.Entry<QuestionExam, QuestionExamAnswer> entry : getUserAnswers.entrySet()) {
+            QuestionExam question = entry.getKey();
+            QuestionExamAnswer userAnswer = entry.getValue();
+
+            System.out.println("Question ID: " + question.getQuesId());
+            System.out.println("Question Content: " + question.getContent());
+
+            if (userAnswer != null) {
+                System.out.println("User's Answer ID: " + userAnswer.getAnswerId());
+                System.out.println("User's Answer Content: " + userAnswer.getContent());
+            } else {
+                System.out.println("User did not answer this question.");
+            }
+
+            System.out.println("-------------------------");
+        }
     }
 }

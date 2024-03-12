@@ -10,16 +10,16 @@ import java.io.Serializable;
  *
  * @author ACER
  */
-public class takeAnswer implements Serializable{
+public class TakeAnswer implements Serializable{
     private int TakeAnswerId;
     private int TakeExamId;
     private int QuesId;
     private int AnswerId;
 
-    public takeAnswer() {
+    public TakeAnswer() {
     }
 
-    public takeAnswer(int TakeAnswerId, int TakeExamId, int QuesId, int AnswerId) {
+    public TakeAnswer(int TakeAnswerId, int TakeExamId, int QuesId, int AnswerId) {
         this.TakeAnswerId = TakeAnswerId;
         this.TakeExamId = TakeExamId;
         this.QuesId = QuesId;

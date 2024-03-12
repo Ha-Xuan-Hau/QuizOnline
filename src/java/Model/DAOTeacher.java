@@ -198,5 +198,9 @@ public class DAOTeacher extends DBConnect {
         }
         return null;
     }
-
+    public static void main(String[] args) {
+        DAOTeacher dao = new DAOTeacher();
+        Teacher rs = dao.getTeacherByAccountId(6);
+        System.out.println(rs);
+    }
 }

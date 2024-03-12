@@ -916,11 +916,11 @@ public class DAOUser extends DBConnect {
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
 
-//        List<User> us = dao.getAllUser();
-//        for (User u : us) {
-//            System.out.println(u);
-//
-//        }
+        List<User> us = dao.checkUser("hieu", "123456");
+        for (User u : us) {
+            System.out.println(u);
+
+        }
 //        User u = dao.getUserById(1);
 //        System.out.println(u);
         int accountId = dao.insertUserAndGetAccountId("testUser", "test@example.com", "testPassword", 1, 1);
