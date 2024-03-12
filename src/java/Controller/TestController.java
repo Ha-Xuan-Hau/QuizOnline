@@ -4,13 +4,10 @@
  */
 package Controller;
 
-import Entity.Exam;
-import Entity.TakeExam;
-import Entity.User;
-import Model.DAOExam;
-import Model.DAOQuestionExam;
-import Model.DAOTakeExam;
-import jakarta.servlet.ServletContext;
+import Entity.NormalQuestion;
+import Entity.NormalQuestionAnswer;
+import Entity.QuestionSet;
+import Model.DAOQuestionSet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,15 +15,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  *
- * @author hieul
+ * @author Asus
  */
-@WebServlet(name = "ClassExamController", urlPatterns = {"/ClassExamURL"})
-public class ClassExamController extends HttpServlet {
+@WebServlet(name = "TestController", urlPatterns = {"/TestURL"})
+public class TestController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,36 +37,7 @@ public class ClassExamController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        ServletContext context = this.getServletContext();
-        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        String url = "";
-
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
-            int examId = Integer.parseInt(request.getParameter("examId"));
-            DAOExam daoExam = new DAOExam();
-            DAOTakeExam daoTakeExam = new DAOTakeExam();
-            DAOQuestionExam daoQuestion = new DAOQuestionExam();
-            Exam exam = daoExam.getExamById(examId);
-
-            User user = (User) request.getSession().getAttribute("acc");
-            ArrayList<TakeExam> takeExams = daoTakeExam.getTakeExamByExamId(examId);
-            TakeExam best = daoTakeExam.bestAttempt(user.getAccountId(), examId);
-            int questionCount = daoQuestion.getTotalQuestionInSet(examId);
-            
-            int limit = exam.getTakingTimes();
-            int time = daoTakeExam.getTimeDone(user.getAccountId(), examId);
-            request.setAttribute("bestAttempt", best);
-            request.setAttribute("limit", limit);
-            request.setAttribute("time", time);
-            request.setAttribute("exam", exam);
-            request.setAttribute("takeExams", takeExams);
-            request.setAttribute("questionCount", questionCount);
-
-            request.getRequestDispatcher("/exam/exam.jsp").forward(request, response);
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,7 +52,21 @@ public class ClassExamController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String service = request.getParameter("go");
+        if(service.equals("listQuestion")){
+    DAOQuestionSet dao = new DAOQuestionSet();
+        ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
+
+        int setId = Integer.parseInt(request.getParameter("SetId"));
+
+        ArrayList<NormalQuestion> Ques = dao.getQues(setId);
+
+        ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+        request.setAttribute("data", allQuesSet);
+        request.setAttribute("question", Ques);
+        request.setAttribute("content", QuesAnswers);
+        request.getRequestDispatcher("Question/practiceQuiz.jsp").forward(request, response);
+    }
     }
 
     /**
@@ -98,7 +80,9 @@ public class ClassExamController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+       
+
     }
 
     /**
