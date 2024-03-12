@@ -61,7 +61,7 @@
                         Hi, ${acc.getUsername()}
                     </button>
                     <div class="dropdown-content" id="myDropdown">
-                        <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
+                       <a class="dropdown-item" href="UpdateProfile?go=profile&sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
                        
                         <c:if test="${acc.getRoleId() == '3'}">
                             <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i>Manager User</a>

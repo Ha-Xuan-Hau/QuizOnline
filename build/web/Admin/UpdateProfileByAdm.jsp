@@ -23,7 +23,12 @@
 
 
 
-
+        <style>
+            .btn-primary a {
+                color: white; /* Đặt màu chữ của thẻ <a> là màu trắng */
+                text-decoration: none; /* Loại bỏ gạch chân */
+            }
+        </style>
         <script>
             // step 1
             const ipnElement = document.querySelector('#ipnPassword')
@@ -81,7 +86,7 @@
 
                             <form action="" method="post" id="form-1" onsubmit="return validateForm();">
                                 <!-- Form Group (username)-->
-                                <input class="form-control" id="inputAccId" type="text" placeholder="Nhập tên người dùng"
+                                <input class="form-control" id="inputAccId" type="text" placeholder=""
                                        name="accId" value="${data['AccountId']}" readonly>
 
 
@@ -89,7 +94,7 @@
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputUsername">User Name</label>
                                     <input class="form-control" id="inputUsername" type="text" placeholder="Nhập tên người dùng"
-                                           name="user" value="${data['Username']}">
+                                           name="user" value="${data['Username']}" readonly>
                                     <span class="form-message text-danger" id="username-error"></span>
                                 </div>
                                 <!-- Admin -->
@@ -139,10 +144,11 @@
 
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputPassword">Password</label>
-                                    <input type="password" class="form-control" id="ipnPassword" name="pass" value="${data['Password']}" onblur="validatePassword(this)">
-
+                                    <input type="password" class="form-control" id="ipnPassword" name="pass" value="${data['Password']}" onblur="validatePassword(this)" readonly>
+                                    <input type="checkbox" id="showPasswordCheckbox"> Show Password
                                     <span class="form-message text-danger" id="password-error"></span>
                                 </div>
+
 
 
 
@@ -203,6 +209,8 @@
 
                                 <!-- Nút Lưu thay đổi-->
                                 <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                <button class="btn btn-primary"><a href="/QuizzesOnline/change?username=${data['Username']}">Change Password</a></button>
+
                             </form>
 
                         </div>
@@ -260,7 +268,18 @@
         }
 
     </script>
+    <script>
+        const passwordInput = document.getElementById('ipnPassword');
+        const showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
 
+        showPasswordCheckbox.addEventListener('change', function () {
+            if (showPasswordCheckbox.checked) {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+    </script>
 
 
 </html>

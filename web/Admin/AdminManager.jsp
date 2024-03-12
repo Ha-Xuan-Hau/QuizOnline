@@ -526,8 +526,12 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
+                                    <c:url value="UdProfilebyAdminURL" var="updateUserUrl">
+                                            <c:param name="sid" value="${user['AccountId']}" />
+                                            <c:param name="role" value="${user['RoleId']}" />
+                                        </c:url>
                                     <td>
-                                        <a href="UdProfilebyAdminURL?sid=${user['AccountId']}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a href="${updateUserUrl}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                         <a href="DeleteUserURL?sid=${user['AccountId']}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
                                             <i class="material-icons" style="color: red;">&#xE5C9;</i>
                                         </a>
