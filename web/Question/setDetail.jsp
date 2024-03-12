@@ -17,14 +17,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        
+
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css"/>
-       
+
     </head>
-<style>
+    <style>
         body {
             font-family: 'Arial', sans-serif;
-/*            margin: 20px;*/
+            /*            margin: 20px;*/
             text-align: center;
         }
 
@@ -67,19 +67,42 @@
         li.Correct {
             color: #008000; /* Green color for correct answers */
         }
+         .action-container {
+            margin-top: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+            margin-right: auto
+        }
+        .btn-import {
+            background: #fcd980;
+            border: 1px solid #fcd980;
+            color: black;
+            padding: 0.5rem 2rem;
+            margin: 0.2rem;
+            border-radius: 4px;
+        }
+        .btn-add {
+            background: #fcd980;
+            border: 1px solid #fcd980;
+            color: black;
+            padding: 0.5rem 2rem;
+            margin: 0.2rem;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
-     <%@include file="/Home/header.jsp" %> 
+    <%@include file="/Home/header.jsp" %> 
     <!-- Your existing HTML content -->
     <h1>Set Details</h1>
-    
-    <%
-        String go = request.getParameter("SetId");
-        if(go.length()!=0){
-        %><a href="FlashCardURL?go=flashCard&SetId=<%=go%>">FLASHCARD</a><%
-            }
-        %>
+    <div class="action-container">
+         <c:if test="${not empty param.SetId}">
+        <p><a href="FlashCardURL?go=flashCard&SetId=${param.SetId}" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-import">FLASHCARD</a></p>
+        <p><a href="TestURL?go=listQuestion&SetId=${param.SetId}" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-add" >TEST</a></p>
+        </c:if>
+    </div>
+
     <table border="1">
         <tr>
             <th>Question</th>
@@ -92,13 +115,13 @@
                     <ul>
                         <c:forEach items="${content[status.index]}" var="answer">
                             <li>${answer.getContent()}</li>
-                        </c:forEach>
+                            </c:forEach>
                         <li class="Result">Result</li>
-                        <c:forEach items="${content[status.index]}" var="answer">
-                            <c:if test="${answer.isCorrect() == true}">
+                            <c:forEach items="${content[status.index]}" var="answer">
+                                <c:if test="${answer.isCorrect() == true}">
                                 <li class="Correct">${answer.getContent()}</li>
-                            </c:if>
-                        </c:forEach>
+                                </c:if>
+                            </c:forEach>
                     </ul>
                 </td>
             </tr>

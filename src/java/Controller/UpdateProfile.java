@@ -74,12 +74,15 @@ public class UpdateProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       String service = request.getParameter("go");
+       if(service.equals("profile")){
         DAOUser dao = new DAOUser();
         int sid = Integer.parseInt(request.getParameter("sid"));
        
         HashMap<String, Object> u = dao.getUserByAccountID(sid);
         request.setAttribute("data", u);
         request.getRequestDispatcher("/Profile/Profile.jsp").forward(request, response);
+       }
     }
 
     /**
@@ -98,20 +101,20 @@ public class UpdateProfile extends HttpServlet {
         DAOTeacher daoT = new DAOTeacher();
         DAOStudent daoS = new DAOStudent();
         int acc = Integer.parseInt(request.getParameter("accId"));
-        String username = request.getParameter("user");
         String phone = request.getParameter("phone");
         String adName = request.getParameter("adName");
         String teacherName = request.getParameter("tcName");
         String studentName = request.getParameter("stName");
         String dob = request.getParameter("dob");
-        String password = request.getParameter("pass");
+        
         String email = request.getParameter("email");
-        int roleID = Integer.parseInt(request.getParameter("roleId"));
-        int status = Integer.parseInt(request.getParameter("status"));
-
+        
+        daoA.updateAdmin(acc, adName, phone);
+        daoT.updateTeacher(acc, teacherName, phone);
+        daoS.updateStudent(acc, studentName, phone, dob);
      
-        dao.updateUserByAccountIDAndRoleID(acc, roleID, username, email, password,status, phone, adName, teacherName, studentName, dob);
-        response.sendRedirect("UserController");
+//        dao.updateUserByAccountIDAndRoleID(acc, roleID, username, email, password,status, phone, adName, teacherName, studentName, dob);
+        response.sendRedirect("HomeController");
 
     }
 

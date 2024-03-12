@@ -419,6 +419,8 @@ public class DAOQuestionSet extends DBConnect {
         return list;
     }
 
+  
+
     public static void main(String[] args) {
         DAOQuestionSet dao = new DAOQuestionSet();
 //        ArrayList<ArrayList<NormalQuestionAnswer>> allQuesAnswers = dao.getAnswer(10);
@@ -442,5 +444,9 @@ public class DAOQuestionSet extends DBConnect {
 //                System.out.println(answer);
 //            }
 //        }
-    }
+
+    
+
+    
+}
 }
