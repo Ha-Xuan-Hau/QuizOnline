@@ -214,7 +214,7 @@
             <li>
                 <c:if test="${accId == teacher.getAccountId()}">
                     <div class="question-set-item" style="">
-                        <a style="display: flex;justify-content: center " href="NewExamURL">
+                        <a style="display: flex;justify-content: center " href="NewExamURL?classId=${classId}">
                             <img alt="add button" src="${pageContext.request.contextPath}/Class/images/add.png" width="30px" style="margin: 10px" />                            
                         </a>
                     </div>

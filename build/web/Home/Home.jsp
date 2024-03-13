@@ -174,7 +174,8 @@
 
 
                     <section class="carousel-screen">
-                        <img src="https://www.generalatlantic.com/wp-content/uploads/2020/05/quizlet-logo-indigo-rgb.jpg" alt="This is a picture of slider" />
+                        <img src="https://www.generalatlantic.com/wp-content/uploads/2020/05/quizlet-logo-indigo-rgb.jpg"/>
+<!--                         alt="This is a picture of slider" -->
                     </section>
 
 

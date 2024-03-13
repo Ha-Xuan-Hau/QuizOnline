@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <input id="password" name="password" value="${password==null?'':password}" type="password" placeholder="Password" class="form-control">
                             <span class="form-message"></span><br>
-                            
+                            <span class=""><a href="forgotPassword">Forgot Password?</a></span>
 
                         </div>
                         <span class="validate-message">${validate}</span>

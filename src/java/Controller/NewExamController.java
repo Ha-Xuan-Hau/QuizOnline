@@ -5,6 +5,7 @@
 package Controller;
 
 import Entity.Exam;
+import Entity.User;
 import Model.DAOExam;
 import Utils.ParseUtils;
 import java.io.IOException;
@@ -39,10 +40,11 @@ public class NewExamController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
-            int teacherId = ParseUtils.parseIntWithDefault(request.getParameter("teacherId"), -1);
+            int classId = ParseUtils.parseIntWithDefault(request.getParameter("classId"), -1);
+            User user = (User) request.getSession().getAttribute("acc");
+            int teacherId = user.getAccountId();
             DAOExam examDAO = new DAOExam();
-            examDAO.createDefaultExam(examId,teacherId);
+            examDAO.createDefaultExam(classId,teacherId);
             Exam newExam = examDAO.getNewExam();
             response.sendRedirect("EditExamURL?examId=" + newExam.getExamId());
         }

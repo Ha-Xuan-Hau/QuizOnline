@@ -41,15 +41,15 @@ public class ControllerClassDetail extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();
-            int classId1 = (int) Integer.parseInt(request.getParameter("classId"));
-            session.setAttribute("classId", classId1);
-            int classId = (int) Integer.parseInt(session.getAttribute("classId").toString());
+            int classId = (int) Integer.parseInt(request.getParameter("classId"));
+            session.setAttribute("classId", classId);
             DAOClass daoC = new DAOClass();
             DAOTeacher daoT = new DAOTeacher();
             DAOClassQuestionSet daoCQS = new DAOClassQuestionSet();
             DAOQuestionSet daoQS = new DAOQuestionSet();
             if (service == null) {
                 Entity.Class myClass = daoC.ClassByClassID(classId);
+                System.out.println(myClass.toString());
                 Entity.Teacher teacher = daoT.getTeacherByAccountId(myClass.getTeacherAccountId());
                 ArrayList<Integer> setList = daoCQS.getSetIdbyClassId(classId);
                 ArrayList<QuestionSet> questionSetList = new ArrayList<>();
@@ -57,7 +57,7 @@ public class ControllerClassDetail extends HttpServlet {
                     int setId = setIds;
                     questionSetList.add(daoQS.getQuestionSetById(setId));
                 }
-                request.setAttribute("classId", classId1);
+                request.setAttribute("classId", classId);
                 request.setAttribute("myClass", myClass);
                 request.setAttribute("teacher", teacher);
                 request.setAttribute("questionSetList", questionSetList);

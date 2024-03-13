@@ -212,6 +212,8 @@ public class DAOExam extends DBConnect {
         }
         return null;
     }
+    
+    
 
     public int createDefaultExam(int ClassId, int TeacherId) throws SQLException {
         int n = 0;

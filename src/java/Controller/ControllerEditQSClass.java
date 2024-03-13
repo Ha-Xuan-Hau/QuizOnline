@@ -89,6 +89,9 @@ public class ControllerEditQSClass extends HttpServlet {
                     daoCQS.DeleteQuestionSetInClass(classId);
                     response.sendRedirect("EditQSClassURL");
                 }
+                if (service.equals("goback")) {
+                    response.sendRedirect("ClassDetailURL?classId=" + classId);
+                }                
                 if (service.equals("search")) {
                     String searchQuery = request.getParameter("searchQuery");
                     Entity.Class myClass = daoC.ClassByClassID(classId);
@@ -119,16 +122,6 @@ public class ControllerEditQSClass extends HttpServlet {
                     request.setAttribute("questionSetList", questionSetList);
                     request.setAttribute("questionSetListAll", daoQS.searchByTitle(searchQuery));
                     request.getRequestDispatcher("/Class/EditQuestionSetInClass.jsp").forward(request, response);
-                }
-                if (service.equals("add")) {
-                    String[] selectedSetIds = request.getParameterValues("selectedSetIds[]");
-                    if (selectedSetIds != null) {
-                        for (String setId : selectedSetIds) {
-                            int setIdValue = Integer.parseInt(setId);
-                            daoCQS.CreateClassQuestionSetById(classId, setIdValue);
-                        }
-                    }
-                    response.sendRedirect("EditQSClassURL");
                 }
                 if (service.equals("add")) {
                     int setIdParam = Integer.parseInt(request.getParameter("setId"));

@@ -26,6 +26,13 @@ public class questionExamAnswer {
         this.Percent = Percent;
     }
 
+    public questionExamAnswer(int QuesId, String Content, boolean Correct, double Percent) {
+        this.QuesId = QuesId;
+        this.Content = Content;
+        this.Correct = Correct;
+        this.Percent = Percent;
+    }
+
     public int getAnswerId() {
         return AnswerId;
     }

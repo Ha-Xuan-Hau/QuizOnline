@@ -43,7 +43,7 @@ public class DAOQuestionExam extends DBConnect {
 
         return n;
     }
-
+    
     public int updateQuetionExam(questionExam obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[QuestionExam]\n"
@@ -176,5 +176,22 @@ public class DAOQuestionExam extends DBConnect {
         }
         return quesDetails;
     }
+    public int getLast() {
+    int maxQuesId = 0;
+    String sql = "SELECT MAX(quesId) AS MaxQuesId FROM [dbo].[QuestionExam]";
+
+    try {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        if (resultSet.next()) {
+            maxQuesId = resultSet.getInt("MaxQuesId");
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(DAOQuestionExam.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return maxQuesId;
+}
 
 }

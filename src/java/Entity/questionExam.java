@@ -4,6 +4,8 @@
  */
 package Entity;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ACER
@@ -23,6 +25,14 @@ public class questionExam {
         this.Content = Content;
         this.Score = Score;
     }
+
+    public questionExam(int ExamId, String Content, double Score) {
+        this.ExamId = ExamId;
+        this.Content = Content;
+        this.Score = Score;
+    }
+
+   
     
     public int getExamId() {
         return ExamId;

@@ -7,9 +7,13 @@ package Controller;
 import Entity.NormalQuestion;
 import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
+import Entity.Subject;
+import Entity.Teacher;
 import Model.DAONormalQuestion;
 import Model.DAONormalQuestionAnswer;
 import Model.DAOQuestionSet;
+import Model.DAOSubject;
+import Model.DAOTeacher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -39,6 +43,8 @@ public class QuestionSetController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAOQuestionSet dao = new DAOQuestionSet();
+        DAOTeacher daoT = new DAOTeacher();
+        DAOSubject daoS = new DAOSubject();
         DAONormalQuestion questionDAO = new DAONormalQuestion();
         DAONormalQuestionAnswer answerDAO = new DAONormalQuestionAnswer();
         String service = request.getParameter("go");
@@ -54,17 +60,21 @@ public class QuestionSetController extends HttpServlet {
             ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
             
             int setId = Integer.parseInt(request.getParameter("SetId"));
-
             ArrayList<NormalQuestion> Ques = dao.getQues(setId);
-
             ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+            QuestionSet name = dao.getQuestionSetById(setId);
+            Teacher teacher = daoT.getTeacherByAccountId(name.getUserAccountId());
+            Subject subject = daoS.getSubject(name.getSubjectId());
+            request.setAttribute("subject", subject);
+            request.setAttribute("teacher", teacher);
+            request.setAttribute("name", name);
             request.setAttribute("data", allQuesSet);
             request.setAttribute("question", Ques);
             request.setAttribute("content", QuesAnswers);
             request.getRequestDispatcher("Question/setDetail.jsp").forward(request, response);
         }
         if (service.equals("addNewSet")) {
-            QuestionSet set = new QuestionSet("New Set", 1, 1, 0);
+            QuestionSet set = new QuestionSet("New Set", 8, 1, 0);
             dao.insertQuestionSet(set);
             QuestionSet setObj = dao.getNewest();
             //    request.getRequestDispatcher("editSet.jsp").forward(request, response);
@@ -77,7 +87,7 @@ public class QuestionSetController extends HttpServlet {
                 String title = request.getParameter("title");
                 int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
-                QuestionSet set = new QuestionSet(setId, title, 1, subjectId, 0);
+                QuestionSet set = new QuestionSet(setId, title, 8, subjectId, 0);
                 dao.updateQuestionSet(set);
                 // lay cau hoi trong set
                 int index1 = questionDAO.getTotalQuestionInSet(setId);

@@ -179,7 +179,7 @@ public class DAOSubject extends DBConnect {
     public static void main(String[] args) {
 
         DAOSubject dao = new DAOSubject();
-
+        System.out.println(dao.getData("Select * from Subject"));
       
 
     }

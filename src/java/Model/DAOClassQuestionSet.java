@@ -129,7 +129,7 @@ public class DAOClassQuestionSet extends DBConnect {
     }
 
     public Vector<ClassQuestionSet> getAll() {
-        Vector<ClassQuestionSet> vector = new Vector<ClassQuestionSet>();
+        Vector<ClassQuestionSet> vector = new Vector<>();
         String sql = "select * from ClassQuestionSet";
         Statement state;
         try {

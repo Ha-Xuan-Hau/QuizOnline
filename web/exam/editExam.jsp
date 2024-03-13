@@ -86,7 +86,7 @@
                         <label style="width: 100px" for="exam-title">Title</label>
                         <input type="text" id="exam-title" name="ExamTitle" value="${exam.title}" required/>
                         <label  style="width: 100px" for="exam-summary">Summary</label>
-                        <input type="text" id="exam-summary" name="ExamSummary" value="${exam.summary}"  required/>
+                        <input type="text" id="exam-summary" name="ExamSummary" value="${exam.summary}" />
                         <label  style="width: 100px" for="exam-timer">Timer</label>
 
                         <div class="time-input-container">
@@ -101,13 +101,13 @@
 
                         </div>
                         <label style="width: 100px" for="exam-name">Start Date</label>
-                        <input type="datetime" id="exam-start" name="ExamStart" value="${exam.startDate}" required/>
+                        <input type="datetime" id="exam-start" name="ExamStart" value="${exam.startDate}" placeholder="yyyy/mm/dd" required/>
                         <label  style="width: 100px" for="exam-duration">End Date</label>
-                        <input type="datetime" id="exam-end" name="ExamEnd" value="${exam.endDate}"  required/><br/>
+                        <input type="datetime" id="exam-end" name="ExamEnd" value="${exam.endDate}" placeholder="yyyy/mm/dd"  required/><br/>
                         <label style="width: 100px" for="exam-score">Score</label>
                         <input type="number" id="exam-score" name="ExamScore" value="${exam.score}" required/>                        
                         <label style="width: 100px" for="exam-taking-time">Taking Timers</label>
-                        <input type="number" id="exam-taking-time" name="ExamTakingTimers" value="${exam.takingTimes}" required/>
+                        <input type="number" id="exam-taking-time" name="ExamTakingTimers" value="${exam.takingTimes}" min="0" required/>
                         <label  style="width: 100px" for="exam-permission">Permission</label>
                         <select name="permission " class="form-select">
                             <option value="false" ${exam.permission==false?"selected":""}>unavailable</option>
@@ -115,8 +115,9 @@
                         </select>
                         <div class="appQuestion">
                             <button id="button-question-edit">edit question exam</button>
-                            <button id="button-question-bank">app question by bank</button>
-                            <button id="button-question-import">import question</button>
+                            <a href="ExamByQuestionSetURL" id="button-question-bank">app question by bank</a>
+                            <a href="#" id="button-question-import">import question</a>
+
                         </div>
                         <div style="border:#ccc 1px solid; padding:10px">
                             <ul>
