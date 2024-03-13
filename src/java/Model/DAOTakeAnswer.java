@@ -1,7 +1,7 @@
 package Model;
 
-import Entity.QuestionExam;
-import Entity.QuestionExamAnswer;
+import Entity.questionExam;
+import Entity.questionExamAnswer;
 import Entity.TakeAnswer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,14 +93,14 @@ public class DAOTakeAnswer extends DBConnect {
         return List;
     }
 
-    public Map<QuestionExam, QuestionExamAnswer> getUserAnswers(List<QuestionExam> questionList, int takeExamId) {
-        Map<QuestionExam, QuestionExamAnswer> userAnswers = new HashMap<>();
+    public Map<questionExam, questionExamAnswer> getUserAnswers(List<questionExam> questionList, int takeExamId) {
+        Map<questionExam, questionExamAnswer> userAnswers = new HashMap<>();
         PreparedStatement pre = null;
         ResultSet rs = null;
         String sql = "  select QuestionExamAnswer.* from TakeAnswer \n"
                 + "  join QuestionExamAnswer on TakeAnswer.AnswerId = QuestionExamAnswer.AnswerId\n"
                 + "  where TakeAnswer.QuesId = ? and TakeExamId = ?";
-        for (QuestionExam q : questionList) {
+        for (questionExam q : questionList) {
             try {
                 pre = connection.prepareStatement(sql);
                 pre.setInt(1, q.getQuesId());
@@ -112,7 +112,7 @@ public class DAOTakeAnswer extends DBConnect {
                     String content = rs.getString(3);
                     boolean correct = rs.getBoolean(4);
                     double percent = rs.getDouble(5);
-                    QuestionExamAnswer obj = new QuestionExamAnswer(answerId, QuesId, content, correct, percent);
+                    questionExamAnswer obj = new questionExamAnswer(answerId, QuesId, content, correct, percent);
                     userAnswers.put(q, obj);
                 } else {
                     userAnswers.put(q, null);
@@ -129,11 +129,11 @@ public class DAOTakeAnswer extends DBConnect {
     public static void main(String[] args) {
         DAOTakeAnswer dao = new DAOTakeAnswer();
         DAOQuestionExam dao1 = new DAOQuestionExam();
-        List<QuestionExam> questionList = dao1.getQues(5);
-        Map<QuestionExam, QuestionExamAnswer> getUserAnswers = dao.getUserAnswers(questionList, 3);
-        for (Map.Entry<QuestionExam, QuestionExamAnswer> entry : getUserAnswers.entrySet()) {
-            QuestionExam question = entry.getKey();
-            QuestionExamAnswer userAnswer = entry.getValue();
+        List<questionExam> questionList = dao1.getQues(5);
+        Map<questionExam, questionExamAnswer> getUserAnswers = dao.getUserAnswers(questionList, 3);
+        for (Map.Entry<questionExam, questionExamAnswer> entry : getUserAnswers.entrySet()) {
+            questionExam question = entry.getKey();
+            questionExamAnswer userAnswer = entry.getValue();
 
             System.out.println("Question ID: " + question.getQuesId());
             System.out.println("Question Content: " + question.getContent());

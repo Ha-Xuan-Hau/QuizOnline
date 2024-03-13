@@ -4,8 +4,8 @@
  */
 package Model;
 
-import Entity.QuestionExam;
-import Entity.QuestionExamAnswer;
+import Entity.questionExam;
+import Entity.questionExamAnswer;
 import Entity.TakeExam;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -378,7 +378,7 @@ public class DAOTakeExam extends DBConnect {
         return n;
     }
 
-    public void completeAttempt(int takeExamId, Map<QuestionExam, QuestionExamAnswer> userAnswers, double score) {
+    public void completeAttempt(int takeExamId, Map<questionExam, questionExamAnswer> userAnswers, double score) {
         PreparedStatement pre = null;
         String sql = "UPDATE [dbo].[TakeExam]\n"
                 + "   SET [Status] = 2\n"
@@ -390,9 +390,9 @@ public class DAOTakeExam extends DBConnect {
             pre.setDouble(1, score);
             pre.setInt(2, takeExamId);
             pre.executeUpdate();
-            for (Map.Entry<QuestionExam, QuestionExamAnswer> entry : userAnswers.entrySet()) {
-                QuestionExam key = entry.getKey();
-                QuestionExamAnswer val = entry.getValue();
+            for (Map.Entry<questionExam, questionExamAnswer> entry : userAnswers.entrySet()) {
+                questionExam key = entry.getKey();
+                questionExamAnswer val = entry.getValue();
                 if (val != null) {
                     sql = "INSERT INTO [dbo].[TakeAnswer]\n"
                             + "           ([TakeExamId]\n"
@@ -407,7 +407,7 @@ public class DAOTakeExam extends DBConnect {
                 }
             }
 //            for (Map.Entry<QuestionExam, Integer> entry : userAnswers.entrySet()) {
-//                QuestionExam key = entry.getKey();
+//                questionExam key = entry.getKey();
 //                int val = entry.getValue();
 //                if (val != -1) {
 //                    sql = " insert into TakeAnswer (TakeExamId, QuesId, AnswerId)\n"

@@ -5,8 +5,8 @@
 package Controller;
 
 import Entity.Exam;
-import Entity.QuestionExam;
-import Entity.QuestionExamAnswer;
+import Entity.questionExam;
+import Entity.questionExamAnswer;
 import Entity.TakeExam;
 import Entity.User;
 import Model.DAOExam;
@@ -53,20 +53,20 @@ public class CompleteAttempt extends HttpServlet {
             int examId = Integer.parseInt(request.getParameter("examId"));
 
             //get current user
-            ArrayList<QuestionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
-            //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from QuestionExamAnswer");
-            HashMap<Integer, ArrayList<QuestionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
+            ArrayList<questionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
+            //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from questionExamAnswer");
+            HashMap<Integer, ArrayList<questionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
 
             int takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
-            Map<QuestionExam, QuestionExamAnswer> useranswer = new HashMap<>();
-            for (QuestionExam q : questionList) {
+            Map<questionExam, questionExamAnswer> useranswer = new HashMap<>();
+            for (questionExam q : questionList) {
                 String userAnswer = request.getParameter(Integer.toString(q.getQuesId()));
                 if (userAnswer == null) {
                     useranswer.put(q, null);
                 } else {
                     int answerId = Integer.parseInt(userAnswer);
-                    for (ArrayList<QuestionExamAnswer> answers : questionAnswer.values()) {
-                        for (QuestionExamAnswer a : answers) {
+                    for (ArrayList<questionExamAnswer> answers : questionAnswer.values()) {
+                        for (questionExamAnswer a : answers) {
                             if (a.getAnswerId() == answerId && a.getQuesId() == q.getQuesId()) {
                                 useranswer.put(q, a);
                                 break;

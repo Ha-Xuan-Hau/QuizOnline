@@ -1,6 +1,6 @@
 package Model;
 
-import Entity.QuestionExamAnswer;
+import Entity.questionExamAnswer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class DAOQuestionExamAnswer extends DBConnect {
 
-    public int insertQuetionExamAnswer(QuestionExamAnswer obj) {
+    public int insertQuetionExamAnswer(questionExamAnswer obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[QuestionExamAnswer]\n"
                 + "           ([QuesId]\n"
@@ -37,7 +37,7 @@ public class DAOQuestionExamAnswer extends DBConnect {
         return n;
     }
 
-    public int updateQuetionExamAnswer(QuestionExamAnswer obj) {
+    public int updateQuetionExamAnswer(questionExamAnswer obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[QuestionExamAnswer]\n"
                 + "   SET [QuesId] = ?\n"
@@ -72,8 +72,8 @@ public class DAOQuestionExamAnswer extends DBConnect {
         return n;
     }
 
-    public ArrayList<QuestionExamAnswer> getData(String sql) {
-        ArrayList<QuestionExamAnswer> List = new ArrayList<>();
+    public ArrayList<questionExamAnswer> getData(String sql) {
+        ArrayList<questionExamAnswer> List = new ArrayList<>();
         Statement state;
         try {
             state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -85,7 +85,7 @@ public class DAOQuestionExamAnswer extends DBConnect {
                 String Content = rs.getString(3);
                 boolean Correct = rs.getBoolean(4);
                 double Percent = rs.getDouble(5);
-                QuestionExamAnswer obj = new QuestionExamAnswer(AnswerId, QuesId, Content, Correct, Percent);
+                questionExamAnswer obj = new questionExamAnswer(AnswerId, QuesId, Content, Correct, Percent);
 
                 List.add(obj);
             }
@@ -148,8 +148,8 @@ public class DAOQuestionExamAnswer extends DBConnect {
         return n;
     }
 
-    public HashMap<Integer, ArrayList<QuestionExamAnswer>> getAnswerMap(int examId) {
-        HashMap<Integer, ArrayList<QuestionExamAnswer>> map = new HashMap<>();
+    public HashMap<Integer, ArrayList<questionExamAnswer>> getAnswerMap(int examId) {
+        HashMap<Integer, ArrayList<questionExamAnswer>> map = new HashMap<>();
         String sql = "select QuestionExamAnswer.* \n"
                 + "from QuestionExamAnswer join QuestionExam on QuestionExamAnswer.QuesId = QuestionExam.QuesId\n"
                 + "where QuestionExam.ExamId = ?";
@@ -164,7 +164,7 @@ public class DAOQuestionExamAnswer extends DBConnect {
                     boolean correct = rs.getBoolean("Correct");
                     double percent = rs.getDouble("Percent");
 
-                    QuestionExamAnswer answer = new QuestionExamAnswer(answerId, quesId, quesContent, correct, percent);
+                    questionExamAnswer answer = new questionExamAnswer(answerId, quesId, quesContent, correct, percent);
 
                     // Kiểm tra quesId đã tồn tại trong danh sách chưa
                     map.computeIfAbsent(quesId, k -> new ArrayList<>()).add(answer);
@@ -180,12 +180,12 @@ public class DAOQuestionExamAnswer extends DBConnect {
 
     public static void main(String[] args) {
         DAOQuestionExamAnswer dao = new DAOQuestionExamAnswer();
-        HashMap<Integer, ArrayList<QuestionExamAnswer>> answerMap = dao.getAnswerMap(5);
+        HashMap<Integer, ArrayList<questionExamAnswer>> answerMap = dao.getAnswerMap(5);
 
         // print the results
-        for (Map.Entry<Integer, ArrayList<QuestionExamAnswer>> entry : answerMap.entrySet()) {
+        for (Map.Entry<Integer, ArrayList<questionExamAnswer>> entry : answerMap.entrySet()) {
             System.out.println("Question ID: " + entry.getKey());
-            for (QuestionExamAnswer answer : entry.getValue()) {
+            for (questionExamAnswer answer : entry.getValue()) {
                 System.out.println("Answer ID: " + answer.getAnswerId());
                 System.out.println("Content: " + answer.getContent());
                 System.out.println("Correct: " + answer.isCorrect());

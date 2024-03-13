@@ -10,18 +10,26 @@ import java.io.Serializable;
  *
  * @author ACER
  */
-public class QuestionExamAnswer implements Serializable{
+public class questionExamAnswer implements Serializable {
+
     private int AnswerId;
     private int QuesId;
     private String Content;
     private boolean Correct;
     private double Percent;
 
-    public QuestionExamAnswer() {
+    public questionExamAnswer() {
     }
 
-    public QuestionExamAnswer(int AnswerId, int QuesId, String Content, boolean Correct, double Percent) {
+    public questionExamAnswer(int AnswerId, int QuesId, String Content, boolean Correct, double Percent) {
         this.AnswerId = AnswerId;
+        this.QuesId = QuesId;
+        this.Content = Content;
+        this.Correct = Correct;
+        this.Percent = Percent;
+    }
+
+    public questionExamAnswer(int QuesId, String Content, boolean Correct, double Percent) {
         this.QuesId = QuesId;
         this.Content = Content;
         this.Correct = Correct;
@@ -72,5 +80,5 @@ public class QuestionExamAnswer implements Serializable{
     public String toString() {
         return "quetionExamAnswer{" + "AnswerId=" + AnswerId + ", QuesId=" + QuesId + ", Content=" + Content + ", Correct=" + Correct + ", Percent=" + Percent + '}';
     }
-    
+
 }

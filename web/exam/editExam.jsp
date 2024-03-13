@@ -116,8 +116,8 @@
                         </select>
                         <div class="appQuestion">
                             <button id="button-question-edit">edit question exam</button>
-                            <button id="button-question-bank">app question by bank</button>
-                            <button id="button-question-import">import question</button>
+                            <a href="ExamByQuestionSetURL" id="button-question-bank">app question by bank</a>
+                            <a href="#" id="button-question-import">import question</a>
                         </div>
                         <div style="border:#ccc 1px solid; padding:10px">
                             <ul>

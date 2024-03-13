@@ -5,8 +5,8 @@
 package Controller;
 
 import Entity.Exam;
-import Entity.QuestionExam;
-import Entity.QuestionExamAnswer;
+import Entity.questionExam;
+import Entity.questionExamAnswer;
 import Model.DAOExam;
 import Model.DAOQuestionExam;
 import Model.DAOQuestionExamAnswer;
@@ -61,8 +61,8 @@ public class EditExamController extends HttpServlet {
                 int examId = Integer.parseInt(request.getParameter("examId"));
 
                 Exam exam = dao.getExamById(examId);
-                ArrayList<QuestionExam> Ques = questionDAO.getQues(examId);
-                HashMap<Integer, ArrayList<QuestionExamAnswer>> QuesAnswers = answerDAO.getAnswerMap(examId);
+                ArrayList<questionExam> Ques = questionDAO.getQues(examId);
+                HashMap<Integer, ArrayList<questionExamAnswer>> QuesAnswers = answerDAO.getAnswerMap(examId);
 
                 request.setAttribute("exam", exam);
                 request.setAttribute("questions", Ques);
@@ -94,7 +94,7 @@ public class EditExamController extends HttpServlet {
                         String question = request.getParameter("ExamQuestionDetail" + i);
                         int questionId = Integer.parseInt(request.getParameter("QuestionId" + i));
 
-                        QuestionExam ques = new QuestionExam(examId, questionId, question, score / index1);
+                        questionExam ques = new questionExam(examId, questionId, question, score / index1);
                         questionDAO.updateQuetionExam(ques);
 
                         int index2 = answerDAO.getTotalAnswerOfQuestion(questionId);
@@ -117,7 +117,7 @@ public class EditExamController extends HttpServlet {
 
                             float percent = correct ? percentage : 0.0f;
 
-                            QuestionExamAnswer quesAnswer = new QuestionExamAnswer(id, questionId, answer, correct, percent);
+                            questionExamAnswer quesAnswer = new questionExamAnswer(id, questionId, answer, correct, percent);
                             answerDAO.updateQuetionExamAnswer(quesAnswer);
                         }
                     }

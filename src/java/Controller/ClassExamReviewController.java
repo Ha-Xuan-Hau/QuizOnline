@@ -5,8 +5,8 @@
 package Controller;
 
 import Entity.Exam;
-import Entity.QuestionExam;
-import Entity.QuestionExamAnswer;
+import Entity.questionExam;
+import Entity.questionExamAnswer;
 import Entity.TakeExam;
 import Model.DAOExam;
 import Model.DAOQuestionExam;
@@ -58,9 +58,9 @@ public class ClassExamReviewController extends HttpServlet {
             int examId = takeExam.getExamId();
             Exam exam = daoExam.getExamById(examId);
             
-            List<QuestionExam> questions = daoQuestion.getQues(examId);
-            HashMap<Integer, ArrayList<QuestionExamAnswer>> answers = daoQuestionExamAnswer.getAnswerMap(examId);
-            Map<QuestionExam, QuestionExamAnswer> userAnswers = daoTakeAnswer.getUserAnswers(questions, takeExamId);
+            List<questionExam> questions = daoQuestion.getQues(examId);
+            HashMap<Integer, ArrayList<questionExamAnswer>> answers = daoQuestionExamAnswer.getAnswerMap(examId);
+            Map<questionExam, questionExamAnswer> userAnswers = daoTakeAnswer.getUserAnswers(questions, takeExamId);
 
             request.setAttribute("status", 2);
             request.setAttribute("exam", exam);

@@ -879,6 +879,7 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
+
     public User getUserByEmail(String email) {
         String sql = "select * from [User] where [Email] = ?";
         PreparedStatement ps;
@@ -895,7 +896,8 @@ public class DAOUser extends DBConnect {
 
         return null;
     }
-        public User checkUserObj(String username, String passWord) {
+
+    public User checkUserObj(String username, String passWord) {
         User t = null;
         try {
             String sql = "select * from [User] where [Username] = ? and [Password] = ?";
@@ -904,7 +906,7 @@ public class DAOUser extends DBConnect {
             ps.setString(2, passWord);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                t = new User(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getBoolean(6));
+                t = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getBoolean(6));
             }
             ps.execute();
             ps.close();
@@ -913,6 +915,26 @@ public class DAOUser extends DBConnect {
         }
         return t;
     }
+
+    public int ResetPassword(String email, String pass) {
+        int n = 0;
+        EncryptionUtils encrypt = new EncryptionUtils();
+        pass = encrypt.toMD5(pass);
+        try {
+            String sql = "UPDATE [dbo].[User]\n"
+                    + "   SET [Password] = ?\n"
+                    + " WHERE Email = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, pass);
+            stm.setString(2, email);
+            n = stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return n;
+    }
+
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();
 

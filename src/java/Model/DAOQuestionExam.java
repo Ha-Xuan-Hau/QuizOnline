@@ -4,7 +4,7 @@
  */
 package Model;
 
-import Entity.QuestionExam;
+import Entity.questionExam;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class DAOQuestionExam extends DBConnect {
 
-    public int insertQuetionExam(QuestionExam obj) {
+    public int insertQuetionExam(questionExam obj) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[QuestionExam]\n"
                 + "           ([ExamId]\n"
@@ -44,7 +44,7 @@ public class DAOQuestionExam extends DBConnect {
         return n;
     }
 
-    public int updateQuetionExam(QuestionExam obj) {
+    public int updateQuetionExam(questionExam obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[QuestionExam]\n"
                 + "   SET [ExamId] = ?\n"
@@ -132,8 +132,8 @@ public class DAOQuestionExam extends DBConnect {
         return n;
     }
 
-    public ArrayList<QuestionExam> getData(String sql) {
-        ArrayList<QuestionExam> List = new ArrayList<>();
+    public ArrayList<questionExam> getData(String sql) {
+        ArrayList<questionExam> List = new ArrayList<>();
         Statement state;
         try {
             state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -144,7 +144,7 @@ public class DAOQuestionExam extends DBConnect {
                 int QuesId = rs.getInt(2);
                 String Content = rs.getString(3);
                 double Score = rs.getDouble(4);
-                QuestionExam obj = new QuestionExam(ExamId, QuesId, Content, Score);
+                questionExam obj = new questionExam(ExamId, QuesId, Content, Score);
 
                 List.add(obj);
             }
@@ -155,8 +155,8 @@ public class DAOQuestionExam extends DBConnect {
 
     }
 
-    public ArrayList<QuestionExam> getQues(int examId) {
-        ArrayList<QuestionExam> quesDetails = new ArrayList<>();
+    public ArrayList<questionExam> getQues(int examId) {
+        ArrayList<questionExam> quesDetails = new ArrayList<>();
         try {
             String sql = "select *\n"
                     + "from QuestionExam\n"
@@ -169,12 +169,30 @@ public class DAOQuestionExam extends DBConnect {
                 int QuesId = rs.getInt(2);
                 String Content = rs.getString(3);
                 double Score = rs.getDouble(4);
-                QuestionExam obj = new QuestionExam(ExamId, QuesId, Content, Score);
+                questionExam obj = new questionExam(ExamId, QuesId, Content, Score);
                 quesDetails.add(obj);
             }
         } catch (Exception e) {
         }
         return quesDetails;
+    }
+
+    public int getLast() {
+        int maxQuesId = 0;
+        String sql = "SELECT MAX(quesId) AS MaxQuesId FROM [dbo].[QuestionExam]";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                maxQuesId = resultSet.getInt("MaxQuesId");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOQuestionExam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return maxQuesId;
     }
 
 }

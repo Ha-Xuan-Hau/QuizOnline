@@ -5,8 +5,8 @@
 package Controller;
 
 import Entity.Exam;
-import Entity.QuestionExam;
-import Entity.QuestionExamAnswer;
+import Entity.questionExam;
+import Entity.questionExamAnswer;
 import Entity.TakeExam;
 import Entity.User;
 import Model.DAOExam;
@@ -69,8 +69,8 @@ public class AttemptClassExamController extends HttpServlet {
 //            User user = (User) request.getSession().getAttribute("acc");
 //            int takeExamId = daoTakeExam.takeExam(user.getAccountId(), examId);
 //            TakeExam takeExam = daoTakeExam.getTakeExamByExamIdObj(examId);
-//            ArrayList<QuestionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
-//            //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from QuestionExamAnswer");
+//            ArrayList<QuestionExam> questionList = daoQuestion.getData("select * from questionExam where examId=" + examId);
+//            //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from questionExamAnswer");
 //            HashMap<Integer, ArrayList<QuestionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
 //
 //            int examTimeInSeconds = exam.getTimer();
@@ -99,15 +99,15 @@ public class AttemptClassExamController extends HttpServlet {
 //                request.getRequestDispatcher(url).forward(request, response);
 //            } else if ("POST".equalsIgnoreCase(method)) {
 //                takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
-//                Map<QuestionExam, QuestionExamAnswer> useranswer = new HashMap<>();
-//                for (QuestionExam q : questionList) {
+//                Map<QuestionExam, questionExamAnswer> useranswer = new HashMap<>();
+//                for (questionExam q : questionList) {
 //                    String userAnswer = request.getParameter(Integer.toString(q.getQuesId()));
 //                    if (userAnswer == null) {
 //                        useranswer.put(q, null);
 //                    } else {
 //                        int answerId = Integer.parseInt(userAnswer);
 //                        for (ArrayList<QuestionExamAnswer> answers : questionAnswer.values()) {
-//                            for (QuestionExamAnswer a : answers) {
+//                            for (questionExamAnswer a : answers) {
 //                                if (a.getAnswerId() == answerId && a.getQuesId() == q.getQuesId()) {
 //                                    useranswer.put(q, a);
 //                                    break;
@@ -151,9 +151,9 @@ public class AttemptClassExamController extends HttpServlet {
         int takeExamId = daoTakeExam.takeExam(user.getAccountId(), examId);
 
         TakeExam takeExam = daoTakeExam.getTakeExamByExamIdObj(examId);
-        ArrayList<QuestionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
-        //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from QuestionExamAnswer");
-        HashMap<Integer, ArrayList<QuestionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
+        ArrayList<questionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
+        //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from questionExamAnswer");
+        HashMap<Integer, ArrayList<questionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
 
         int examTimeInSeconds = exam.getTimer(); // Lấy thời gian giới hạn của bài kiểm tra
         long examTimeInMillis = examTimeInSeconds * 1000; // Chuyển đổi giây thành mili giây
@@ -196,13 +196,13 @@ public class AttemptClassExamController extends HttpServlet {
         int examId = Integer.parseInt(request.getParameter("examId"));
         int takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
 
-        ArrayList<QuestionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
-        //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from QuestionExamAnswer");
-        HashMap<Integer, ArrayList<QuestionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
+        ArrayList<questionExam> questionList = daoQuestion.getData("select * from QuestionExam where examId=" + examId);
+        //       ArrayList<QuestionExamAnswer> answerList = daoAnswer.getData("select * from questionExamAnswer");
+        HashMap<Integer, ArrayList<questionExamAnswer>> questionAnswer = daoAnswer.getAnswerMap(examId);
 
 //        takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
-        Map<QuestionExam, QuestionExamAnswer> userAnswers = new HashMap<>();
-//        for(QuestionExam question : questionList){
+        Map<questionExam, questionExamAnswer> userAnswers = new HashMap<>();
+//        for(questionExam question : questionList){
 //            String userAns = request.getParameter(Integer.toString(question.getQuesId()));
 //            if(userAnswer == null){
 //                userAnswer.put(question, -1);
@@ -211,14 +211,14 @@ public class AttemptClassExamController extends HttpServlet {
 //            }
 //        }
 //        daoTakeExam.completeAttempt(takeExamId, userAnswer, GradeUtils.grade(questionList, userAnswer));
-        for (QuestionExam question : questionList) {
+        for (questionExam question : questionList) {
             String userAnswerId = request.getParameter(Integer.toString(question.getQuesId()));
             if (userAnswerId == null) {
                 userAnswers.put(question, null);
             } else {
                 int answerId = Integer.parseInt(userAnswerId);
-                for (ArrayList<QuestionExamAnswer> answers : questionAnswer.values()) {
-                    for (QuestionExamAnswer answer : answers) {
+                for (ArrayList<questionExamAnswer> answers : questionAnswer.values()) {
+                    for (questionExamAnswer answer : answers) {
                         if (answer.getAnswerId() == answerId && answer.getQuesId() == question.getQuesId()) {
                             userAnswers.put(question, answer);
                             break;
