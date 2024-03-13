@@ -16,11 +16,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
+    <input type="hidden" id="status" value="<%=request.getAttribute("status")%>"
     <body>
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    <a class="back_home-detail" href="HomeController"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
+                    <a class="back_home-detail" href="HomeURL"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
             <div class="container-form">
@@ -58,7 +59,7 @@
                         </div>
                         <button id="form-submit" class="form-submit">Login</button>
                     </form>
-                        <button class="form-submit email-login-button" onclick="redirectToEmailLogin()"><i class="fab fa-google"></i> Login with email</button>
+                    <button class="form-submit email-login-button" onclick="redirectToEmailLogin()"><i class="fab fa-google"></i> Login with email</button>
                     <div class="logreg-link">
                         <span>Don't have an account? <a href="RegisterURL">Register now</a></span>
                     </div>
@@ -68,6 +69,9 @@
             </div>
         </div>
         <script src="assets/js/login.js"></script>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <script>
 
                         Validator({
@@ -80,6 +84,15 @@
                                 Validator.isRequired("#password")
                             ]
                         });
+        </script>
+        <script type="text/javascript">
+            var status = document.getElementById("status").value;
+            if (status == "resetSuccess") {
+                swal("Congrats", "Password Reset Successful", "success");
+            }else if(status == "resetFailed"){
+                swal("Sorry", "Password Reset Failed", "error");
+            }
+            
         </script>
     </body>
 
