@@ -87,7 +87,7 @@
                                 </div>
 
                                 <!-- Admin -->
-                                <c:if test="${data['RoleId'] == 1}">
+                                <c:if test="${data['RoleId'] == 3}">
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputUsername">Admin Name</label>
                                         <input class="form-control" id="inputUsername" type="text" placeholder=""
@@ -105,7 +105,7 @@
 
                                 </c:if>
                                 <!-- Student -->
-                                <c:if test="${data['RoleId'] == 3}">
+                                <c:if test="${data['RoleId'] == 1}">
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputUsername">Student Name</label>
                                         <input class="form-control" id="inputUsername" type="text" placeholder=""
@@ -144,7 +144,29 @@
                                            placeholder="Nhập địa chỉ email" value="${data.get('Email')}" readonly>
                                 </div>
 
-
+                                   <div class="mb-3">
+                                    <label class="small mb-1" for="roleSelect">Role</label>
+                                    <div class="form-group">
+                                        <select class="form-control" id="roleSelect" name="roleId" required>
+                                            
+                                            <c:choose>
+                                                <c:when test="${data['RoleId'] == 1}">
+                                                    
+                                                    <option value="1" selected>Student</option>
+                                                </c:when>
+                                                <c:when test="${data['RoleId'] == 2}">
+                                                    
+                                                    <option value="2" selected>Teacher</option>
+                                                    <
+                                                </c:when>
+                                                <c:when test="${data['RoleId'] == 3}">
+                                                    <option value="3" selected>Admin</option>
+                                                    
+                                                </c:when>
+                                            </c:choose>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputEmailAddress">Status</label>
                                     <div class="form-group">

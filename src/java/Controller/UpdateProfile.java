@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +76,9 @@ public class UpdateProfile extends HttpServlet {
             throws ServletException, IOException {
         DAOUser dao = new DAOUser();
         int sid = Integer.parseInt(request.getParameter("sid"));
-        Map<String, Object> user = dao.getUserByIdd(sid);
-        request.setAttribute("data", user);
+       
+        HashMap<String, Object> u = dao.getUserByAccountID(sid);
+        request.setAttribute("data", u);
         request.getRequestDispatcher("/Profile/Profile.jsp").forward(request, response);
     }
 
@@ -104,12 +106,11 @@ public class UpdateProfile extends HttpServlet {
         String dob = request.getParameter("dob");
         String password = request.getParameter("pass");
         String email = request.getParameter("email");
+        int roleID = Integer.parseInt(request.getParameter("roleId"));
+        int status = Integer.parseInt(request.getParameter("status"));
 
      
-        int AccountId = dao.updateUserAndGetAccountId(acc, username, email, password);
-        daoA.updateAdmin(AccountId, adName, phone);
-        daoT.updateTeacher(AccountId, teacherName, phone);
-        daoS.updateStudent(AccountId, studentName, phone, dob);
+        dao.updateUserByAccountIDAndRoleID(acc, roleID, username, email, password,status, phone, adName, teacherName, studentName, dob);
         response.sendRedirect("UserController");
 
     }

@@ -558,15 +558,7 @@ public boolean isSettingListEmpty(String keyword, int page, int PAGE_SIZE) {
 //
 //        }
 
-String subjectCodeToCheck = "SWQ"; // Thay thế bằng mã môn học bạn muốn kiểm tra
-        boolean isExist = dao.checkSubjectCodeExistence(subjectCodeToCheck);
-        
-        // In kết quả kiểm tra
-        if (isExist) {
-            System.out.println("Subject code '" + subjectCodeToCheck + "' exists.");
-        } else {
-            System.out.println("Subject code '" + subjectCodeToCheck + "' does not exist.");
-        }
+dao.updateAdmin(6, "kien", "0988489099" );
 
     }
 
