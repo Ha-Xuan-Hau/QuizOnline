@@ -23,7 +23,7 @@ public class Class {
         this.CreateDate = CreateDate;
         this.ClassCode = ClassCode;
     }
-
+    
     public void setClassCode(String ClassCode) {
         this.ClassCode = ClassCode;
     }

@@ -63,9 +63,6 @@ public class ControllerScoreListForTeacher extends HttpServlet {
             request.setAttribute("ScoreList", ScoreList);
             request.getRequestDispatcher("/Class/classScoreForTeacher.jsp").forward(request, response);
             } 
-//            else {
-//            
-//            }
         }
     }
 

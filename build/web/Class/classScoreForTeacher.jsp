@@ -71,6 +71,24 @@
             .student-list p:hover{
                 opacity: 0.7;
             }
+            .export-button {
+                background-color: #007bff;
+                border: none;
+                color: white;
+                padding: 10px 20px; 
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+
+            .export-button:hover {
+                color: white;
+                background-color: #2a73cc; 
+                text-decoration: none;
+            }
         </style>
     </head>
 
@@ -85,7 +103,7 @@
 
             <a href="" target="_self" class="current-page">Detail</a>
 
-        </div>
+        </div>  
         <div class="content">
             <h1>Score Board<span style="margin-left: auto; font-size: 20px" class="classmates-count">${StudentList.size()} Students</span></h1>           
             <div class="student-list">
@@ -101,7 +119,7 @@
                             <c:forEach var="score" items="${ScoreList}">
                                 <c:if test="${score.studentAccountId == student.accountId}">                                 
                                     <p class="col-1 " style="margin-top: 35px">Score: ${score.score}</p>
-                                    <p class="col-2" style="margin-top: 35px">Status: ${score.status} </p>
+                                    <p class="col-2" style="margin-top: 35px">Status:  <span id="statusPlaceholder">${score.status == '1' ? 'In progress' : 'Done'}</span></p>
                                     <p class="col-3" style="margin-top: 35px">From ${score.getStartDate().substring(0, 10)} To ${score.getEndDate().substring(0, 10)}</p>
                                     <div class="col-2" style="margin-top: 30px">
                                         <a href="" class="btn btn-primary">Detail</a>
@@ -113,8 +131,8 @@
                                 <p class="col-8" style="margin-top: 35px;text-align: center; color: red">Haven't taken the Exam yet</p>
                             </c:if> 
                         </div>
-
                     </c:forEach>
+                    <a class="export-button" href="ExportExcel" target="_blank">Export to Excel</a>
                 </c:if>
             </div>
         </div>
@@ -123,8 +141,6 @@
 
         <!-- footer section -->
     </body>
-    <script>
-    </script>
 </html>
 
 

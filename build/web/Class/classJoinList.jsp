@@ -127,18 +127,18 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
         <div class="Popup">
             <div class="behind" id="popupBehind" onclick="closeForm()"></div>
             <div class="formPopup" id="popupForm">    
-                                <form action="ClassJoinListURL" method="post" class="formContainer">
-                                    <input type="hidden" name="go" value="joinClass">
-                                    <p style="color: rgb(88, 88, 88) ;text-align: left; font-size: x-large; margin-left: 10px ">Class Code</p>
-                                    <p style="color: rgb(88, 88, 88) ; text-align: left; margin-left: 10px">Ask your teacher for the class code and enter it here.</p>
-                                    <div class="inputGroup">
-                                        <input type="text" id="className" name="className" placeholder=" " required>
-                                        <span class="title">Class Code </span>
-                                    </div>
-                        
-                                    <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
-                                    <button type="submit" class="btn_add">Join</button>
-                                </form>
+                <form action="ClassJoinListURL" method="post" class="formContainer">
+                    <input type="hidden" name="go" value="joinClass">
+                    <p style="color: rgb(88, 88, 88) ;text-align: left; font-size: x-large; margin-left: 10px ">Class Code</p>
+                    <p style="color: rgb(88, 88, 88) ; text-align: left; margin-left: 10px">Ask your teacher for the class code and enter it here.</p>
+                    <div class="inputGroup">
+                        <input type="text" id="className" name="className" placeholder=" " required>
+                        <span class="title">Class Code </span>
+                    </div>
+
+                    <button type="button" class="btn_cancel" onclick="closeForm()">Cancel</button>
+                    <button type="submit" class="btn_add">Join</button>
+                </form>
             </div>
         </div>
         <!--End Popup-->
@@ -194,20 +194,20 @@ char firstCharacter = (teacher != null && teacher.getTeacherName() != null && !t
     </body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-                function showDeleteConfirmation(classId) {
-                    Swal.fire({
-                        title: 'Delete Class',
-                        text: 'Are you sure you want to delete this class?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Delete',
-                        cancelButtonText: 'Cancel',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = ""; //+ classId;
+                        function showDeleteConfirmation(classId) {
+                            Swal.fire({
+                                title: 'Delete Class',
+                                text: 'Are you sure you want to delete this class?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Delete',
+                                cancelButtonText: 'Cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = ""; //+ classId;
+                                }
+                            });
                         }
-                    });
-                }
     </script>
 
     <script>
