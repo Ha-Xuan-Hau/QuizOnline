@@ -347,11 +347,6 @@
         }
     </script>
 
-
-Để chuyển đổi các liên kết (<a>) thành các phần tử danh sách (<li>) mà khi nhấp vào sẽ chuyển hướng người dùng, bạn có thể thay thế tất cả các phần tử <a> bằng các phần tử <li> và thêm một sự kiện click cho mỗi phần tử <li> để chuyển hướng người dùng. Dưới đây là cách bạn có thể thực hiện điều đó:
-
-html
-Copy code
 <script>
     const starList = document.getElementById("starList");
 

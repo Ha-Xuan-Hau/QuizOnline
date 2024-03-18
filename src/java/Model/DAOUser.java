@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Utils.EncryptionUtils;
 
+
 /**
  *
  * @author Asus
@@ -72,22 +73,6 @@ public boolean insertUser(User user) {
             stm.setInt(4, roleId);
             stm.setInt(5, isActive);
             stm.setInt(6, accountId);
-            stm.executeUpdate();
-            return accountId;
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
-    }
-
-    public int updateUserAndGetAccountId(int accountId, String username, String email, String password) {
-        try {
-            String sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ? WHERE [AccountId] = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            stm.setString(2, email);
-            stm.setString(3, password);
-            stm.setInt(4, accountId);
             stm.executeUpdate();
             return accountId;
         } catch (SQLException ex) {
@@ -668,7 +653,7 @@ public boolean insertUser(User user) {
                     + "FROM [User] AS u "
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 3"; // Lấy người dùng với RoleId = 3 (sinh viên)
+                    + "WHERE u.RoleId = 1"; // Lấy người dùng với RoleId = 3 (sinh viên)
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -698,7 +683,7 @@ public boolean insertUser(User user) {
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 1"; // Lọc ra những user có RoleId = 1 (Admin)
+                    + "WHERE u.RoleId = 3"; // Lọc ra những user có RoleId = 1 (Admin)
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -778,17 +763,24 @@ public boolean insertUser(User user) {
     public List<Map<String, Object>> getAllUserWithPaging(int page, int PAGE_SIZE) {
         List<Map<String, Object>> userList = new ArrayList<>();
         try {
-            String sql = "SELECT u.AccountId, u.Username, u.Email, COALESCE(s.Phone, t.Phone, a.Phone) AS Phone, u.RoleId, u.IsActive "
+            String sql = "SELECT u.AccountId, u.Username, u.Email, "
+                    + "CASE "
+                    + "WHEN u.RoleId = 1 THEN s.Phone "
+                    + "WHEN u.RoleId = 2 THEN t.Phone "
+                    + "WHEN u.RoleId = 3 THEN a.Phone "
+                    + "ELSE '' "
+                    + "END AS Phone, "
+                    + "u.RoleId, u.IsActive "
                     + "FROM [User] AS u "
-                    + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
-                    + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
-                    + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "ORDER BY u.AccountId OFFSET (?-1)*? ROWS FETCH NEXT ? ROWS ONLY";
+                    + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId AND u.RoleId = 1 "
+                    + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId AND u.RoleId = 2 "
+                    + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId AND u.RoleId = 3 "
+                    + "ORDER BY u.AccountId "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, page);
+            stm.setInt(1, (page - 1) * PAGE_SIZE);
             stm.setInt(2, PAGE_SIZE);
-            stm.setInt(3, PAGE_SIZE);
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -825,18 +817,25 @@ public boolean insertUser(User user) {
         return total;
     }
 
-    public HashMap<String, Object> getUserByIdd(int AccountId) {
+    public HashMap<String, Object> getUserByAccountIdAndRoleId(int accountId, int roleId) {
         try {
-            String sql = "SELECT u.AccountId, u.Username, u.Email, COALESCE(s.Phone, t.Phone, a.Phone) AS Phone, s.Dob AS Dob, "
-                    + "s.StudentName, t.TeacherName, a.AdminName, "
+            String sql = "SELECT u.AccountId, u.Username, u.Email, "
+                    + "CASE "
+                    + "WHEN u.RoleId = 1 THEN s.Phone "
+                    + "WHEN u.RoleId = 2 THEN t.Phone "
+                    + "WHEN u.RoleId = 3 THEN a.Phone "
+                    + "ELSE '' "
+                    + "END AS Phone, "
+                    + "s.Dob AS Dob, s.StudentName, t.TeacherName, a.AdminName, "
                     + "u.RoleId, u.IsActive, u.Password "
                     + "FROM [User] AS u "
-                    + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
-                    + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
-                    + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.AccountId = ?";
+                    + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId AND u.RoleId = 1 "
+                    + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId AND u.RoleId = 2 "
+                    + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId AND u.RoleId = 3 "
+                    + "WHERE u.AccountId = ? AND u.RoleId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, AccountId);
+            stm.setInt(1, accountId);
+            stm.setInt(2, roleId);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 HashMap<String, Object> userMap = new HashMap<>();
@@ -860,7 +859,6 @@ public boolean insertUser(User user) {
     }
 
     public User checkAccount(String username, String password) {
-
         String sql = "select * from [User] where Username = ? and Password = ?";
         try {
             EncryptionUtils encryptionUtils = new EncryptionUtils();
@@ -911,32 +909,136 @@ public boolean insertUser(User user) {
 
         return null;
     }
-    public static void main(String[] args) {
-        DAOUser dao = new DAOUser();
+  
 
-//        List<User> us = dao.getAllUser();
-//        for (User u : us) {
-//            System.out.println(u);
-//
-//        }
-//        User u = dao.getUserById(1);
-//        System.out.println(u);
-        int accountId = dao.insertUserAndGetAccountId("testUser", "test@example.com", "testPassword", 1, 1);
-        System.out.println("Account ID: " + accountId);
+    public HashMap<String, Object> getUserByUidAndRoleId(int userId, int roleId) {
+        try {
+            String sql = "SELECT u.AccountId, u.Username, u.Email, "
+                    + "s.Phone AS Phone, "
+                    + "s.Dob AS Dob, "
+                    + "s.StudentName AS Name, "
+                    + "u.RoleId, u.IsActive, u.Password "
+                    + "FROM [User] AS u "
+                    + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
+                    + "WHERE u.AccountId = ? AND u.RoleId = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            stm.setInt(2, roleId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                HashMap<String, Object> userMap = new HashMap<>();
+                userMap.put("AccountId", rs.getInt("AccountId"));
+                userMap.put("Username", rs.getString("Username"));
+                userMap.put("Email", rs.getString("Email"));
+                userMap.put("Phone", rs.getString("Phone"));
+                userMap.put("Dob", rs.getDate("Dob")); // Đảm bảo cột "Dob" là kiểu ngày trong cơ sở dữ liệu
+                userMap.put("Name", rs.getString("Name"));
+                userMap.put("RoleId", rs.getInt("RoleId"));
+                userMap.put("IsActive", rs.getBoolean("IsActive"));
+                userMap.put("Password", rs.getString("Password")); // Lấy password
+                return userMap;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
 
-//        if (user != null) {
-//            System.out.println("AccountId: " + user.get("AccountId"));
-//            System.out.println("Username: " + user.get("Username"));
-//            System.out.println("Email: " + user.get("Email"));
-//            System.out.println("Phone: " + user.get("Phone"));
-//            System.out.println("RoleId: " + user.get("RoleId"));
-//            System.out.println("Dob: " + user.get("Dob"));
-//            System.out.println("IsActive: " + user.get("IsActive"));
-//            System.out.println();
-//        } else {
-//            System.out.println("User not found!");
-//        }
-        dao.deleteUser(15);
     }
 
+   public HashMap<String, Object> getUserByAccountID(int accountID) {
+    try {
+        String sql = "SELECT u.AccountId, u.Username, u.Email, "
+                + "CASE "
+                + "WHEN u.RoleId = 1 THEN s.Phone "
+                + "WHEN u.RoleId = 2 THEN t.Phone "
+                + "WHEN u.RoleId = 3 THEN a.Phone "
+                + "ELSE '' "
+                + "END AS Phone, "
+                + "s.Dob AS Dob, s.StudentName, t.TeacherName, a.AdminName, "
+                + "u.RoleId, u.IsActive, u.Password "
+                + "FROM [User] AS u "
+                + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId AND u.RoleId = 1 "
+                + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId AND u.RoleId = 2 "
+                + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId AND u.RoleId = 3 "
+                + "WHERE u.AccountId = ?";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setInt(1, accountID);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            HashMap<String, Object> userMap = new HashMap<>();
+            userMap.put("AccountId", rs.getInt("AccountId"));
+            userMap.put("Username", rs.getString("Username"));
+            userMap.put("Email", rs.getString("Email"));
+            userMap.put("Phone", rs.getString("Phone"));
+            userMap.put("Dob", rs.getDate("Dob"));
+            userMap.put("StudentName", rs.getString("StudentName"));
+            userMap.put("TeacherName", rs.getString("TeacherName"));
+            userMap.put("AdminName", rs.getString("AdminName"));
+            userMap.put("RoleId", rs.getInt("RoleId"));
+            userMap.put("IsActive", rs.getBoolean("IsActive"));
+            userMap.put("Password", rs.getString("Password"));
+            return userMap;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return new HashMap<>();
+}
+
+
+    public int updateUserByAccountIDAndRoleID(int accountId, int roleId, String username, String email, String password, int isActive, String phone, String adminName, String teacherName, String studentName, String dob) {
+        try {
+            String sql = "";
+            switch (roleId) {
+                case 3: // Admin
+                    sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?;"
+                            + "UPDATE Admin SET [Phone] = ?, [AdminName] = ? WHERE [AccountId] = ?";
+                    break;
+                case 2: // Teacher
+                    sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?;"
+                            + "UPDATE Teacher SET [Phone] = ?, [TeacherName] = ? WHERE [AccountId] = ?";
+                    break;
+                case 1: // Student
+                    sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?;"
+                            + "UPDATE Student SET [Phone] = ?, [StudentName] = ?, [DOB] = ? WHERE [AccountId] = ?";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid role ID");
+            }
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, email);
+            stm.setString(3, password);
+            stm.setInt(4, roleId);
+            stm.setInt(5, isActive);
+            stm.setInt(6, accountId);
+
+            // Nếu là sinh viên, chèn thêm thông tin phone và studentName hoặc dob
+            if (roleId == 1) {
+                stm.setString(7, phone);
+                stm.setString(8, studentName);
+                stm.setString(9, dob);
+                stm.setInt(10, accountId);
+            } else { // Nếu không phải là sinh viên, chèn thông tin phone và adminName hoặc teacherName
+                stm.setString(7, phone);
+                stm.setString(8, roleId == 3 ? adminName : teacherName);
+                stm.setInt(9, accountId);
+            }
+
+            stm.executeUpdate();
+            return accountId;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+
+    public static void main(String[] args) {
+        DAOUser dao = new DAOUser();
+       HashMap<String, Object> u = dao.getUserByAccountID(1);
+        System.out.println(u.toString());
+       
+
+}
 }

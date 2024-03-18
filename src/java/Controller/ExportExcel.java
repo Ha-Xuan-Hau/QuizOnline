@@ -60,13 +60,8 @@ public class ExportExcel extends HttpServlet {
             ScoreList = daoTE.getTakeExamByExamId(ExamId);
         }
         String name = daoC.ClassByClassID(classId).getClassName();
-        // Tạo một workbook mới
         XSSFWorkbook workbook = new XSSFWorkbook();
-
-        // Tạo một sheet mới
         XSSFSheet sheet = workbook.createSheet("Data");
-
-        // Tạo hàng tiêu đề
         Row headerRow = sheet.createRow(0);
         headerRow.createCell(0).setCellValue("Name");
         headerRow.createCell(1).setCellValue("Score");
@@ -78,8 +73,6 @@ public class ExportExcel extends HttpServlet {
         for (User student : StudentList) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(student.getUsername());
-
-            // Tìm điểm của sinh viên trong danh sách điểm và điền vào file Excel
             boolean found = false;
             for (TakeExam score : ScoreList) {
                 if (score.getStudentAccountId() == student.getAccountId()) {
@@ -98,8 +91,6 @@ public class ExportExcel extends HttpServlet {
                 row.createCell(4).setCellValue("N/A");
             }
         }
-
-        // Ghi workbook vào OutputStream của response
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment; filename="+name+".xlsx");
 
