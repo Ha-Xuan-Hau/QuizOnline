@@ -64,10 +64,15 @@ public class ControllerClassJoinList extends HttpServlet {
                     response.sendRedirect("ClassJoinListURL");
                 }
                     if (service.equals("joinClass")){
-                    String className = request.getParameter("className");
+                    String className = request.getParameter("className");                 
+                    if(dao.getClassByClassCode(className) == null){
+                    response.sendRedirect("ClassJoinListURL");
+                    }else{
                     TakeClass tc = new TakeClass(acc.getAccountId(), dao.getClassByClassCode(className).getClassId());
                     daoTakeClass.CreateTakeClass(tc);
-                    response.sendRedirect("ClassDetailURL?classId=" + dao.getClassByClassCode(className).getClassId());
+                    response.sendRedirect("ClassDetailURL?classId=" + dao.getClassByClassCode(className).getClassId());                    
+                    }
+
                 }
 
             }

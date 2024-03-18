@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class DAOStudent extends DBConnect {
 
-    public void insertStudent(int accountId, String studentName, String phone, String dob) {
+    public boolean insertStudent(int accountId, String studentName, String phone, String dob) {
         try {
             String sql = "INSERT INTO [dbo].[Student] ([AccountId], [StudentName], [Phone], [DoB]) VALUES (?, ?, ?, ?)";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -28,14 +28,19 @@ public class DAOStudent extends DBConnect {
             stm.setString(2, studentName);
             stm.setString(3, phone);
             stm.setString(4, dob);
+            int rowsUpdated = stm.executeUpdate();
+        if (rowsUpdated > 0) {
+            return true;
+        }
 
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DAOStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
-    public void updateStudent(int accountId, String studentName, String phone, String dob) {
+    public boolean updateStudent(int accountId, String studentName, String phone, String dob) {
         try {
             String sql = "UPDATE [dbo].[Student]\n"
                     + "SET \n"
@@ -48,12 +53,16 @@ public class DAOStudent extends DBConnect {
             stm.setString(2, phone);
             stm.setString(3, dob);
             stm.setInt(4, accountId);
-
+            int rowsUpdated = stm.executeUpdate();
+        if (rowsUpdated > 0) {
+            return true;
+        }
             stm.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(DAOStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     public int CreateStudent(Student obj) {

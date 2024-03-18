@@ -39,7 +39,7 @@
             <ul>
                 <li><a href="HomeController">HOME</a></li>
                     <c:if test="${acc != null}">
-                    <li><a href="ClassJoinListURL">ClASS</a></li>
+                    <li><a href="ClassJoinListURL">CLASS</a></li>
 
                     </c:if>
                 <li><a href="QuestionSetURL">QUIZ</a></li>
@@ -50,8 +50,8 @@
             <c:if test="${acc != null}">
                 <span class="role"><c:choose>
 
-                        <c:when test="${acc.getRoleId() eq 2}">STUDENT</c:when>
-                        <c:when test="${acc.getRoleId() eq 1}">TEACHER</c:when>
+                        <c:when test="${acc.getRoleId() eq 1}">STUDENT</c:when>
+                        <c:when test="${acc.getRoleId() eq 2}">TEACHER</c:when>
                         <c:when test="${acc.getRoleId() eq 3}">ADMIN</c:when>
                         <%--<c:otherwise>UNKNOWN</c:otherwise>--%>
                     </c:choose>
@@ -61,8 +61,10 @@
                         Hi, ${acc.getUsername()}
                     </button>
                     <div class="dropdown-content" id="myDropdown">
-                        <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i>Profile</a>
-                       
+                        <a class="dropdown-item" href="UpdateProfile?sid=${acc.accountId}"><i class="fa-solid fa-user"></i> Profile</a>
+                        
+                        <a class="dropdown-item" href="MyEnrollURL"><i class="fa-solid fa-pen-to-square"></i> My Enroll</a>
+                        
                         <c:if test="${acc.getRoleId() == '3'}">
                             <a class="dropdown-item admin-item" href="/QuizzesOnline/ManagerUserURL"><i class="fa-solid fa-pen-to-square"></i>Manager User</a>
                              <a class="dropdown-item admin-item" href="/QuizzesOnline/SettingControllerURL"><i class="fa-solid fa-gear"></i> Setting List</a>
@@ -73,7 +75,6 @@
                     </div>
                 </div>
             </c:if>
-            <%--<c:if test="${user == null}">--%>
             <c:if test="${acc == null}">
                 <div class="button normal"><a href="LoginURL"><i class="fa-solid fa-right-to-bracket"></i>  Login</a></div>
             </c:if>
