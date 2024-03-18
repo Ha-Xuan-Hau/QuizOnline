@@ -101,7 +101,7 @@
             <%@include file="/Home/header.jsp" %> 
         </div>
         <!--        Show Hide Edit-->
-        <button type="button" id="toggleContainer" class="btn btn-info">Show Edit</button>
+        <button type="button" id="toggleContainer" class="btn btn-info">Show My Quizes</button>
         <!--Search-->
         <form id="searchForm" action="EditQSClassURL" method="Post">
             <input type="hidden" name="go" value="search">
@@ -165,14 +165,17 @@
                                     <form id="cleanForm" method="POST" action="EditQSClassURL">
                                         <input type="hidden" name="go" value="cleanAll">
                                         <button type="submit" class="btn btn-save" style="outline: none;">
-                                            Clean
+                                            Delete all
                                         </button>
                                     </form>
                                 </div>
                                 <div class="col-xs-1 text-right">
-                                    <button type="button" class="btn btn-save" style="outline: none;" onclick="sendDataToServer()">
-                                        Save
-                                    </button>
+                                    <form id="cleanForm" method="POST" action="EditQSClassURL">
+                                        <input type="hidden" name="go" value="goback">
+                                        <button type="submit" class="btn btn-save" style="outline: none;">
+                                            Go back 
+                                        </button>
+                                    </form>
 
                                 </div>
                             </div>
@@ -285,10 +288,10 @@
             // Nếu container đang ẩn, hiển thị container và thay đổi nội dung của nút
             if (container.style.display === "none") {
                 container.style.display = "block";
-                this.innerHTML = "Hide Edit";
+                this.innerHTML = "Hide My Quizes";
             } else { // Nếu container đang hiển thị, ẩn container và thay đổi nội dung của nút
                 container.style.display = "none";
-                this.innerHTML = "Show Edit";
+                this.innerHTML = "Show My Quizes";
             }
         });
     </script>

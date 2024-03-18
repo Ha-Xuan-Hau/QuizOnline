@@ -7,9 +7,16 @@ package Controller;
 import Entity.NormalQuestion;
 import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
+import Entity.Subject;
+import Entity.Teacher;
+import Entity.User;
+import Entity.UserSet;
 import Model.DAONormalQuestion;
 import Model.DAONormalQuestionAnswer;
 import Model.DAOQuestionSet;
+import Model.DAOSubject;
+import Model.DAOTeacher;
+import Model.DAOUserSet;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -39,6 +46,10 @@ public class QuestionSetController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAOQuestionSet dao = new DAOQuestionSet();
+        DAOTeacher daoT = new DAOTeacher();
+        DAOSubject daoS = new DAOSubject();
+        DAOUserSet daoUS = new DAOUserSet();
+        User acc = (User) request.getSession().getAttribute("acc");
         DAONormalQuestion questionDAO = new DAONormalQuestion();
         DAONormalQuestionAnswer answerDAO = new DAONormalQuestionAnswer();
         String service = request.getParameter("go");
@@ -52,12 +63,29 @@ public class QuestionSetController extends HttpServlet {
         }
         if (service.equals("setDetails")) {
             ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
-            
             int setId = Integer.parseInt(request.getParameter("SetId"));
-
             ArrayList<NormalQuestion> Ques = dao.getQues(setId);
-
             ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+            QuestionSet name = dao.getQuestionSetById(setId);
+            if(acc != null){
+            UserSet userSet = new UserSet(acc.getAccountId(),setId);
+            ArrayList<UserSet> checkUS = (ArrayList<UserSet>) daoUS.getAllUserSets();
+            boolean userSetExists = false;
+            for (UserSet existingUserSet : checkUS) {
+                if (existingUserSet.getUserId() == userSet.getUserId() && existingUserSet.getSetId() == userSet.getSetId()) {
+                    userSetExists = true;
+                    break;
+                }
+            }
+            request.setAttribute("userSetExists", userSetExists);
+            }
+            Teacher teacher = daoT.getTeacherByAccountId(name.getUserAccountId());
+            Subject subject = daoS.getSubject(name.getSubjectId());
+            request.setAttribute("acc", acc);
+            request.setAttribute("SetId", setId);
+            request.setAttribute("subject", subject);
+            request.setAttribute("teacher", teacher);
+            request.setAttribute("name", name);
             request.setAttribute("data", allQuesSet);
             request.setAttribute("question", Ques);
             request.setAttribute("content", QuesAnswers);
@@ -67,7 +95,6 @@ public class QuestionSetController extends HttpServlet {
             QuestionSet set = new QuestionSet("New Set", 1, 1, 0);
             dao.insertQuestionSet(set);
             QuestionSet setObj = dao.getNewest();
-            //    request.getRequestDispatcher("editSet.jsp").forward(request, response);
             response.sendRedirect("EditQuestionSetURL?setId=" + setObj.getSetId());
         }
         if (service.equals("addNewSetDetails")) {

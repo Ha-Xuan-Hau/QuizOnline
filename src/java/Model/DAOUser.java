@@ -44,21 +44,23 @@ public class DAOUser extends DBConnect {
 
     }
 
-    public void insertUser(User user) {
-        try {
-            String sql = "INSERT INTO [User] ([Username], [Email], [Password], [RoleId], [IsActive])\n"
-                    + "VALUES (?, ?, ?, ?, 1);";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, user.getUsername());
-            stm.setString(2, user.getEmail());
-            stm.setString(3, user.getPassword());
-            stm.setInt(4, user.getRoleId());
+public boolean insertUser(User user) {
+    try {
+        String sql = "INSERT INTO [User] ([Username], [Email], [Password], [RoleId], [IsActive])\n"
+                + "VALUES (?, ?, ?, ?, 1);";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, user.getUsername());
+        stm.setString(2, user.getEmail());
+        stm.setString(3, user.getPassword());
+        stm.setInt(4, user.getRoleId());
 
-            stm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        int rowsAffected = stm.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException ex) {
+        Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+        return false;
     }
+}
 
     public int updateUserAndGetAccountId(int accountId, String username, String email, String password, int roleId, int isActive) {
         try {
@@ -162,7 +164,7 @@ public class DAOUser extends DBConnect {
         return null;
     }
 
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         try {
             String sql = "UPDATE [User]\n"
                     + "   SET\n"
@@ -180,9 +182,14 @@ public class DAOUser extends DBConnect {
             stm.setBoolean(5, user.isActive());
             stm.setInt(6, user.getAccountId());
             stm.executeUpdate();
+            int rowsUpdated = stm.executeUpdate();
+            if (rowsUpdated > 0) {
+            return user; 
+        }
         } catch (SQLException ex) {
             Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
         }
+            return null;
     }
 
     public User getUser(String username, String pass) throws SQLException {
@@ -283,16 +290,20 @@ public class DAOUser extends DBConnect {
         );
     }
 
-    public void deleteUser(int AccountId) {
+    public boolean deleteUser(int AccountId) {
         try {
             String sql = "delete from [User] where AccountId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, AccountId);
             stm.executeUpdate();
+            int rowsDeleted = stm.executeUpdate();
+            if (rowsDeleted > 0) {
+                return true;
+            }
 
         } catch (Exception e) {
         }
-
+        return false;
     }
 
     public List<User> getAllUserListData(String sql) {
@@ -845,7 +856,7 @@ public class DAOUser extends DBConnect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new HashMap<>();
+        return null;
     }
 
     public User checkAccount(String username, String password) {
@@ -867,7 +878,7 @@ public class DAOUser extends DBConnect {
         return null;
     }
 
-    public void ChangePass(User u) {
+    public boolean ChangePass(User u) {
         String sql = "update [User] set Password = ? where Username = ?";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -875,9 +886,14 @@ public class DAOUser extends DBConnect {
             pre.setString(1, e.toMD5(u.getPassword()));
             pre.setString(2, u.getUsername());
             pre.executeUpdate();
+            int rowsUpdated = pre.executeUpdate();
+            if (rowsUpdated > 0) {
+            return true;
+        }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
     public User getUserByEmail(String email) {
         String sql = "select * from [User] where [Email] = ?";
