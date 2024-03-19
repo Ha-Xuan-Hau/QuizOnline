@@ -9,7 +9,7 @@
 
         <title>${exam.getTitle()}</title>
         <link rel="stylesheet" href="/assets/css/attempt.css"/>
-        <%@include file="/exam/headerExam.jsp" %> 
+        <%@include file="exam/headerExam.jsp" %> 
         <script>
             function updateTimer() {
                 var remainingTime = document.getElementById("remainingTime").value;
