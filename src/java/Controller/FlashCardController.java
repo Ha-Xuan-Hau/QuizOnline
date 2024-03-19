@@ -7,6 +7,7 @@ package Controller;
 import Entity.NormalQuestion;
 import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
+import Entity.User;
 import Model.DAONormalQuestion;
 import Model.DAONormalQuestionAnswer;
 import Model.DAOQuestionSet;
@@ -76,12 +77,16 @@ public class FlashCardController extends HttpServlet {
             DAOQuestionSet dao = new DAOQuestionSet();
             DAONormalQuestion questionDAO = new DAONormalQuestion();
             DAONormalQuestionAnswer answerDAO = new DAONormalQuestionAnswer();
+
+            request.getSession().getAttribute("acc");
+            User user = (User) request.getSession().getAttribute("acc");
+            int userId = user.getAccountId();
             String service = request.getParameter("go");
             if (service == null) {
                 service = "listAllSets";
             }
             if (service.equals("flashCard")) {
-                ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
+                ArrayList<QuestionSet> allQuesSet = dao.getData(userId);
 
                 int setId = Integer.parseInt(request.getParameter("SetId"));
 
