@@ -33,7 +33,7 @@
         <link rel="stylesheet" href="/CSS/home.css"/>
 
         <title>${exam.getTitle()}</title>
-        <link rel="stylesheet" href="/assets/css/attempt.css"/>
+        <link rel="stylesheet" href="assets/css/attempt.css"/>
         <%@include file="/Home/headCommon.jsp" %>
         <script>
             // Assuming you have the total number of questions stored in a variable called `totalQuestions`
