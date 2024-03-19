@@ -53,9 +53,17 @@
 <!--                <input type="text" id="exam-name" name="subjectId" value="${set.getSubjectId()}" required/>-->
                 <select name="subjectId">
                     <c:forEach var="entry" items="${subjectMap}">
-                        <option value="${entry.key}">${entry.value}</option>
+                        <c:choose>
+                            <c:when test="${entry.key == set.subjectId}">
+                                <option value="${entry.key}" selected>${entry.value}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${entry.key}">${entry.value}</option>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </select>
+
                 <label style="width: 100px" for="exam-name">Question Content</label>
                 <div style="border:#ccc 1px solid; padding:10px">
 
@@ -174,20 +182,20 @@
         </style>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-                function showDeleteConfirmation(setId) {
-                    Swal.fire({
-                        title: 'Delete Question Set',
-                        text: 'Are you sure?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Delete',
-                        cancelButtonText: 'Cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "QuestionSetURL?go=deleteSet&setId=" + setId;
-                        }
-                    });
-                }
+                    function showDeleteConfirmation(setId) {
+                        Swal.fire({
+                            title: 'Delete Question Set',
+                            text: 'Are you sure?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Delete',
+                            cancelButtonText: 'Cancel'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "QuestionSetURL?go=deleteSet&setId=" + setId;
+                            }
+                        });
+                    }
         </script>        <script src="/assets/js/base.js"></script>
         <link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
     </body>
