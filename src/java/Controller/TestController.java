@@ -7,6 +7,7 @@ package Controller;
 import Entity.NormalQuestion;
 import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
+import Entity.User;
 import Model.DAOQuestionSet;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,7 +38,7 @@ public class TestController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,20 +54,23 @@ public class TestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String service = request.getParameter("go");
-        if(service.equals("listQuestion")){
-    DAOQuestionSet dao = new DAOQuestionSet();
-        ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
+        request.getSession().getAttribute("acc");
+        User user = (User) request.getSession().getAttribute("acc");
+        int userId = user.getAccountId();
+        if (service.equals("listQuestion")) {
+            DAOQuestionSet dao = new DAOQuestionSet();
+            ArrayList<QuestionSet> allQuesSet = dao.getData(userId);
 
-        int setId = Integer.parseInt(request.getParameter("SetId"));
+            int setId = Integer.parseInt(request.getParameter("SetId"));
 
-        ArrayList<NormalQuestion> Ques = dao.getQues(setId);
+            ArrayList<NormalQuestion> Ques = dao.getQues(setId);
 
-        ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
-        request.setAttribute("data", allQuesSet);
-        request.setAttribute("question", Ques);
-        request.setAttribute("content", QuesAnswers);
-        request.getRequestDispatcher("Question/practiceQuiz.jsp").forward(request, response);
-    }
+            ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+            request.setAttribute("data", allQuesSet);
+            request.setAttribute("question", Ques);
+            request.setAttribute("content", QuesAnswers);
+            request.getRequestDispatcher("Question/practiceQuiz.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -80,8 +84,6 @@ public class TestController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-       
 
     }
 
