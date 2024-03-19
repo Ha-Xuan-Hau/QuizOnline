@@ -8,8 +8,8 @@
         <%@include file="/Home/headCommon.jsp" %>
 
         <title>${exam.getTitle()}</title>
-        <link rel="stylesheet" href="/assets/css/attempt.css"/>
-        <%@include file="exam/headerExam.jsp" %> 
+        <link rel="stylesheet" href="assets/css/attempt.css"/>
+        <%@include file="/exam/headerExam.jsp" %> 
         <script>
             function updateTimer() {
                 var remainingTime = document.getElementById("remainingTime").value;
