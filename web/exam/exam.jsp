@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${exam.getTitle()}</title>
         <%@include file="/Home/headCommon.jsp" %>
-        <link rel="stylesheet" href="/assets/css/exam.css"/>
+        <link rel="stylesheet" href="assets/css/exam.css"/>
         <%@include file="/Home/header.jsp" %>
     </head>
     <body>
