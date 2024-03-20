@@ -61,13 +61,13 @@ public class DBConnect {
     public static void main(String[] args) {
         new DBConnect();
     }
-    public static Properties getSiteMaps(String siteMapFile, ServletContext context)
+    public static Properties getMaps(String mapFile, ServletContext context)
             throws IOException {
-        if (siteMapFile == null) {
+        if (mapFile == null) {
             return null;
         }
 
-        if (siteMapFile.trim().isEmpty()) {
+        if (mapFile.trim().isEmpty()) {
             return null;
         }
 
@@ -76,7 +76,7 @@ public class DBConnect {
         InputStream is = null;
 
         try {
-            is = context.getResourceAsStream(siteMapFile);
+            is = context.getResourceAsStream(mapFile);
             result.load(is);
             return result;
         } finally {
