@@ -154,11 +154,13 @@ public class DAOQuestionSet extends DBConnect {
         return 0;
     }
 
-    public ArrayList<QuestionSet> getData(String sql) {
+        public ArrayList<QuestionSet> getData(int userId) {
         ArrayList<QuestionSet> questionset = new ArrayList<>();
+        String sql = "select * from QuestionSet where UserAccountId = ?";
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            ResultSet resultSet = stm.executeQuery();
 
             while (resultSet.next()) {
                 int SetId = resultSet.getInt("SetId");
