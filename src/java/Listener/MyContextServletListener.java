@@ -25,10 +25,10 @@ public class MyContextServletListener implements ServletContextListener {
         String roleMapFile = context.getInitParameter("ROLE_MAP_FILE");
 
         try {
-            Properties siteMaps = DBConnect.getSiteMaps(siteMapFile, context);
+            Properties siteMaps = DBConnect.getMaps(siteMapFile, context);
             context.setAttribute("SITE_MAPS", siteMaps);
 
-            Properties roleMaps = DBConnect.getSiteMaps(roleMapFile, context);
+            Properties roleMaps = DBConnect.getMaps(roleMapFile, context);
             context.setAttribute("ROLE_MAPS", roleMaps);
         } catch (IOException ex) {
             context.log("Context Listener IO" + ex.getMessage()); // nhung noi khac servlet, dung context scope to log
