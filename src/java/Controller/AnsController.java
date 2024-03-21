@@ -60,13 +60,17 @@ public class AnsController extends HttpServlet {
             String paramName = "question" + (i + 1);
             String userAnswer = request.getParameter(paramName);
             selectedAnswers.add(userAnswer); // Lưu đáp án người dùng chọn
-            // Lấy danh sách đáp án cho câu hỏi hiện tại
-            ArrayList<NormalQuestionAnswer> answers = QuesAnswers.get(i);
-            // So sánh đáp án người dùng chọn với các đáp án có sẵn
-            for (NormalQuestionAnswer answer : answers) {
-                if (answer.getContent().equals(userAnswer) && answer.isCorrect()) {
-                    correctCount++; // Nếu trùng khớp và là đáp án đúng, tăng biến đếm lên 1
-                    break; // Thoát khỏi vòng lặp khi tìm thấy đáp án đúng
+
+            // Kiểm tra nếu danh sách QuesAnswers có ít nhất i+1 phần tử
+            if (i < QuesAnswers.size()) {
+                // Lấy danh sách đáp án cho câu hỏi hiện tại
+                ArrayList<NormalQuestionAnswer> answers = QuesAnswers.get(i);
+                // So sánh đáp án người dùng chọn với các đáp án có sẵn
+                for (NormalQuestionAnswer answer : answers) {
+                    if (answer.getContent().equals(userAnswer) && answer.isCorrect()) {
+                        correctCount++; // Nếu trùng khớp và là đáp án đúng, tăng biến đếm lên 1
+                        break; 
+                    }
                 }
             }
         }

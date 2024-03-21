@@ -110,7 +110,7 @@
                     </table>
                     <div class="butto">
                         <h3>All done! Are you ready to submit your test?</h3></br>
-                        <button type="submit" style="font-size: 20px; background-color: #1C1E53; color: white; height: 50px;">Submit test</button>
+                        <button type="submit" style="font-size: 20px; background-color: #1C1E53; color: white; height: 50px; padding: 10px; border-radius: 15px;">Submit test</button>
                     </div>
                 </form>
             </c:otherwise>

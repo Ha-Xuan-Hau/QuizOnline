@@ -113,7 +113,7 @@ public class ManagerUser extends HttpServlet {
         DAOUser dao = new DAOUser();
         String status = request.getParameter("status");
         String role = request.getParameter("role");
-        
+        boolean isFilterUsed = false;
 
         if ("all".equals(status) && "all".equals(role)) {
             List<Map<String, Object>> userList = dao.getAllUsers();
@@ -154,7 +154,7 @@ public class ManagerUser extends HttpServlet {
             }
             request.setAttribute("data", userList);
         }
-
+        request.setAttribute("isFilterUsed", isFilterUsed); 
         request.getRequestDispatcher("Admin/AdminManager.jsp").forward(request, response);
     }
 

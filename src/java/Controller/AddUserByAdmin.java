@@ -9,6 +9,7 @@ import Model.DAOAdmin;
 import Model.DAOStudent;
 import Model.DAOTeacher;
 import Model.DAOUser;
+import Utils.EncryptionUtils;
 import Utils.MyApplicationConstants;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
@@ -63,6 +64,8 @@ public class AddUserByAdmin extends HttpServlet {
             String studentDOB = request.getParameter("studentDOB");
             String statusParam = request.getParameter("status");
             int status = Integer.parseInt(statusParam);
+             EncryptionUtils encrypt = new EncryptionUtils();
+               password = encrypt.toMD5(password);
 
             if (daoU.emailCheck(email) || daoU.usernameExists(username)) {
                 HttpSession session = request.getSession();

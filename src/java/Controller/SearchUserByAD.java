@@ -46,9 +46,9 @@ public class SearchUserByAD extends HttpServlet {
         String url = siteMaps.getProperty(MyApplicationConstants.AdminFeature.ADMIN_SETTING_LIST_PAGE);
 
         try ( PrintWriter out = response.getWriter()) {
-            String txt = request.getParameter("txt");
+             String txt = request.getParameter("txt");
             DAOUser dao = new DAOUser();
-            final int PAGE_SIZE = 2;
+            final int PAGE_SIZE = 8;
             //phân trang
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -66,22 +66,24 @@ public class SearchUserByAD extends HttpServlet {
             if (page > totalPage) {
                 page = totalPage;
             }
-
-            if (!dao.isUserSearchResultEmpty(txt, page, PAGE_SIZE)) {
-                List<Map<String, Object>> userListS = dao.searchUsersWithPagination(txt, page, PAGE_SIZE);
-                request.setAttribute("data", userListS);
-            } else {
-                HttpSession session = request.getSession();
+            
+            if(!dao.isUserSearchResultEmpty(txt, page, PAGE_SIZE)){
+                 List<Map<String, Object>> userListS = dao.searchUsersWithPagination(txt, page, PAGE_SIZE);
+                 request.setAttribute("data", userListS);
+            }else{
+                 HttpSession session = request.getSession();
                 int sessionTimeoutInSeconds = 2;
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
                 session.setAttribute("messageeee", "Not Found!!!!!");
             }
-
+            
+            
+            
             request.setAttribute("page", page);
             request.setAttribute("txt", txt);
             request.setAttribute("totalPage", totalPage);
-            request.setAttribute("Url", "SearchUserURL?txt=" + txt + "&");
-            request.getRequestDispatcher(url).forward(request, response);
+            request.setAttribute("Url", "SearchUserURL?txt="+txt+ "&");
+            request.getRequestDispatcher("Admin/AdminManager.jsp").forward(request, response);
         }
     }
 

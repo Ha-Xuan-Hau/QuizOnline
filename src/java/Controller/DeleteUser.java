@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Properties;
 
 /**
@@ -68,6 +69,10 @@ public class DeleteUser extends HttpServlet {
         DAOUser dao = new DAOUser();
         int sid = Integer.parseInt(request.getParameter("sid"));
         dao.deleteUser(sid);
+         HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 2;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messagee", "DeleteSuccess!!");
         response.sendRedirect(url);
     } 
 

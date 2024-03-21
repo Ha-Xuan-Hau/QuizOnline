@@ -13,7 +13,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/Class/images/quiz.png">
         <title> User Management Data Table</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -527,8 +526,12 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
+                                    <c:url value="UdProfilebyAdminURL" var="updateUserUrl">
+                                        <c:param name="sid" value="${user['AccountId']}" />
+                                        <c:param name="role" value="${user['RoleId']}" />
+                                    </c:url>
                                     <td>
-                                        <a href="UdProfilebyAdminURL?sid=${user['AccountId']}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a href="${updateUserUrl}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                         <a href="DeleteUserURL?sid=${user['AccountId']}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
                                             <i class="material-icons" style="color: red;">&#xE5C9;</i>
                                         </a>
@@ -545,7 +548,7 @@
                     <c:remove var="sessionScope.messageee" />
                 </c:if>
 
-                <c:if test="${empty sessionScope.messageeee}">
+                <c:if test="${empty isFilterUsed && empty sessionScope.messageeee}">
                     <div class="clearfix">
                         <div class="hint-text">Showing <b>${page}</b> of <b>${totalPage}</b> total page</div>
                         <ul class="pagination">
@@ -554,7 +557,6 @@
                             </li>
                             <c:forEach begin="1" end="${totalPage}" var="i">
                                 <li class="page-item ${page==i ? "active" : ""}">
-
                                     <a href="${requestScope.Url}page=${i}" class="page-link">${i}</a>
                                 </li>
                             </c:forEach>
@@ -562,9 +564,9 @@
                                 <a href="${requestScope.Url}page=${page+1}" class="page-link">Next</a>
                             </li>
                         </ul>
-
                     </div>
                 </c:if>
+
 
             </div>
         </div>

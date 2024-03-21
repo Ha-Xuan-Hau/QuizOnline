@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +84,11 @@ public class UpdateProfile extends HttpServlet {
         String url = siteMaps.getProperty(MyApplicationConstants.UpdateAccountFeature.USER_PROFILE_PAGE);
         DAOUser dao = new DAOUser();
         int sid = Integer.parseInt(request.getParameter("sid"));
-        Map<String, Object> user = dao.getUserByIdd(sid);
-        request.setAttribute("data", user);
+        Map<String, Object> u = dao.getUserByAccountID(sid);
+        request.setAttribute("data", u);
         request.getRequestDispatcher(url).forward(request, response);
+        
+       
     }
 
     /**
@@ -109,20 +112,21 @@ public class UpdateProfile extends HttpServlet {
         DAOTeacher daoT = new DAOTeacher();
         DAOStudent daoS = new DAOStudent();
         int acc = Integer.parseInt(request.getParameter("accId"));
-        String username = request.getParameter("user");
         String phone = request.getParameter("phone");
         String adName = request.getParameter("adName");
         String teacherName = request.getParameter("tcName");
         String studentName = request.getParameter("stName");
         String dob = request.getParameter("dob");
-        String password = request.getParameter("pass");
+
         String email = request.getParameter("email");
 
-        int AccountId = dao.updateUserAndGetAccountId(acc, username, email, password);
-        daoA.updateAdmin(AccountId, adName, phone);
-        daoT.updateTeacher(AccountId, teacherName, phone);
-        daoS.updateStudent(AccountId, studentName, phone, dob);
-        response.sendRedirect(url);
+        daoA.updateAdmin(acc, adName, phone);
+        daoT.updateTeacher(acc, teacherName, phone);
+        daoS.updateStudent(acc, studentName, phone, dob);
+
+//        dao.updateUserByAccountIDAndRoleID(acc, roleID, username, email, password,status, phone, adName, teacherName, studentName, dob);
+       
+        response.sendRedirect("HomeController");
 
     }
 

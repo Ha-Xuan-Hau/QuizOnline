@@ -19,6 +19,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Properties;
 
@@ -67,12 +68,12 @@ public class SearchController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        
+
         String url = siteMaps.getProperty(MyApplicationConstants.ApplicationScope.HOME_PAGE);
-        
+
         DAOQuestionSet dao = new DAOQuestionSet();
         DAOBlogList bl = new DAOBlogList();
         String keyword = request.getParameter("txt");
@@ -80,7 +81,7 @@ public class SearchController extends HttpServlet {
         DAOSubject sub = new DAOSubject();
         List<QuestionSet> listP = dao.getTop3();
         List<Subject> listSub = sub.getData("select*from Subject");
-        final int PAGE_SIZE = 12;
+        final int PAGE_SIZE = 6;
         //phân trang
         int page = 1;
         String pageStr = request.getParameter("page");
@@ -100,11 +101,22 @@ public class SearchController extends HttpServlet {
         }
         List<BlogList> listS = bl.searchBlogWithPagination(keyword, page, PAGE_SIZE);
         request.setAttribute("totalPage", totalPage);
-        request.setAttribute("SubNav", listSub);
-        request.setAttribute("listS", listP);
-        request.setAttribute("key", keyword);
-        request.setAttribute("Blog", listS);
-        request.setAttribute("url", "search?txt="+keyword + "&");
+            request.setAttribute("SubNav", listSub);
+            request.setAttribute("listS", listP);
+            request.setAttribute("key", keyword);
+            request.setAttribute("page", page);
+        if (!listS.isEmpty()) {
+            // Nếu không trống, tiếp tục gán dữ liệu vào thuộc tính của request như thông thường
+            
+            request.setAttribute("Blog", listS);
+            request.setAttribute("url", "search?txt=" + keyword + "&");
+        } else {
+            // Nếu trống, bạn có thể thiết lập một thông báo hoặc thực hiện hành động khác
+            HttpSession session = request.getSession();
+            int sessionTimeoutInSeconds = 2;
+            session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+            session.setAttribute("messageeee", "Not Found!!!!!");
+        }
         request.getRequestDispatcher(url).forward(request, response);
 
     }

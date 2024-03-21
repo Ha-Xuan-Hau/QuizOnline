@@ -934,6 +934,92 @@ public class DAOUser extends DBConnect {
 
         return n;
     }
+  public HashMap<String, Object> getUserByAccountID(int accountID) {
+    try {
+        String sql = "SELECT u.AccountId, u.Username, u.Email, "
+                + "CASE "
+                + "WHEN u.RoleId = 1 THEN s.Phone "
+                + "WHEN u.RoleId = 2 THEN t.Phone "
+                + "WHEN u.RoleId = 3 THEN a.Phone "
+                + "ELSE '' "
+                + "END AS Phone, "
+                + "s.Dob AS Dob, s.StudentName, t.TeacherName, a.AdminName, "
+                + "u.RoleId, u.IsActive, u.Password "
+                + "FROM [User] AS u "
+                + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId AND u.RoleId = 1 "
+                + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId AND u.RoleId = 2 "
+                + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId AND u.RoleId = 3 "
+                + "WHERE u.AccountId = ?";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setInt(1, accountID);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            HashMap<String, Object> userMap = new HashMap<>();
+            userMap.put("AccountId", rs.getInt("AccountId"));
+            userMap.put("Username", rs.getString("Username"));
+            userMap.put("Email", rs.getString("Email"));
+            userMap.put("Phone", rs.getString("Phone"));
+            userMap.put("Dob", rs.getDate("Dob"));
+            userMap.put("StudentName", rs.getString("StudentName"));
+            userMap.put("TeacherName", rs.getString("TeacherName"));
+            userMap.put("AdminName", rs.getString("AdminName"));
+            userMap.put("RoleId", rs.getInt("RoleId"));
+            userMap.put("IsActive", rs.getBoolean("IsActive"));
+            userMap.put("Password", rs.getString("Password"));
+            return userMap;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return new HashMap<>();
+}
+     public int updateUserByAccountIDAndRoleID(int accountId, int roleId, String username, String email, String password, int isActive, String phone, String adminName, String teacherName, String studentName, String dob) {
+        try {
+            String sql = "";
+            switch (roleId) {
+                case 3: // Admin
+                    sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?;"
+                            + "UPDATE Admin SET [Phone] = ?, [AdminName] = ? WHERE [AccountId] = ?";
+                    break;
+                case 2: // Teacher
+                    sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?;"
+                            + "UPDATE Teacher SET [Phone] = ?, [TeacherName] = ? WHERE [AccountId] = ?";
+                    break;
+                case 1: // Student
+                    sql = "UPDATE [User] SET [Username] = ?, [Email] = ?, [Password] = ?, [RoleId] = ?, [IsActive] = ? WHERE [AccountId] = ?;"
+                            + "UPDATE Student SET [Phone] = ?, [StudentName] = ?, [DOB] = ? WHERE [AccountId] = ?";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid role ID");
+            }
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, email);
+            stm.setString(3, password);
+            stm.setInt(4, roleId);
+            stm.setInt(5, isActive);
+            stm.setInt(6, accountId);
+
+            // Nếu là sinh viên, chèn thêm thông tin phone và studentName hoặc dob
+            if (roleId == 1) {
+                stm.setString(7, phone);
+                stm.setString(8, studentName);
+                stm.setString(9, dob);
+                stm.setInt(10, accountId);
+            } else { // Nếu không phải là sinh viên, chèn thông tin phone và adminName hoặc teacherName
+                stm.setString(7, phone);
+                stm.setString(8, roleId == 3 ? adminName : teacherName);
+                stm.setInt(9, accountId);
+            }
+
+            stm.executeUpdate();
+            return accountId;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
 
     public static void main(String[] args) {
         DAOUser dao = new DAOUser();

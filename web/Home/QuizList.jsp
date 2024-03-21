@@ -110,6 +110,12 @@
     }
 </style>
 <div class="custom-container">
+    <c:if test="${empty Blog}">
+        <!-- Nếu danh sách blog rỗng, hiển thị thông báo cảnh báo -->
+        <div class="alert alert-danger" role="alert">
+            Not Found!
+        </div>
+    </c:if>
     <c:forEach var="item" items="${Blog}" varStatus="loopStatus">
         <c:if test="${loopStatus.index % 3 == 0}">
             <div class="row">
@@ -159,6 +165,7 @@
         </c:if>
     </c:forEach>
 </div>
+
 
 
 <!-- Add Bootstrap and other scripts at the end of the body for better performance -->
