@@ -80,7 +80,10 @@ public class FlashCardController extends HttpServlet {
 
             request.getSession().getAttribute("acc");
             User user = (User) request.getSession().getAttribute("acc");
-            int userId = user.getAccountId();
+            int userId = -1;
+            if (user != null) {
+                userId = user.getAccountId();
+            }
             String service = request.getParameter("go");
             if (service == null) {
                 service = "listAllSets";

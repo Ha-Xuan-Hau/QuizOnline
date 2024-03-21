@@ -181,8 +181,8 @@ Validator.isPhoneNumber = function (selector, msg) {
             }
 
             // Kiểm tra độ dài của số điện thoại
-            if (value.length !== 11) {
-                return msg || 'Phone number must be 11 digits!';
+            if (value.length !== 10) {
+                return msg || 'Phone number must be 10 digits!';
             }
 
             // Các kiểm tra khác cho số điện thoại (nếu cần)
