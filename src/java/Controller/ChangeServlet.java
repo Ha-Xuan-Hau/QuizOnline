@@ -86,7 +86,7 @@ public class ChangeServlet extends HttpServlet {
             request.setAttribute("successMessage", successMessage);
             session.setAttribute("username", users);
 
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("ChangePass.jsp").forward(request, response);
 
         }
     }
