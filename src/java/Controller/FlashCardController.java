@@ -96,7 +96,7 @@ public class FlashCardController extends HttpServlet {
                 request.setAttribute("data", allQuesSet);
                 request.setAttribute("question", Ques);
                 request.setAttribute("content", QuesAnswers);
-                request.getRequestDispatcher(url).forward(request, response);
+                request.getRequestDispatcher("flashcard.jsp").forward(request, response);
             }
         }
     }
