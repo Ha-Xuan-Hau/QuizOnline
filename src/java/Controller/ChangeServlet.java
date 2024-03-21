@@ -74,7 +74,7 @@ public class ChangeServlet extends HttpServlet {
         }
 
         DAOUser daoUser = new DAOUser();
-        User user = daoUser.getUser("select * from [User] where Username = '" + users + "'");
+        User user = daoUser.checkAccount(users, oldPassword);
         if (user == null) {
             String errorMessage = "Username or Password is incorrect!";
             request.setAttribute("errorMessage", errorMessage);
