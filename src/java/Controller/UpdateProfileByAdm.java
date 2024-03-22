@@ -69,12 +69,17 @@ public class UpdateProfileByAdm extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url=siteMaps.getProperty(MyApplicationConstants.AdminFeature.ADMIN_UPDATE_PROFILE_PAGE);
+        
         DAOUser dao = new DAOUser();
         int sid = Integer.parseInt(request.getParameter("sid"));
         Map<String, Object> user = dao.getUserByIdd(sid);
 
         request.setAttribute("data", user);
-        request.getRequestDispatcher("/Admin/UpdateProfileByAdm.jsp").forward(request, response);
+        request.getRequestDispatcher(url).forward(request, response);
 
     }
 

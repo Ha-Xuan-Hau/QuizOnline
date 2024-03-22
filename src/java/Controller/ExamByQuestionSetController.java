@@ -15,7 +15,9 @@ import Model.DAOExam;
 import Model.DAOQuestionExam;
 import Model.DAOQuestionExamAnswer;
 import Model.DAOQuestionSet;
+import Utils.MyApplicationConstants;
 import Utils.ParseUtils;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -26,6 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +51,12 @@ public class ExamByQuestionSetController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String service = request.getParameter("go");
@@ -61,7 +70,8 @@ public class ExamByQuestionSetController extends HttpServlet {
                 User user = (User) request.getSession().getAttribute("acc");
                 ArrayList<QuestionSet> allQuesSet = daoQuestionSet.getData("select * from QuestionSet where UserAccountId =" + user.getAccountId());
                 request.setAttribute("QuestionSetList", allQuesSet);
-                request.getRequestDispatcher("exam/createdExamByBank.jsp").forward(request, response);
+                url=siteMaps.getProperty(MyApplicationConstants.TeacherExamFeature.CREATE_EXAM_BY_BANK);
+                request.getRequestDispatcher(url).forward(request, response);
             }
             if (service.equals("createdExam")) {
                 DAOQuestionExam daoQuestionExam = new DAOQuestionExam();
@@ -126,10 +136,11 @@ public class ExamByQuestionSetController extends HttpServlet {
                             }
                         }
                     }
-                    response.sendRedirect("ClassExamListURL");
+                    url=siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.CLASS_EXAM_LIST_ACTION);
+                    response.sendRedirect(url);
                 } catch (SQLException ex) {
                     Logger.getLogger(ExamByQuestionSetController.class.getName()).log(Level.SEVERE, null, ex);
-                }            
+                }
             }
         }
     }

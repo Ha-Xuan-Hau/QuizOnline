@@ -202,7 +202,7 @@
                 <div id="list">
                     <c:forEach items="${listS}" var="item">
                         <div class="item">
-                            <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${item.getSetId()}" style="text-decoration: none">
+                            <a href="${pageContext.request.contextPath}/QuestionSetDetailURL?SetId=${item.getSetId()}" style="text-decoration: none">
                                 <div class="content">
 
                                     <table width="100%" cellspacing="0">

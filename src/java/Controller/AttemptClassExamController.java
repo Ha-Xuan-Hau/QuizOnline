@@ -137,12 +137,15 @@ public class AttemptClassExamController extends HttpServlet {
             throws ServletException, IOException {
         //    processRequest(request, response);
 
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url = "";
+
         DAOExam daoExam = new DAOExam();
         DAOQuestionExam daoQuestion = new DAOQuestionExam();
         DAOQuestionExamAnswer daoAnswer = new DAOQuestionExamAnswer();
         DAOTakeExam daoTakeExam = new DAOTakeExam();
         User user = (User) request.getSession().getAttribute("acc");
-
 
         int examId = Integer.parseInt(request.getParameter("examId"));
         //   int takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
@@ -171,7 +174,7 @@ public class AttemptClassExamController extends HttpServlet {
         request.setAttribute("questions", questionList);
         request.setAttribute("exam", exam);
         request.setAttribute("answers", questionAnswer);
-        String url = "exam/attemptExam.jsp";
+        url = "exam/attemptExam.jsp";
         request.getRequestDispatcher(url).forward(request, response);
 
     }
@@ -188,6 +191,10 @@ public class AttemptClassExamController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //    processRequest(request, response);
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url = "";
 
         DAOQuestionExam daoQuestion = new DAOQuestionExam();
         DAOQuestionExamAnswer daoAnswer = new DAOQuestionExamAnswer();

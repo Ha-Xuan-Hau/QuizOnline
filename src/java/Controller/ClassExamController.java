@@ -10,6 +10,7 @@ import Entity.User;
 import Model.DAOExam;
 import Model.DAOQuestionExam;
 import Model.DAOTakeExam;
+import Utils.MyApplicationConstants;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,7 +44,7 @@ public class ClassExamController extends HttpServlet {
 
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        String url = "";
+        String url = siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.EXAM_PAGE);
 
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -55,10 +56,10 @@ public class ClassExamController extends HttpServlet {
             Exam exam = daoExam.getExamById(examId);
 
             User user = (User) request.getSession().getAttribute("acc");
-            ArrayList<TakeExam> takeExams = daoTakeExam.getTakeExamByExamId(examId);
+            ArrayList<TakeExam> takeExams = daoTakeExam.getTakeExamByExamIdandUserId(examId, user.getAccountId());
             TakeExam best = daoTakeExam.bestAttempt(user.getAccountId(), examId);
             int questionCount = daoQuestion.getTotalQuestionInSet(examId);
-            
+
             int limit = exam.getTakingTimes();
             int time = daoTakeExam.getTimeDone(user.getAccountId(), examId);
             request.setAttribute("bestAttempt", best);
@@ -68,7 +69,7 @@ public class ClassExamController extends HttpServlet {
             request.setAttribute("takeExams", takeExams);
             request.setAttribute("questionCount", questionCount);
 
-            request.getRequestDispatcher("/exam/exam.jsp").forward(request, response);
+            request.getRequestDispatcher("exam/exam.jsp").forward(request, response);
         }
     }
 

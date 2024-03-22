@@ -51,7 +51,7 @@
     <script>
         var status = document.getElementById("status").value;
         if (status == "fail") {
-            swal("Sorry", "Email Has Not Registered", "error");
+            swal("Sorry", "Wrong format!", "error");
         }
     </script>
 </html>

@@ -35,20 +35,20 @@ public class NewAnswerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        
+
         String url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.EDIT_SET_ACTION);
-        
+
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             int setId = Integer.parseInt(request.getParameter("setId"));
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             DAONormalQuestionAnswer normalQuestionAnswerDAO = new DAONormalQuestionAnswer();
             normalQuestionAnswerDAO.insertDefaultAnswer(questionId);
-            
-            response.sendRedirect(url + setId);
+
+            response.sendRedirect(url + "?setId=" + setId);
         }
     }
 

@@ -11,9 +11,11 @@ import Entity.User;
 import Model.DAOExam;
 import Model.DAOQuestionExam;
 import Model.DAOQuestionExamAnswer;
+import Utils.MyApplicationConstants;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -25,6 +27,7 @@ import jakarta.servlet.http.Part;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -58,12 +61,20 @@ public class DowloadExcelController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+
         String service = request.getParameter("go");
         if (service == null) {
             service = "showImport";
         }
         if (service.equals("showImport")) {
-            request.getRequestDispatcher("/exam/import.jsp").forward(request, response);
+            url = siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.IMPORT_EXCEL_PAGE);
+            request.getRequestDispatcher(url).forward(request, response);
+
         }
         if (service.equals("downLoadFile")) {
             String exampleFilePath = "/ExampleFormQuiz.xlsx"; // Đường dẫn đến tệp ExampleFormQuiz.xlsx trong thư mục web
@@ -124,6 +135,12 @@ public class DowloadExcelController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+        
         Part filePart = request.getPart("file");
         String fileName = getFileName(filePart);
 
@@ -245,15 +262,18 @@ public class DowloadExcelController extends HttpServlet {
                 Logger.getLogger(DowloadExcelController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (IOException e) {
+//        } catch (IOException e) {
+        } catch (Exception e) {
             request.setAttribute("status", "fail");
-            request.getRequestDispatcher("exam/import.jsp").forward(request, response);
+            url=siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.IMPORT_EXCEL_PAGE);
+            request.getRequestDispatcher(url).forward(request, response);
         } finally {
             if (fileContent != null) {
                 fileContent.close();
             }
         }
-        response.sendRedirect("ClassExamListURL");
+        url=siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.CLASS_EXAM_LIST_ACTION);
+        response.sendRedirect(url);
 
     }
 

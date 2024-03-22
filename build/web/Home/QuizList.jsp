@@ -122,7 +122,7 @@
             </c:if>
 
             <div class="col-md-4">
-                <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${item.getSetId()}">
+                <a href="${pageContext.request.contextPath}/QuestionSetDetailURL?SetId=${item.getSetId()}">
                     <div class="card card1"  style="width: 100%">
                         <div>
                             <ul>

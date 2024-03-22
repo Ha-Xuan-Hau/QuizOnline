@@ -4,7 +4,17 @@
  */
 package Controller;
 
-import Model.DAOQuestionExamAnswer;
+import Entity.NormalQuestion;
+import Entity.NormalQuestionAnswer;
+import Entity.QuestionSet;
+import Entity.Subject;
+import Entity.Teacher;
+import Entity.User;
+import Entity.UserSet;
+import Model.DAOQuestionSet;
+import Model.DAOSubject;
+import Model.DAOTeacher;
+import Model.DAOUserSet;
 import Utils.MyApplicationConstants;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
@@ -14,14 +24,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
  *
- * @author ACER
+ * @author hieul
  */
-@WebServlet(name = "NewExamAnswerController", urlPatterns = {"/ExamAnswerURL"})
-public class NewExamAnswerController extends HttpServlet {
+@WebServlet(name = "QuestionSetDetailController", urlPatterns = {"/QuestionSetDetailURL"})
+public class QuestionSetDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,20 +46,56 @@ public class NewExamAnswerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
 
-        String url = siteMaps.getProperty(MyApplicationConstants.TeacherExamFeature.EDIT_EXAM_ACTION);
-
+        String url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.VIEW_MY_SET_DETAIL_PAGE);
+        
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int examId = Integer.parseInt(request.getParameter("examId"));
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-            DAOQuestionExamAnswer normalQuestionAnswerDAO = new DAOQuestionExamAnswer();
-            normalQuestionAnswerDAO.insertDefaultAnswer(questionId);
+            //call dao
+            DAOQuestionSet dao = new DAOQuestionSet();
+            DAOTeacher daoT = new DAOTeacher();
+            DAOSubject daoS = new DAOSubject();
+            DAOUserSet daoUS = new DAOUserSet();
+            //get user
+            User user = (User) request.getSession().getAttribute("acc");
+            int userId = -1;
+            if (user != null) {
+                userId = user.getAccountId();
+            }
+            
+            int setId = Integer.parseInt(request.getParameter("SetId"));
 
-            response.sendRedirect(url + "?examId=" + examId);
+            ArrayList<QuestionSet> allQuesSet = dao.getDataByUsId(userId);
+            ArrayList<NormalQuestion> Ques = dao.getQues(setId);
+            ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
+            QuestionSet name = dao.getQuestionSetById(setId);
+            if (user != null) {
+                UserSet userSet = new UserSet(user.getAccountId(), setId);
+                ArrayList<UserSet> checkUS = (ArrayList<UserSet>) daoUS.getAllUserSets();
+                boolean userSetExists = false;
+                for (UserSet existingUserSet : checkUS) {
+                    if (existingUserSet.getUserId() == userSet.getUserId() && existingUserSet.getSetId() == userSet.getSetId()) {
+                        userSetExists = true;
+                        break;
+                    }
+                }
+                request.setAttribute("userSetExists", userSetExists);
+            }
+            Teacher teacher = daoT.getTeacherByAccountId(name.getUserAccountId());
+            Subject subject = daoS.getSubject(name.getSubjectId());
+            request.setAttribute("acc", user);
+            request.setAttribute("SetId", setId);
+            request.setAttribute("subject", subject);
+            request.setAttribute("teacher", teacher);
+            request.setAttribute("name", name);
+            request.setAttribute("data", allQuesSet);
+            request.setAttribute("question", Ques);
+            request.setAttribute("content", QuesAnswers);
+            request.getRequestDispatcher(url).forward(request, response);
+
         }
     }
 

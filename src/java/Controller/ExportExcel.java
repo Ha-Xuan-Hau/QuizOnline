@@ -10,6 +10,7 @@ import Model.DAOClass;
 import Model.DAOTakeClass;
 import Model.DAOTakeExam;
 import Model.DAOUser;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.ss.usermodel.Row;
@@ -41,10 +43,16 @@ public class ExportExcel extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+
         HttpSession session = request.getSession();
         int ExamId = (int) session.getAttribute("ExamId");
         int classId = (int) Integer.parseInt(session.getAttribute("classId").toString());
-        
+
         DAOTakeClass daoTC = new DAOTakeClass();
         DAOUser daoU = new DAOUser();
         DAOTakeExam daoTE = new DAOTakeExam();
@@ -100,7 +108,7 @@ public class ExportExcel extends HttpServlet {
 
         // Ghi workbook vào OutputStream của response
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename="+name+".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + name + ".xlsx");
 
         try ( OutputStream outputStream = response.getOutputStream()) {
             workbook.write(outputStream);

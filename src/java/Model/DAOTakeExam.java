@@ -199,6 +199,33 @@ public class DAOTakeExam extends DBConnect {
         return list;
     }
 
+    public ArrayList<TakeExam> getTakeExamByExamIdandUserId(int examId, int userId) {
+        ArrayList<TakeExam> list = new ArrayList<TakeExam>();
+        PreparedStatement pre = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM [dbo].[TakeExam] WHERE [ExamId] = ? and [StudentAccountId] = ?";
+        try {
+            pre = connection.prepareStatement(sql);
+            pre.setInt(1, examId);
+            pre.setInt(2, userId);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                int takeExamId = rs.getInt("TakeExamId");
+                int studentAccountId = userId;
+                String status = rs.getString("Status");
+                double score = rs.getDouble("Score");
+                String startDate = rs.getString("StartDate");
+                String endDate = rs.getString("EndDate");
+
+                TakeExam obj = new TakeExam(takeExamId, studentAccountId, examId, status, score, startDate, endDate);
+                list.add(obj);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOTakeExam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
     public TakeExam getTakeExamByTakeExamIdObj(int takeExamId) {
         TakeExam takeExam = null;
         PreparedStatement pre = null;

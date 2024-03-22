@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import Utils.MyApplicationConstants;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Properties;
 
 /**
  *
@@ -30,16 +33,24 @@ public class ExamClassDispatchController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             int status = Integer.parseInt(request.getParameter("status"));
-            if(status == 1){
+            if (status == 1) {
                 int examId = Integer.parseInt(request.getParameter("examId"));
-                response.sendRedirect("AttemptExamClassURL?examId="+examId);
+                url = siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.ATTEMP_EXAM_ACTION);
+                response.sendRedirect(url + "?examId=" + examId);
             }
-            if(status == 2){
+            if (status == 2) {
                 int takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
-                response.sendRedirect("ClassExamReviewURL?takeExamId="+takeExamId);
+                url = siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.ATTEMP_REVIEW_ACTION);
+                response.sendRedirect(url + "?takeExamId=" + takeExamId);
             }
         }
     }

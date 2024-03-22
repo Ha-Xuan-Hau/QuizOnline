@@ -29,7 +29,7 @@ import java.util.Properties;
 @WebServlet(name = "ControllerClassJoinList", urlPatterns = {"/ClassJoinListURL"})
 public class ControllerClassJoinList extends HttpServlet {
 
-    /**  
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -71,26 +71,28 @@ public class ControllerClassJoinList extends HttpServlet {
                 if (service.equals("Delete")) {
                     int ClassId = Integer.parseInt(request.getParameter("ClassId"));
                     dao.DeleteClass(ClassId);
-                    url=siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_JOIN_LIST_ACION);
+                    url = siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_JOIN_LIST_ACION);
                     response.sendRedirect(url);
                 }
                 if (service.equals("joinClass")) {
                     String className = request.getParameter("className");
                     int ClassId = dao.getClassByClassCode(className).getClassId();
                     TakeClass tc = new TakeClass(acc.getAccountId(), ClassId);
-                     ArrayList<Integer> classidList = daoTakeClass.getClassIDbyStudentID(acc.getAccountId());
+                    ArrayList<Integer> classidList = daoTakeClass.getClassIDbyStudentID(acc.getAccountId());
+                    url = siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_DETAIL_ACTION);
                     if (classidList.contains(ClassId)) {
-                        response.sendRedirect("ClassDetailURL?classId="+ClassId);
+                        response.sendRedirect(url + "?classId=" + ClassId);
                     } else {
-                    daoTakeClass.CreateTakeClass(tc);
-                    url=siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_DETAIL_ACTION);
-                    response.sendRedirect(url + dao.getClassByClassCode(className).getClassId());
+                        daoTakeClass.CreateTakeClass(tc);
+//                        url = siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_DETAIL_ACTION);
+                        response.sendRedirect(url + "?classId=" + dao.getClassByClassCode(className).getClassId());
                     }
                 }
                 if (service.equals("outClass")) {
+                    url=siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_JOIN_LIST_ACION);
                     int ClassId = Integer.parseInt(request.getParameter("ClassId"));
                     daoTakeClass.DeleteTakeClassByClassId(ClassId);
-                    response.sendRedirect("ClassJoinListURL");
+                    response.sendRedirect(url);
                 }
 
             }

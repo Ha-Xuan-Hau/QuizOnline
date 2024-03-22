@@ -5,7 +5,9 @@
 package Controller;
 
 import Model.DAOUser;
+import Utils.MyApplicationConstants;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -43,9 +45,14 @@ public class ForgotPassWord extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            request.getRequestDispatcher("login/forgotPassword.jsp").forward(request, response);
+            String url=siteMaps.getProperty(MyApplicationConstants.LoginFeature.FORGOT_PASSWORD_PAGE);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
@@ -75,6 +82,11 @@ public class ForgotPassWord extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url=siteMaps.getProperty(MyApplicationConstants.LoginFeature.FORGOT_PASSWORD_PAGE);
+        
         String email = request.getParameter("email");
         RequestDispatcher dispatcher = null;
         int otpvalue = 0;
@@ -86,7 +98,7 @@ public class ForgotPassWord extends HttpServlet {
             boolean emailCheck = daoUser.emailCheck(email);
             if(!emailCheck){
                 request.setAttribute("status", "fail");
-                request.getRequestDispatcher("login/forgotPassword.jsp").forward(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
             }
                 
             
@@ -122,7 +134,8 @@ public class ForgotPassWord extends HttpServlet {
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
-            dispatcher = request.getRequestDispatcher("login/EnterOtp.jsp");
+            url=siteMaps.getProperty(MyApplicationConstants.LoginFeature.OTP_PAGE);
+            dispatcher = request.getRequestDispatcher(url);
             request.setAttribute("message", "OTP is sent to your email id");
             //request.setAttribute("connection", con);
             mySession.setAttribute("otp", otpvalue);

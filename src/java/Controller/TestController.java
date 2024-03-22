@@ -9,6 +9,8 @@ import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
 import Entity.User;
 import Model.DAOQuestionSet;
+import Utils.MyApplicationConstants;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -53,13 +56,18 @@ public class TestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url=siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.PRACTICE_QUIZ_PAGE);
+        
         String service = request.getParameter("go");
-        request.getSession().getAttribute("acc");
-        User user = (User) request.getSession().getAttribute("acc");
-        int userId = user.getAccountId();
+//        request.getSession().getAttribute("acc");
+//        User user = (User) request.getSession().getAttribute("acc");
+//        int userId = user.getAccountId();
         if (service.equals("listQuestion")) {
             DAOQuestionSet dao = new DAOQuestionSet();
-            ArrayList<QuestionSet> allQuesSet = dao.getDataByUsId(userId);
+            ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
 
             int setId = Integer.parseInt(request.getParameter("SetId"));
 
@@ -69,7 +77,7 @@ public class TestController extends HttpServlet {
             request.setAttribute("data", allQuesSet);
             request.setAttribute("question", Ques);
             request.setAttribute("content", QuesAnswers);
-            request.getRequestDispatcher("Question/practiceQuiz.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
