@@ -111,7 +111,7 @@
 
         <h1><span>Set list</span></h1>
         <div class="action-container">
-            <p><a href="importQues.jsp" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-import">Import</a></p>
+            <p><a href="QuetionSetImportURL" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-import">Import</a></p>
             <p><a href="QuestionSetURL?go=addNewSet" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-add" >Add new Set</a></p>
         </div>
 

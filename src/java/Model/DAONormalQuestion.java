@@ -123,6 +123,24 @@ public class DAONormalQuestion extends DBConnect {
 
         return n;
     }
+    
+    public int getLast() {
+        int maxQuesId = -1;
+        String sql = "SELECT MAX(QuesId) AS MaxQuesId FROM [dbo].[NormalQuestion]";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                maxQuesId = resultSet.getInt("MaxQuesId");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOQuestionExam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return maxQuesId;
+    }
 
     public static void main(String[] args) {
         DAONormalQuestion dao = new DAONormalQuestion();
