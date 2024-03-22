@@ -188,29 +188,29 @@ public class QuetionSetImportController extends HttpServlet {
                 dataArray.add(questionObject);
             }
 
-            System.out.println("title: " + quizTitleValue);
-            for (int i = 0; i < dataArray.size(); i++) {
-                JsonObject questionObject = dataArray.get(i).getAsJsonObject();
-
-                String question = questionObject.get("question").getAsString();
-                System.out.println("Question: " + question);
-
-                JsonArray answersArray = questionObject.get("answers").getAsJsonArray();
-                System.out.println("Answers:");
-                for (int j = 0; j < answersArray.size(); j++) {
-                    String answer = answersArray.get(j).getAsString();
-                    System.out.println("- " + answer);
-                }
-
-                JsonArray correctAnswerArray = questionObject.get("correctAnswer").getAsJsonArray();
-                System.out.println("Correct Answers:");
-                for (int k = 0; k < correctAnswerArray.size(); k++) {
-                    int correctAnswerIndex = correctAnswerArray.get(k).getAsInt();
-                    System.out.println("- " + correctAnswerIndex);
-                }
-
-                System.out.println("--------------------");
-            }
+//            System.out.println("title: " + quizTitleValue);
+//            for (int i = 0; i < dataArray.size(); i++) {
+//                JsonObject questionObject = dataArray.get(i).getAsJsonObject();
+//
+//                String question = questionObject.get("question").getAsString();
+//                System.out.println("Question: " + question);
+//
+//                JsonArray answersArray = questionObject.get("answers").getAsJsonArray();
+//                System.out.println("Answers:");
+//                for (int j = 0; j < answersArray.size(); j++) {
+//                    String answer = answersArray.get(j).getAsString();
+//                    System.out.println("- " + answer);
+//                }
+//
+//                JsonArray correctAnswerArray = questionObject.get("correctAnswer").getAsJsonArray();
+//                System.out.println("Correct Answers:");
+//                for (int k = 0; k < correctAnswerArray.size(); k++) {
+//                    int correctAnswerIndex = correctAnswerArray.get(k).getAsInt();
+//                    System.out.println("- " + correctAnswerIndex);
+//                }
+//
+//                System.out.println("--------------------");
+//            }
             //lấy dữ liệu tạo queston set
             User user = (User) request.getSession().getAttribute("acc");
             int userId = user.getAccountId();

@@ -31,7 +31,7 @@
 
                 .course-editor-main {
                     padding: 2rem;
-                    
+
                 }
                 input[type=text], select {
                     width: 100%;
@@ -68,6 +68,11 @@
                     margin-left: 0.2em;
                     margin-right: 0.2em;
                 }
+                .form-group .form-message {
+                    font-size: 14px;
+                    color: rgb(237, 61, 61);
+                    padding: 20px;
+                }
             </style>
         </head>
         <body style="overflow-y: hidden">
@@ -80,44 +85,63 @@
                 </h1>
             </div>
             <main class="course-editor-main" style="overflow-y: auto; max-height: 500px;">
-                <form action="EditExamURL" method="post">
+                <form action="EditExamURL" method="post" id="form-1">
                     <input type="hidden" name="go" value="saveExam">
                     <input type="hidden" name="examId" value="${param.examId}">
-                    <div >
-                        <label style="width: 100px" for="exam-title">Title</label>
-                        <input type="text" id="exam-title" name="ExamTitle" value="${exam.title}" required/>
-                        <label  style="width: 100px" for="exam-summary">Summary</label>
-                        <input type="text" id="exam-summary" name="ExamSummary" value="${exam.summary}"  required/>
-                        <label  style="width: 100px" for="exam-timer">Timer</label>
-
-                        <div class="time-input-container">
-                            <label for="hour">Hour: </label>
-                            <input type="number" id="hour" name="hour" min="0" max="23" step="1" value="${fn:substringBefore(exam.timer/3600, '.')}">
-
-                            <label for="minute">Minute: </label>
-                            <input type="number" id="minute" name="minute" min="0" max="59" step="1" value="${fn:substringBefore(exam.timer%3600/60, '.')}">
-
-                            <label for="second">Second: </label>
-                            <input type="number" id="second" name="second" min="0" max="59" step="1" value="${exam.timer%60}">
-
+                    <div>
+                        <div class="form-group"> 
+                            <label style="width: 100px" for="exam-title">Title</label>
+                            <input type="text" id="exam-title" name="ExamTitle" value="${exam.title}" required/>
+                            <span class="form-message"></span>
                         </div>
-                        <label style="width: 100px" for="exam-name">Start Date</label>
-                        <input type="datetime" id="exam-start" name="ExamStart" value="${exam.startDate}" required/>
-                        <label  style="width: 100px" for="exam-duration">End Date</label>
-                        <input type="datetime" id="exam-end" name="ExamEnd" value="${exam.endDate}"  required/><br/>
-                        <label style="width: 100px" for="exam-score">Score</label>
-                        <input type="number" id="exam-score" name="ExamScore" value="${exam.score}" required/>                        
-                        <label style="width: 100px" for="exam-taking-time">Taking Timers</label>
-                        <input type="number" id="exam-taking-time" name="ExamTakingTimers" value="${exam.takingTimes}" required/>
-                        <label  style="width: 100px" for="exam-permission">Permission</label>
-                        <select name="permission " class="form-select">
-                            <option value="false" ${exam.permission==false?"selected":""}>unavailable</option>
-                            <option value="true" ${exam.permission==true?"selected":""}>available</option>
-                        </select>
-                        <div class="appQuestion">
-                            <button id="button-question-edit">edit question exam</button>
-                            <a href="ExamByQuestionSetURL" id="button-question-bank">app question by bank</a>
-                            <a href="#" id="button-question-import">import question</a>
+                        <div class="form-group"> 
+                            <label  style="width: 100px" for="exam-summary">Summary</label>
+                            <input type="text" id="exam-summary" name="ExamSummary" value="${exam.summary}"  required/>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group"> 
+                            <label  style="width: 100px" for="exam-timer">Timer</label>
+
+                            <div class="time-input-container">
+                                <label for="hour">Hour: </label>
+                                <input type="number" id="hour" name="hour" min="0" max="23" step="1" value="${fn:substringBefore(exam.timer/3600, '.')}">
+
+                                <label for="minute">Minute: </label>
+                                <input type="number" id="minute" name="minute" min="0" max="59" step="1" value="${fn:substringBefore(exam.timer%3600/60, '.')}">
+
+                                <label for="second">Second: </label>
+                                <input type="number" id="second" name="second" min="0" max="59" step="1" value="${exam.timer%60}">
+
+                            </div>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group"> 
+                            <label style="width: 100px" for="exam-name">Start Date</label>
+                            <input type="datetime" id="exam-start" name="ExamStart" value="${exam.startDate}" placeholder="YYYY/MM/DD" required/>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group"> 
+                            <label  style="width: 100px" for="exam-duration">End Date</label>
+                            <input type="datetime" id="exam-end" name="ExamEnd" value="${exam.endDate}" placeholder="YYYY/MM/DD" required/><br/>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group"> 
+                            <label style="width: 100px" for="exam-score">Score</label>
+                            <input type="number" id="exam-score" name="ExamScore" value="${exam.score}" required/>  
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group"> 
+                            <label style="width: 100px" for="exam-taking-time">Taking Timers</label>
+                            <input type="number" id="exam-taking-time" name="ExamTakingTimers" value="${exam.takingTimes}" required/>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group"> 
+                            <label  style="width: 100px" for="exam-permission">Permission</label>
+                            <select name="permission " class="form-select">
+                                <option value="false" ${exam.permission==false?"selected":""}>unavailable</option>
+                                <option value="true" ${exam.permission==true?"selected":""}>available</option>
+                            </select>
+                            <span class="form-message"></span>
                         </div>
                         <div style="border:#ccc 1px solid; padding:10px">
                             <ul>
@@ -174,6 +198,8 @@
                 </form>
             </main>
         </div>        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="assets/js/register.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
         <script>
                             function showDeleteConfirmation(examId) {
@@ -190,6 +216,26 @@
                                     }
                                 });
                             }
+                            Validator({
+                                form: "#form-1",
+                                formGroupSelector: ".form-group",
+                                querySelector: ".form-message",
+                                rules: [
+                                    Validator.isRequired("#exam-title"),
+                                    Validator.isRequired("#exam-start"),
+                                    Validator.isRequired("#exam-end"),
+                                    Validator.isRequired("#exam-score"),
+                                    Validator.isRequired("#exam-taking-time"),
+
+                                    Validator.isDatePast("#date"),
+                                    Validator.validateDateTime("#exam-start"),
+                                    Validator.validateDateTime("#exam-end"),
+                                    Validator.isDateAfterNow("#exam-end"), ,
+                                            Validator.compareTimes("#exam-start", function () {
+                                                return document.querySelector("#form-1 #exam-end").value;
+                                            }, "end date must be later than the stated date!")
+                                ]
+                            });
         </script>
     </body>
 </html>

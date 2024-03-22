@@ -1,4 +1,4 @@
-// contructor
+    // contructor
 function Validator(options) {
     function getParentElement(element, selector) {
         while (element.parentElement) {
@@ -208,5 +208,54 @@ Validator.isConfirmed = function (selector, isConfirmed, msg) {
         }
     };
 };
+Validator.validateDateTime = function (selector, msg) {
+  return {
+    selector: selector,
+    test: function (value) {
+      var regex = /^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/;
+      var isValidFormat = regex.test(value);
 
+      var date = new Date(value);
+      var isValidDateTime = date instanceof Date && !isNaN(date);
 
+      if (isValidFormat && isValidDateTime) {
+        return undefined;
+      } else {
+        return msg || 'Invalid date or time format!';
+      }
+    }
+  };
+};
+
+Validator.isDateAfterNow = function (selector, msg) {
+  return {
+    selector: selector,
+    test: function (value) {
+      var inputDate = new Date(value);
+      var currentDate = new Date();
+
+      if (inputDate < currentDate) {
+        return undefined;
+      } else {
+        return msg || 'Date must be after current time!';
+      }
+    }
+  };
+};
+Validator.compareTimes = function (selector1, selector2, msg) {
+  return {
+    selector: selector1,
+    test: function (value1) {
+      var value2 = document.querySelector(selector2).value;
+
+      var time1 = new Date('1970-01-01T' + value1);
+      var time2 = new Date('1970-01-01T' + value2);
+
+      if (time2 > time1) {
+        return undefined;
+      } else {
+        return msg || 'end date must be later than the stated date!';
+      }
+    }
+  };
+};

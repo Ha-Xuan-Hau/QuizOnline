@@ -52,7 +52,7 @@
                             <input id="username" name="username" type="text" placeholder="User Name" class="form-control">
                             <span class="form-message"></span>
                         </div>
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <input id="fullname" name="fullname" type="text" placeholder="Your Name" class="form-control">
                             <span class="form-message"></span>
                         </div>
