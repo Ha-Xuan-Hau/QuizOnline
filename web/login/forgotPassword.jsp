@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
     <head>
@@ -8,6 +9,7 @@
             href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
             rel='stylesheet'>
         <link href='' rel='stylesheet'>
+        
         <script type='text/javascript'
         src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
         <style>
@@ -56,6 +58,7 @@
         </style>
     </head>
     <body oncontextmenu='return false' class='snippet-body'>
+        <input type="hidden" id="status" value="${status}">
         <div class="container padding-bottom-3x mb-2 mt-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
@@ -94,6 +97,9 @@
         <script type='text/javascript'
         src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
         <script src="assets/js/register.js"></script>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <script>
 
             Validator({
@@ -105,6 +111,11 @@
                     Validator.isEmail("#email-for-pass")
                 ]
             });
+            
+            var status = document.getElementById("status").value;
+            if (status == "fail") {
+                swal("Sorry", "Email Has Not Registered", "error");
+            }
         </script>
     </body>
 </html>

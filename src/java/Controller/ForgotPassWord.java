@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Model.DAOUser;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -80,6 +81,15 @@ public class ForgotPassWord extends HttpServlet {
         HttpSession mySession = request.getSession();
 
         if (email != null || !email.equals("")) {
+            //check email
+            DAOUser daoUser = new DAOUser();
+            boolean emailCheck = daoUser.emailCheck(email);
+            if(!emailCheck){
+                request.setAttribute("status", "fail");
+                request.getRequestDispatcher("login/forgotPassword.jsp").forward(request, response);
+            }
+                
+            
             // sending otp
             Random rand = new Random();
             otpvalue = rand.nextInt(1255650);

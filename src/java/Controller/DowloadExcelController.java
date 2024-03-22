@@ -59,11 +59,11 @@ public class DowloadExcelController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String service = request.getParameter("go");
-        if (service==null){
+        if (service == null) {
             service = "showImport";
         }
-        if (service.equals("showImport")){
-            request.getRequestDispatcher("/exam/import.html").forward(request, response);
+        if (service.equals("showImport")) {
+            request.getRequestDispatcher("/exam/import.jsp").forward(request, response);
         }
         if (service.equals("downLoadFile")) {
             String exampleFilePath = "/ExampleFormQuiz.xlsx"; // Đường dẫn đến tệp ExampleFormQuiz.xlsx trong thư mục web
@@ -208,7 +208,6 @@ public class DowloadExcelController extends HttpServlet {
             User user = (User) request.getSession().getAttribute("acc");
             int teacherId = user.getAccountId();
             int classId = (int) request.getSession().getAttribute("classId");
-            
 
             try {
                 dao.createDefaultExam(classId, teacherId);
@@ -234,7 +233,7 @@ public class DowloadExcelController extends HttpServlet {
                             if (correctAnswerArray.size() > 0) {
                                 percentage = answersArray.size() > 0 ? 100.0f / correctAnswerArray.size() : 0.0f;
                             }
-                            
+
                             boolean correct = getCorret(correctAnswerArray, j + 1);
                             float percent = correct ? percentage : 0.0f;
                             questionExamAnswer ExamAnswer = new questionExamAnswer(questionExamId, answer, correct, percent);
@@ -245,10 +244,10 @@ public class DowloadExcelController extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(DowloadExcelController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
+
         } catch (IOException e) {
-            response.getWriter().println("Lỗi khi đọc file Excel: " + e.getMessage());
+            request.setAttribute("status", "fail");
+            request.getRequestDispatcher("exam/import.jsp").forward(request, response);
         } finally {
             if (fileContent != null) {
                 fileContent.close();
