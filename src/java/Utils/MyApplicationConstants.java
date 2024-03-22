@@ -57,7 +57,7 @@ public class MyApplicationConstants {
         public static final String FLASH_CARD_PAGE = "flashcardPage";
         public static final String TEST_RESULT_PAGE = "testResultPage";
         public static final String DETAIL_SET_ACTION = "detailSetAction";
-
+        public static final String IMPORT_SET_PAGE = "importSetPage";
         public static final String ENROLL_SET_ACTION = "enrollSetAction";
         public static final String ENROLL_SET_PAGE = "enrollSetPage";
         public static final String PRACTICE_QUIZ_PAGE = "quizPage";

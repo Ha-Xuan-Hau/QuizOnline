@@ -17,9 +17,11 @@ import Model.DAOQuestionExam;
 import Model.DAOQuestionExamAnswer;
 import Model.DAOQuestionSet;
 import Model.DAOSubject;
+import Utils.MyApplicationConstants;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -32,6 +34,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -64,6 +67,12 @@ public class QuetionSetImportController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+        
         String service = request.getParameter("go");
         if (service == null) {
             service = "showImport";
@@ -75,7 +84,8 @@ public class QuetionSetImportController extends HttpServlet {
             //set data
             HashMap<Integer, String> subjectMap = subjectDAO.SubjectMap();
             request.setAttribute("subjectMap", subjectMap);
-            request.getRequestDispatcher("/Question/import.jsp").forward(request, response);
+            url=siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.IMPORT_SET_PAGE);
+            request.getRequestDispatcher(url).forward(request, response);
         }
         if (service.equals("downLoadFile")) {
             String exampleFilePath = "/ExampleFormQuetionSet.xlsx"; // Đường dẫn đến tệp ExampleFormQuiz.xlsx trong thư mục web
