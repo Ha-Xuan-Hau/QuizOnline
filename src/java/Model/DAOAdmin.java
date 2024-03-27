@@ -433,7 +433,7 @@ public boolean isSettingListEmpty(String keyword, int page, int PAGE_SIZE) {
         List<Map<String, Object>> settingList = new ArrayList<>();
         try {
             String sql = "SELECT Name, Type, Value, OrderNumber FROM ( "
-                    + "    SELECT SubjectName AS Name, 'Subject' AS Type, SubjectName AS Value, CAST(SubjectId AS NVARCHAR(MAX)) AS OrderNumber "
+                    + "    SELECT SubjectName AS Name, 'Subject' AS Type, SubjectCode AS Value, CAST(SubjectId AS NVARCHAR(MAX)) AS OrderNumber "
                     + "    FROM Subject "
                     + ") AS CombinedData "
                     + "ORDER BY OrderNumber "
