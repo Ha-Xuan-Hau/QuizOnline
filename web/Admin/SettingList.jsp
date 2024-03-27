@@ -329,6 +329,17 @@
             <c:out value="${sessionScope.messagee}" />
         </div>
     </div>
+    <div id="myToast" class="toast custom-toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            Thông Báo!!!!
+            <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            <c:out value="${sessionScope.messageeww}" />
+        </div>
+    </div>
 
 
 
@@ -356,7 +367,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="addEmployeeModal" class="modal fade">
+                
+                            
+                            <div id="addEmployeeModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="AddSettingURL" method="get" id="form1" onsubmit="return validateForm()">
@@ -373,22 +386,21 @@
 
                                     <div class="form-group">
                                         <label for="roleSelect">Type</label>
-                                        <select class="form-control" id="typeSelect" name="typeId" required>
-                                            <option value="">Select</option>
-                                            <option value="role">Role</option>
+                                        <select class="form-control" id="typeSelect" name="typeId" required >
+                                            
                                             <option value="subject">Subject</option>
 
                                         </select>
                                     </div>
-                                    <div class="form-group" id="idField">
+<!--                                    <div class="form-group" id="idField">
                                         <label for="id">ID</label>
                                         <input type="text" class="form-control" name="id" id="id">
                                         <span class="form-message text-danger" id="id-error"></span>
-                                    </div>
+                                    </div>-->
 
 
 
-                                    <div class="form-group" id="subjectCodeField">
+                                    <div class="form-group">
                                         <label for="subjectCode">Subject Code</label>
                                         <input type="text" class="form-control" name="subjectCode" id="subjectCode">
                                         <span class="form-message text-danger" id="subjectCode-error"></span>
@@ -475,18 +487,31 @@
                                             <c:param name="sid" value="${setting['Order']}" />
                                             <c:param name="type" value="${setting['Type']}" />
                                         </c:url>
+                                        <c:url value="ViewAdURL" var="viewUrl">
+                                            <c:param name="sid" value="${setting['Order']}" />
+                                            <c:param name="type" value="${setting['Type']}" />
+                                        </c:url>
 
                                         <c:url value="DeleteSettingURL" var="deleteUrl">
                                             <c:param name="sid" value="${setting['Order']}" />
                                             <c:param name="type" value="${setting['Type']}" />
                                         </c:url>
-
-                                        <a href="${updateUrl}" class="settings" title="Settings" data-toggle="tooltip">
+                                           
+                                        <c:if test="${setting['Type'] == 'Role'}">
+                                        <a href="${viewUrl}" class="settings" title="Settings" data-toggle="tooltip">
                                             <i class="material-icons">&#xE8B8;</i>
                                         </a>
-                                        <a href="${deleteUrl}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
-                                            <i class="material-icons" style="color: red;">&#xE5C9;</i>
-                                        </a>
+                                            </c:if>
+                                        
+                                        
+                                        <c:if test="${setting['Type'] == 'Subject'}">
+                                            <a href="${updateUrl}" class="settings" title="Settings" data-toggle="tooltip">
+                                                <i class="material-icons">&#xE8B8;</i>
+                                            </a>
+                                            <a href="${deleteUrl}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
+                                                <i class="material-icons" style="color: red;">&#xE5C9;</i>
+                                            </a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>   
@@ -527,27 +552,26 @@
 </html>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("typeSelect").addEventListener("change", function () {
-            var selectedType = this.value;
-            var idField = document.getElementById("idField");
-            var subjectCodeField = document.getElementById("subjectCodeField");
-            if (selectedType === "role") {
-                idField.style.display = "block";
-                subjectCodeField.style.display = "none";
-            } else if (selectedType === "subject") {
-                idField.style.display = "none";
-                subjectCodeField.style.display = "block";
-            } else {
-                idField.style.display = "none";
-                subjectCodeField.style.display = "none";
-            }
-        });
-    });
+    
 
     $(document).ready(function () {
         // Hi?n th? toast n?u session ch?a thông báo
         var message = "<c:out value='${sessionScope.messagee}' />";
+        if (message.trim() !== "") {
+            $('.toast').toast('show');
+        }
+    });
+    setTimeout(function () {
+        $('#myToast').toast('hide');
+    }, 5000); // 2 giây
+
+</script>
+<script>
+    
+
+    $(document).ready(function () {
+        // Hi?n th? toast n?u session ch?a thông báo
+        var message = "<c:out value='${sessionScope.messageeww}' />";
         if (message.trim() !== "") {
             $('.toast').toast('show');
         }

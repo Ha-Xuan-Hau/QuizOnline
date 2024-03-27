@@ -522,21 +522,22 @@ public boolean isSettingListEmpty(String keyword, int page, int PAGE_SIZE) {
         return isExist;
     }
 
-    public int updateSubjectNameByCode(String subjectCode, String newSubjectName) {
-        int n = 0;
-        String sql = "UPDATE [dbo].[Subject]\n"
-                + "SET [SubjectName] = ?\n"
-                + "WHERE [SubjectCode] = ?";
-        try {
-            PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setString(1, newSubjectName);
-            pre.setString(2, subjectCode);
-            n = pre.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return n;
+   public int updateSubjectCodeByName(String subjectName, String newSubjectCode) {
+    int n = 0;
+    String sql = "UPDATE [dbo].[Subject]\n"
+                + "SET [SubjectCode] = ?\n"
+                + "WHERE [SubjectName] = ?";
+    try {
+        PreparedStatement pre = connection.prepareStatement(sql);
+        pre.setString(1, newSubjectCode);
+        pre.setString(2, subjectName);
+        n = pre.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(DAOSubject.class.getName()).log(Level.SEVERE, null, ex);
     }
+    return n;
+}
+
 
     public static void main(String[] args) {
         DAOAdmin dao = new DAOAdmin();
@@ -558,15 +559,7 @@ public boolean isSettingListEmpty(String keyword, int page, int PAGE_SIZE) {
 //
 //        }
 
-String subjectCodeToCheck = "SWQ"; // Thay thế bằng mã môn học bạn muốn kiểm tra
-        boolean isExist = dao.checkSubjectCodeExistence(subjectCodeToCheck);
-        
-        // In kết quả kiểm tra
-        if (isExist) {
-            System.out.println("Subject code '" + subjectCodeToCheck + "' exists.");
-        } else {
-            System.out.println("Subject code '" + subjectCodeToCheck + "' does not exist.");
-        }
+  
 
     }
 

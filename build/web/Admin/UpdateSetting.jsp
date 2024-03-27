@@ -56,39 +56,25 @@
                             <div class="modal-body">					
                                 <div class="form-group">
                                     <label for="username">Name</label>
-                                    <input type="text" class="form-control" name="name" id="username" value="${dataa['Name']}" required>
+                                    <input type="text" class="form-control" name="name" id="username" value="${dataa['Name']}" readonly>
                                     <span class="form-message text-danger" id="username-error"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="roleSelect">Type</label>
-                                    <select class="form-control" id="typeSelect" name="typeId" required>
-                                        <option value="">Select</option>
-                                        <c:choose>
-                                            <c:when test="${dataa['Type'] == 'Role'}">
+                                   <input class="form-control" id="typeSelect" name="typeId" type="text" value="Subject" readonly>
 
-                                                <option value="role" selected>Role</option>
-                                            </c:when>
-                                            <c:when test="${dataa['Type'] == 'Subject'}">
-
-                                                <option value="subject" selected>Subject</option>
-                                            </c:when>
-                                        </c:choose>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="idField" <c:if test="${dataa['Type'] == 'Role'}">style="display: block;"</c:if>>
-                                        <label for="id">ID</label>
-                                        <input type="text" class="form-control" name="id" id="id" value="${dataa['Id']}" readonly>
-                                    <span class="form-message text-danger" id="id-error"></span>
                                 </div>
 
-                                <div class="form-group" id="subjectCodeField" <c:if test="${dataa['Type'] == 'Role'}">style="display: none;"</c:if>>
+
+                                <div class="form-group" >
                                         <label for="subjectCode">Subject Code</label>
                                         <input type="text" class="form-control" name="subjectCode" id="subjectCode" value="${dataa['Value']}">
                                     <span class="form-message text-danger" id="subjectCode-error"></span>
                                 </div>
 
                             </div>
+
 
                             <div class="modal-footer">
                                 <a href="SettingControllerURL"> <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></a> 

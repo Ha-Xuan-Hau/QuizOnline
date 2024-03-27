@@ -120,7 +120,7 @@ public class UpdateProfileByAdm extends HttpServlet {
            HttpSession session = request.getSession();
                 int sessionTimeoutInSeconds = 2;
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-                session.setAttribute("messagee", "UpdateSuccess!!");
+                session.setAttribute("messageeaa", "Update Success!!");
            
        }
 

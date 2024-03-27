@@ -22,6 +22,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -123,6 +124,10 @@ public class UpdateProfile extends HttpServlet {
         daoA.updateAdmin(acc, adName, phone);
         daoT.updateTeacher(acc, teacherName, phone);
         daoS.updateStudent(acc, studentName, phone, dob);
+         HttpSession session = request.getSession();
+                int sessionTimeoutInSeconds = 1;
+                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+                session.setAttribute("messageea", "Update Success!!");
 
 //        dao.updateUserByAccountIDAndRoleID(acc, roleID, username, email, password,status, phone, adName, teacherName, studentName, dob);
        

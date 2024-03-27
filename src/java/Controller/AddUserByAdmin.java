@@ -82,7 +82,7 @@ public class AddUserByAdmin extends HttpServlet {
                   HttpSession session = request.getSession();
                 int sessionTimeoutInSeconds = 2;
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-                session.setAttribute("messagee", "Add Success!!");
+                session.setAttribute("messageeaa", "Add Success!!");
             }
             
             response.sendRedirect(url);
