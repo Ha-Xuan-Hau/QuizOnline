@@ -53,14 +53,14 @@ public class DeleteQuestionExamController extends HttpServlet {
 
                 questionDAO.delete(quesId);
 
-                response.sendRedirect(url + examId);
+                response.sendRedirect(url+"?examId=" + examId);
             }
             if (service.equals("deleteAnswer")) {
                 int examId = Integer.parseInt(request.getParameter("setId"));
                 int answerId = Integer.parseInt(request.getParameter("answerId"));
                 QuestionAnswerDAO.delete(answerId);
 
-                response.sendRedirect(url + examId);
+                response.sendRedirect(url +"?examId="+ examId);
             }
         }
     }

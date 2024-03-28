@@ -217,18 +217,18 @@ public class DAOExam extends DBConnect {
 
     public int createDefaultExam(int ClassId, int TeacherId) throws SQLException {
         int n = 0;
-        String sql = "INSERT INTO [dbo].[Exam]\n"
-                + "           ([ClassId]\n"
-                + "           ,[TeacherAccountId]\n"
-                + "           ,[Title]\n"
-                + "           ,[Summary]\n"
-                + "           ,[Score]\n"
-                + "           ,[StartDate]\n"
-                + "           ,[EndDate]\n"
-                + "           ,[Timer]\n"
-                + "           ,[TakingTimes]\n"
-                + "           ,[Permission])\n"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO [dbo].[Exam]\n"
+                    + "           ([ClassId]\n"
+                    + "           ,[TeacherAccountId]\n"
+                    + "           ,[Title]\n"
+                    + "           ,[Summary]\n"
+                    + "           ,[Score]\n"
+                    + "           ,[StartDate]\n"
+                    + "           ,[EndDate]\n"
+                    + "           ,[Timer]\n"
+                    + "           ,[TakingTimes]\n"
+                    + "           ,[Permission])\n"
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pre = null;
         try {
             pre = connection.prepareStatement(sql);

@@ -8,22 +8,49 @@
             <file>file:/C:/Users/Asus/Desktop/QuizzesOnline/web/Home/QuizListPage.jsp</file>
         </group>
         <group>
-            <file>file:/D:/QuizzesOnline/src/java/Model/DAOUser.java</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/NewPassword.java</file>
+            <file>file:/D:/QuizzesOnline/web/exam/exam.jsp</file>
+            <file>file:/D:/QuizzesOnline/web/assets/js/register_1.js</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/ForgotPassWord.java</file>
-            <file>file:/D:/QuizzesOnline/web/exam/import.jsp</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/EditQuestionSetController.java</file>
-            <file>file:/D:/QuizzesOnline/src/java/Controller/ValidateOtp.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/FlashCardController.java</file>
             <file>file:/D:/QuizzesOnline/web/exam/import.html</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/DowloadExcelController.java</file>
-            <file>file:/D:/QuizzesOnline/web/login/login.jsp</file>
-            <file>file:/D:/QuizzesOnline/src/java/Controller/LoginController.java</file>
+            <file>file:/D:/QuizzesOnline/web/assets/css/logreg.css</file>
+            <file>file:/D:/QuizzesOnline/web/assets/css/login.css</file>
+            <file>file:/D:/QuizzesOnline/src/java/Utils/MyApplicationConstants.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/ExamByQuestionSetController.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAOExam.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAOQuestionSet.java</file>
+            <file>file:/D:/QuizzesOnline/web/assets/css/register.css</file>
+            <file>file:/D:/QuizzesOnline/web/Question/setDetail.jsp</file>
+            <file>file:/D:/QuizzesOnline/web/Question/editSetNavbar.jsp</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/EditExamController.java</file>
             <file>file:/D:/QuizzesOnline/web/login/forgotPassword.jsp</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/DeleteQuestionExamController.java</file>
+            <file>file:/D:/QuizzesOnline/web/login/register.jsp</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/ExamClassDispatchController.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAOUser.java</file>
+            <file>file:/D:/QuizzesOnline/web/Question/import.jsp</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAONormalQuestion.java</file>
+            <file>file:/D:/QuizzesOnline/web/exam/import.jsp</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/ValidateOtp.java</file>
+            <file>file:/D:/QuizzesOnline/web/Question/displayAllQuesSet.jsp</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAOQuestionExamAnswer.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAONormalQuestionAnswer.java</file>
+            <file>file:/D:/QuizzesOnline/web/login/login.jsp</file>
+            <file>file:/D:/QuizzesOnline/web/Question/editSet.jsp</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/QuetionSetImportController.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Model/DAOQuestionExam.java</file>
+            <file>file:/D:/QuizzesOnline/web/assets/js/register.js</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/LoginController.java</file>
+            <file>file:/D:/QuizzesOnline/web/exam/editExam.jsp</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/ExportExcel.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Controller/QuestionSetController.java</file>
+            <file>file:/D:/QuizzesOnline/src/java/Entity/questionExam.java</file>
             <file>file:/D:/QuizzesOnline/src/java/Controller/FilterSetting.java</file>
             <file>file:/D:/QuizzesOnline/web/login/newPassword.jsp</file>
-            <file>file:/D:/QuizzesOnline/src/java/Controller/ExamClassDispatchController.java</file>
+            <file>file:/D:/QuizzesOnline/web/assets/js/login.js</file>
         </group>
     </open-files>
 </project-private>

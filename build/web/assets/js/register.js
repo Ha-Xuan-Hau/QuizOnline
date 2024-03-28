@@ -234,7 +234,7 @@ Validator.isDateAfterNow = function (selector, msg) {
       var inputDate = new Date(value);
       var currentDate = new Date();
 
-      if (inputDate < currentDate) {
+      if (inputDate > currentDate) {
         return undefined;
       } else {
         return msg || 'Date must be after current time!';
