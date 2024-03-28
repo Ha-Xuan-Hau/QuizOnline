@@ -114,33 +114,22 @@
             <p><a href="QuetionSetImportURL" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-import">Import</a></p>
             <p><a href="QuestionSetURL?go=addNewSet" style="color: #007BFF; text-decoration: none; font-weight: bold;" class="btn-add" >Add new Set</a></p>
         </div>
-
-        <!--        <p><a href="importQues.jsp" style="color: #007BFF; text-decoration: none; font-weight: bold;">Import Question</a></p>
-                <p><a href="QuestionSetURL?go=addNewSet" style="color: #007BFF; text-decoration: none; font-weight: bold;" >Add a new Set</a></p>
-        -->        <table border="1">
+        <table border="1">
             <tr>
                 <th>Title</th>
                 <th>Edit</th>
             </tr>
             <c:forEach items="${data}" var="content">
                 <tr>
-<!--                    <td>${content.getSetId()}</td>-->
                     <td><a href="QuestionSetDetailURL?SetId=${content.getSetId()}" >${content.getTitle()}</a></td>
                     <td>
                         <div class="action-container1">
                             <a class="btn-edit" href="EditQuestionSetURL?setId=${content.getSetId()}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
                         </div>
                     </td>
-                    <!--                    <td>
-                                            <div class="action-container1">
-                                                <a class="btn-edit" href="EditQuestionSetURL?setId=${content.getSetId()}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a class="btn-delete" href="QuestionSetURL?go=deleteSet&setId=${content.getSetId()}"><i class="gg-trash"></i></a>
-                                            </div>
-                                        </td>-->
                 </tr>
             </c:forEach>
-        </table>
-
+        </table>      
     </body>
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
 </html>

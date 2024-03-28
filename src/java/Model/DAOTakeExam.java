@@ -319,12 +319,13 @@ public class DAOTakeExam extends DBConnect {
         PreparedStatement pre = null;
         ResultSet rs = null;
         String sql = " select top (1) * from TakeExam\n"
-                + "  where StudentAccountId=? and ExamId = ? and Score >= all(select Score from TakeExam where Score is not null and ExamId = ?)";
+                + "  where StudentAccountId=? and ExamId = ? and Score >= all(select Score from TakeExam where StudentAccountId= ? and Score is not null and ExamId = ?)";
         try {
             pre = connection.prepareStatement(sql);
             pre.setInt(1, userId);
             pre.setInt(2, examId);
-            pre.setInt(3, examId);
+            pre.setInt(3, userId);
+            pre.setInt(4, examId);
             rs = pre.executeQuery();
             while (rs.next()) {
                 int takeExamId = rs.getInt("TakeExamId");

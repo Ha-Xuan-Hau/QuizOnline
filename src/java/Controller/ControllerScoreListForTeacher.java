@@ -43,12 +43,12 @@ public class ControllerScoreListForTeacher extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        
+
         String url = siteMaps.getProperty(MyApplicationConstants.TeacherClassFeature.TEACHER_SCORE_LIST_PAGE);
-               
+
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();
@@ -62,16 +62,17 @@ public class ControllerScoreListForTeacher extends HttpServlet {
             ArrayList<User> StudentList = new ArrayList<>();
             ArrayList<TakeExam> ScoreList = new ArrayList<>();
             if (service == null) {
-            studentIdlist = daoTC.getStudentIDbyClassID(classId);
-            for (Integer studentIds : studentIdlist) {
-                int studentId = studentIds;
-                StudentList.add(daoU.getUserById(studentId));
-            ScoreList = daoTE.getTakeExamByExamId(ExamId);
+                studentIdlist = daoTC.getStudentIDbyClassID(classId);
+                for (Integer studentIds : studentIdlist) {
+                    int studentId = studentIds;
+                    StudentList.add(daoU.getUserById(studentId));
+                    ScoreList.add(daoTE.bestAttempt(studentId, ExamId));
+                }
+                //   ScoreList = daoTE.getTakeExamByExamId(ExamId);
+                request.setAttribute("StudentList", StudentList);
+                request.setAttribute("ScoreList", ScoreList);
+                request.getRequestDispatcher(url).forward(request, response);
             }
-            request.setAttribute("StudentList", StudentList);
-            request.setAttribute("ScoreList", ScoreList);
-            request.getRequestDispatcher(url).forward(request, response);
-            } 
 //            else {
 //            
 //            }

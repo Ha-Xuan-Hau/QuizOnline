@@ -124,12 +124,13 @@ public class EditExamController extends HttpServlet {
                     }
                     url=siteMaps.getProperty(MyApplicationConstants.TeacherExamFeature.EDIT_EXAM_ACTION);
                     response.sendRedirect(url +"?examId="+ examId);
+//                    response.sendRedirect("EditExamURL?examId=" _)
                 }
             }
             if (service.equals("deleteExam")) {
                 String examId = request.getParameter("examId");
                 dao.deleteExam(examId);
-                url=siteMaps.getProperty(MyApplicationConstants.ApplicationScope.QUESTION_SET_ACTION);
+                url=siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.CLASS_EXAM_LIST_ACTION);
                 response.sendRedirect(url);
             }
         }

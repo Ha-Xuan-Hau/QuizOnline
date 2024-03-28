@@ -81,11 +81,11 @@
         <div class="course-editor-frame">
             <div class="course-editor-title-bar">        
                 <h1 class="editor-default-title">
-                    Edit Exam
+                    <a href="ClassExamListURL">Edit Exam</a>
                 </h1>
             </div>
             <main class="course-editor-main" style="overflow-y: auto; max-height: 500px;">
-                <form action="EditExamURL" method="post" id="form-1">
+                <form action="EditExamURL" method="post">
                     <input type="hidden" name="go" value="saveExam">
                     <input type="hidden" name="examId" value="${param.examId}">
                     <div>
@@ -175,19 +175,14 @@
                                     </li>    
                                 </c:forEach>
                             </ul>
-
                             <a  href="NewQuestionExamURL?examId=${param.examId}"> Add new Question</a>
                         </div>
                     </div>
-
-
                     <div class="action-container">
                         <input type="submit" name="action" value="Save" class="btn-save"/>
-
                     </div>
-                    <div>
-
-                    </div>
+                    <!--                    <div>
+                                        </div>-->
                 </form>
                 <form action="EditExamURL" method="post">
                     <div class="action-container">
@@ -230,10 +225,10 @@
                                     Validator.isDatePast("#date"),
                                     Validator.validateDateTime("#exam-start"),
                                     Validator.validateDateTime("#exam-end"),
-                                    Validator.isDateAfterNow("#exam-end"), ,
-                                            Validator.compareTimes("#exam-start", function () {
-                                                return document.querySelector("#form-1 #exam-end").value;
-                                            }, "end date must be later than the stated date!")
+                                    Validator.isDateAfterNow("#exam-end")//, ,
+//                                            Validator.compareTimes("#exam-start", function () {
+//                                                return document.querySelector("#form-1 #exam-end").value;
+//                                            }, "end date must be later than the stated date!")
                                 ]
                             });
         </script>

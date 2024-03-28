@@ -242,20 +242,20 @@ Validator.isDateAfterNow = function (selector, msg) {
     }
   };
 };
-Validator.compareTimes = function (selector1, selector2, msg) {
-  return {
-    selector: selector1,
-    test: function (value1) {
-      var value2 = document.querySelector(selector2).value;
-
-      var time1 = new Date('1970-01-01T' + value1);
-      var time2 = new Date('1970-01-01T' + value2);
-
-      if (time2 > time1) {
-        return undefined;
-      } else {
-        return msg || 'end date must be later than the stated date!';
-      }
-    }
-  };
-};
+//Validator.compareTimes = function (selector1, selector2, msg) {
+//  return {
+//    selector: selector1,
+//    test: function (value1) {
+//      var value2 = document.querySelector(selector2).value;
+//
+//      var time1 = new Date('1970-01-01T' + value1);
+//      var time2 = new Date('1970-01-01T' + value2);
+//
+//      if (time2 > time1) {
+//        return undefined;
+//      } else {
+//        return msg || 'end date must be later than the stated date!';
+//      }
+//    }
+//  };
+//};

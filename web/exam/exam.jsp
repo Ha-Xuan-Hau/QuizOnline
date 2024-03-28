@@ -15,13 +15,20 @@
         <%@include file="/Home/headCommon.jsp" %>
         <link rel="stylesheet" href="assets/css/exam.css"/>
         <%@include file="/Home/header.jsp" %>
+        <style>
+            a{
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body>
         <c:set var="limit" value="${limit}" />
         <c:set var="time" value="${time}" />
         <div class="course-editor-frame">
             <div class="course-editor-title-bar">          
-                <h1>Exam</h1>
+                <h1>
+                    <a href="ScoreListForStudentURL">Exam</a>
+                </h1>
             </div>
             <main in class="course-editor-main">
                 <div class="EXAM-INF">
@@ -32,22 +39,24 @@
                         <p>Time Limit: <span>${exam.getTimer() / 60} minutes</span></p>
                     </div>
                     <div class="content">
+
+                        
                         <c:choose>
-                            <c:when test="${time < limit}">
+                            <c:when test="${time < limit && enable == 1}">
                                 <div class="link">
                                     <a href="ExamClassDispatchURL?examId=${exam.getExamId()}&status=1">
                                         <c:if test="${takeExams == null || takeExams.isEmpty()}">
-                                            Attempt Exam 
+                                            Attempt Exam
                                         </c:if>
                                         <c:if test="${takeExams != null && !takeExams.isEmpty()}">
-                                            Re-Attempt Exam 
-                                        </c:if>     
+                                            Re-Attempt Exam
+                                        </c:if>
                                     </a>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <div class="link">
-                                    <p>Time limit reached.</p>
+                                    <p>Link has been closed.</p>
                                 </div>
                             </c:otherwise>
                         </c:choose>
@@ -72,8 +81,8 @@
                                 <p style="color: #55ff00">${mark}</p>
                             </c:if>
                         </div>
-                        <div>
-                            <c:if test="${takeExams != null}">
+                        <div>                           
+                            <c:if test="${bestAttempt != null}">
                                 <div class="link">
                                     <a href="ExamClassDispatchURL?takeExamId=${bestAttempt.getTakeExamId()}&status=2">
                                         View Feedback

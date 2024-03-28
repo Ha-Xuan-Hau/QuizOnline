@@ -33,14 +33,12 @@
         <%@include file="/Home/header.jsp" %> 
         <div class="course-editor-title-bar">
             <h1 class="editor-default-title">
-                Question Set
+                <a href="QuestionSetURL" >
+                    Question Set
+                </a>
+
             </h1>
-        </div>
-        <div class="course-editor-title-bar">
-            <a href="QuestionSetURL" >
-                All question set
-            </a>
-        </div>
+        </div>    
         <!-- form dien toan bo thong tin -->
         <form action="QuestionSetURL" method="post">           
             <input type="hidden" name="go" value="addNewSetDetails">
