@@ -68,7 +68,7 @@
                     margin-left: 0.2em;
                     margin-right: 0.2em;
                 }
-                .form-group .form-message {
+                .form-message {
                     font-size: 14px;
                     color: rgb(237, 61, 61);
                     padding: 20px;
@@ -85,7 +85,7 @@
                 </h1>
             </div>
             <main class="course-editor-main" style="overflow-y: auto; max-height: 500px;">
-                <form action="EditExamURL" method="post" id="form-1">
+                <form action="EditExamURL" method="post" id="form-1" onsubmit="return validateForm(event)">
                     <input type="hidden" name="go" value="saveExam">
                     <input type="hidden" name="examId" value="${param.examId}">
                     <div>
@@ -117,12 +117,12 @@
                         </div>
                         <div class="form-group"> 
                             <label style="width: 100px" for="exam-name">Start Date</label>
-                            <input type="datetime" id="exam-start" name="ExamStart" value="${exam.startDate}" placeholder="YYYY/MM/DD" required/>
+                            <input type="datetime" id="exam-start" name="ExamStart" value="${fn:substringBefore(exam.startDate, ' ')}" placeholder="YYYY/MM/DD" required/>
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group"> 
                             <label  style="width: 100px" for="exam-duration">End Date</label>
-                            <input type="datetime" id="exam-end" name="ExamEnd" value="${exam.endDate}" placeholder="YYYY/MM/DD" required/><br/>
+                            <input type="datetime" id="exam-end" name="ExamEnd" value="${fn:substringBefore(exam.endDate, ' ')}" placeholder="YYYY/MM/DD" required/><br/>
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group"> 
@@ -175,12 +175,13 @@
                                     </li>    
                                 </c:forEach>
                             </ul>
+                            
 
                             <a  href="NewQuestionExamURL?examId=${param.examId}"> Add new Question</a>
                         </div>
                     </div>
 
-
+                        <span id="exam-end-error" class="form-message"></span>
                     <div class="action-container">
                         <input type="submit" name="action" value="Save" class="btn-save"/>
 
@@ -200,42 +201,8 @@
         </div>        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="assets/js/register.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
-        <script>
-                            function showDeleteConfirmation(examId) {
-                                Swal.fire({
-                                    title: 'Delete Exam',
-                                    text: 'Are you sure?',
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Delete',
-                                    cancelButtonText: 'Cancel'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "EditExamURL?go=deleteExam&examId=" + examId;
-                                    }
-                                });
-                            }
-                            Validator({
-                                form: "#form-1",
-                                formGroupSelector: ".form-group",
-                                querySelector: ".form-message",
-                                rules: [
-                                    Validator.isRequired("#exam-title"),
-                                    Validator.isRequired("#exam-start"),
-                                    Validator.isRequired("#exam-end"),
-                                    Validator.isRequired("#exam-score"),
-                                    Validator.isRequired("#exam-taking-time"),
-
-                                    Validator.isDatePast("#date"),
-                                    Validator.validateDateTime("#exam-start"),
-                                    Validator.validateDateTime("#exam-end"),
-                                    Validator.isDateAfterNow("#exam-end"), ,
-                                            Validator.compareTimes("#exam-start", function () {
-                                                return document.querySelector("#form-1 #exam-end").value;
-                                            }, "end date must be later than the stated date!")
-                                ]
-                            });
-        </script>
+        <script src="assets/js/base.js"></script>
+        <script src="assets/js/editExam.js"></script>
+                        
     </body>
 </html>

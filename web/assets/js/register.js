@@ -242,19 +242,19 @@ Validator.isDateAfterNow = function (selector, msg) {
     }
   };
 };
-Validator.compareTimes = function (selector1, selector2, msg) {
+Validator.compareTimes = function (selector, startDate, msg) {
   return {
-    selector: selector1,
+    selector: selector,
     test: function (value1) {
-      var value2 = document.querySelector(selector2).value;
+      var value2 = startDate();
 
-      var time1 = new Date('1970-01-01T' + value1);
-      var time2 = new Date('1970-01-01T' + value2);
+      var date1 = new Date(value1);
+      var date2 = new Date(value2);
 
-      if (time2 > time1) {
+      if (date2 < date1) {
         return undefined;
       } else {
-        return msg || 'end date must be later than the stated date!';
+        return msg || 'End date must be later than the start date!';
       }
     }
   };
