@@ -85,11 +85,8 @@
                 </h1>
             </div>
             <main class="course-editor-main" style="overflow-y: auto; max-height: 500px;">
-<<<<<<< HEAD
                 <form action="EditExamURL" method="post" id="form-1" onsubmit="return validateForm(event)">
-=======
-                <form action="EditExamURL" method="post">
->>>>>>> d61d972cf28e2c314a9efe22e8e7ad879ac9bbb2
+
                     <input type="hidden" name="go" value="saveExam">
                     <input type="hidden" name="examId" value="${param.examId}">
                     <div>
@@ -179,7 +176,6 @@
                                     </li>    
                                 </c:forEach>
                             </ul>
-<<<<<<< HEAD
                             
 
                             <a  href="NewQuestionExamURL?examId=${param.examId}"> Add new Question</a>
@@ -187,11 +183,6 @@
                     </div>
 
                         <span id="exam-end-error" class="form-message"></span>
-=======
-                            <a  href="NewQuestionExamURL?examId=${param.examId}"> Add new Question</a>
-                        </div>
-                    </div>
->>>>>>> d61d972cf28e2c314a9efe22e8e7ad879ac9bbb2
                     <div class="action-container">
                         <input type="submit" name="action" value="Save" class="btn-save"/>
                     </div>
@@ -209,48 +200,8 @@
         </div>        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="assets/js/register.js"></script>
-<<<<<<< HEAD
         <script src="assets/js/base.js"></script>
         <script src="assets/js/editExam.js"></script>
                         
-=======
-        <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
-        <script>
-                            function showDeleteConfirmation(examId) {
-                                Swal.fire({
-                                    title: 'Delete Exam',
-                                    text: 'Are you sure?',
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Delete',
-                                    cancelButtonText: 'Cancel'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "EditExamURL?go=deleteExam&examId=" + examId;
-                                    }
-                                });
-                            }
-                            Validator({
-                                form: "#form-1",
-                                formGroupSelector: ".form-group",
-                                querySelector: ".form-message",
-                                rules: [
-                                    Validator.isRequired("#exam-title"),
-                                    Validator.isRequired("#exam-start"),
-                                    Validator.isRequired("#exam-end"),
-                                    Validator.isRequired("#exam-score"),
-                                    Validator.isRequired("#exam-taking-time"),
-
-                                    Validator.isDatePast("#date"),
-                                    Validator.validateDateTime("#exam-start"),
-                                    Validator.validateDateTime("#exam-end"),
-                                    Validator.isDateAfterNow("#exam-end")//, ,
-//                                            Validator.compareTimes("#exam-start", function () {
-//                                                return document.querySelector("#form-1 #exam-end").value;
-//                                            }, "end date must be later than the stated date!")
-                                ]
-                            });
-        </script>
->>>>>>> d61d972cf28e2c314a9efe22e8e7ad879ac9bbb2
     </body>
 </html>
