@@ -105,7 +105,7 @@
                             <c:forEach items="${answerList}" var="answer">
                                 <c:if test="${userAnswer.getContent() eq answer.getContent()}">
                                     <c:if test="${answer.isCorrect()}">
-                                        <c:set var="answerlog" value="The answer ${answer.getContent()} is correct." />
+                                        <c:set var="answerlog" value="The answer: ${answer.getContent()} is correct." />
                                         <c:set var="flag" value="true" />
                                     </c:if>
                                 </c:if>

@@ -117,9 +117,7 @@ public class DAOExam extends DBConnect {
         }
         return n;
     }
-    
-    
-    
+
     public int deleteExam(String examId) {
         int n = 0;
         PreparedStatement pre = null;
@@ -217,18 +215,18 @@ public class DAOExam extends DBConnect {
 
     public int createDefaultExam(int ClassId, int TeacherId) throws SQLException {
         int n = 0;
-            String sql = "INSERT INTO [dbo].[Exam]\n"
-                    + "           ([ClassId]\n"
-                    + "           ,[TeacherAccountId]\n"
-                    + "           ,[Title]\n"
-                    + "           ,[Summary]\n"
-                    + "           ,[Score]\n"
-                    + "           ,[StartDate]\n"
-                    + "           ,[EndDate]\n"
-                    + "           ,[Timer]\n"
-                    + "           ,[TakingTimes]\n"
-                    + "           ,[Permission])\n"
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO [dbo].[Exam]\n"
+                + "           ([ClassId]\n"
+                + "           ,[TeacherAccountId]\n"
+                + "           ,[Title]\n"
+                + "           ,[Summary]\n"
+                + "           ,[Score]\n"
+                + "           ,[StartDate]\n"
+                + "           ,[EndDate]\n"
+                + "           ,[Timer]\n"
+                + "           ,[TakingTimes]\n"
+                + "           ,[Permission])\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pre = null;
         try {
             pre = connection.prepareStatement(sql);
@@ -271,7 +269,6 @@ public class DAOExam extends DBConnect {
         return rs;
     }
 
-
     public int updateExamPermission(int examId, boolean permission) {
         int n = 0;
         String sql = "UPDATE [dbo].[Exam]\n"
@@ -296,7 +293,7 @@ public class DAOExam extends DBConnect {
         }
         return n;
     }
-    
+
     public int importExam(Exam obj) {
         int n = 0;
         String sql = "UPDATE [dbo].[Exam]\n"
@@ -328,11 +325,10 @@ public class DAOExam extends DBConnect {
         return n;
     }
 
-
     public static void main(String[] args) {
         DAOExam daoE = new DAOExam();
-       //daoE.updateExamPermission(1, false);
-       Exam e = daoE.getExamById(5);
+        //daoE.updateExamPermission(1, false);
+        Exam e = daoE.getExamById(5);
         System.out.println(e);
     }
 }

@@ -118,9 +118,14 @@
                             <c:set var="isEmpty" value="true" />
                             <c:forEach var="score" items="${ScoreList}">
                                 <c:if test="${score.studentAccountId == student.accountId}">                                 
-                                    <p class="col-3 " style="margin-top: 35px">Score: ${score.score}</p>
-                                    <p class="col-3" style="margin-top: 35px">Status: ${score.status} </p>
-                                    <p class="col-4" style="margin-top: 35px">From ${score.getStartDate().substring(0, 10)} To ${score.getEndDate().substring(0, 10)}</p>
+                                    <p class="col-3 " style="margin-top: 35px">Best Score: ${score.score}</p>
+                                    <p class="col-3" style="margin-top: 35px">
+                                        Status: 
+                                        <c:choose>
+                                            <c:when test="${score.status == 1}">In process</c:when>
+                                            <c:when test="${score.status == 2}">Finished</c:when>
+                                        </c:choose></p>
+                                    <p class="col-4" style="margin-top: 35px">From ${score.getStartDate().substring(0, 19)} To ${score.getEndDate().substring(0, 19)}</p>
                                     <c:set var="isEmpty" value="false" />
                                 </c:if>                                     
                             </c:forEach>

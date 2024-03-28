@@ -19,6 +19,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -60,16 +62,30 @@ public class ClassExamController extends HttpServlet {
             TakeExam best = daoTakeExam.bestAttempt(user.getAccountId(), examId);
             int questionCount = daoQuestion.getTotalQuestionInSet(examId);
 
+            LocalDateTime currentTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            String formattedTime = currentTime.format(formatter);
+
+            LocalDateTime current = LocalDateTime.parse(formattedTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
+            LocalDateTime end = LocalDateTime.parse(exam.getEndDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+            int enable = 0;
+            if (current.isBefore(end)) {
+                enable = 1;
+            } else {
+                // current time is the same as exam end date
+            }
+
             int limit = exam.getTakingTimes();
             int time = daoTakeExam.getTimeDone(user.getAccountId(), examId);
             request.setAttribute("bestAttempt", best);
+            request.setAttribute("enable", enable);
             request.setAttribute("limit", limit);
             request.setAttribute("time", time);
             request.setAttribute("exam", exam);
             request.setAttribute("takeExams", takeExams);
             request.setAttribute("questionCount", questionCount);
 
-            request.getRequestDispatcher("exam/exam.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

@@ -86,7 +86,7 @@ public class DeleteSetting extends HttpServlet {
             HttpSession session = request.getSession();
             int sessionTimeoutInSeconds = 2;
             session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-            session.setAttribute("messagee", "Delete Success!!!!!");
+            session.setAttribute("messageeww", "Delete Success!!!!!");
         }
         response.sendRedirect(url);
     }

@@ -242,20 +242,3 @@ Validator.isDateAfterNow = function (selector, msg) {
     }
   };
 };
-Validator.compareTimes = function (selector, startDate, msg) {
-  return {
-    selector: selector,
-    test: function (value1) {
-      var value2 = startDate();
-
-      var date1 = new Date(value1);
-      var date2 = new Date(value2);
-
-      if (date2 < date1) {
-        return undefined;
-      } else {
-        return msg || 'End date must be later than the start date!';
-      }
-    }
-  };
-};

@@ -85,6 +85,7 @@ public class QuestionSetController extends HttpServlet {
         }
         if (service.equals("addNewSetDetails")) {
             String action = request.getParameter("submit");
+            String mess="";
             if (action != null) {
                 int setId = Integer.parseInt(request.getParameter("setId"));
                 String title = request.getParameter("title");
