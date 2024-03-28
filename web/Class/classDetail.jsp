@@ -187,7 +187,7 @@
             <c:forEach var="questionSet" items="${questionSetList}">
                 <li>
                     <div class="question-set-item">                     
-                        <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${questionSet.getSetId()}">
+                        <a href="${pageContext.request.contextPath}/QuestionSetDetailURL?&SetId=${questionSet.getSetId()}">
                             <h3><img src="${pageContext.request.contextPath}/Class/images/studying.png" width="20px" style="margin-right: 30px ;flex-direction: row " />
                                 ${teacher.getTeacherName()} posted "${questionSet.getTitle()}"    
                             </h3>      
