@@ -14,6 +14,8 @@ import Model.DAOQuestionSet;
 import Model.DAOSubject;
 import Model.DAOTeacher;
 import Model.DAOUserSet;
+import Utils.MyApplicationConstants;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,6 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  *
@@ -44,6 +47,12 @@ public class ControllerMyEnroll extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();
@@ -71,7 +80,8 @@ public class ControllerMyEnroll extends HttpServlet {
                 request.setAttribute("questionSetListAll", questionSetListAll);
                 request.setAttribute("subjectMapAll", subjectMapAll);
                 request.setAttribute("Categories", Categories);
-                request.getRequestDispatcher("/Class/MyEnroll.jsp").forward(request, response);
+                url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.ENROLL_SET_PAGE);
+                request.getRequestDispatcher(url).forward(request, response);
             } else {
                 if (service.equals("search")) {
                     String searchQuery = request.getParameter("searchQuery");
@@ -103,7 +113,8 @@ public class ControllerMyEnroll extends HttpServlet {
                     request.setAttribute("questionSetListAll", filteredQuestionSets);
                     request.setAttribute("subjectMapAll", subjectMapAll);
                     request.setAttribute("Categories", Categories);
-                    request.getRequestDispatcher("/Class/MyEnroll.jsp").forward(request, response);
+                    url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.ENROLL_SET_PAGE);
+                    request.getRequestDispatcher(url).forward(request, response);
                 }
                 if (service.equals("category")) {
                     String SubCode = request.getParameter("SubCode");
@@ -135,7 +146,8 @@ public class ControllerMyEnroll extends HttpServlet {
                     request.setAttribute("questionSetListAll", filteredQuestionSets);
                     request.setAttribute("subjectMapAll", subjectMapAll);
                     request.setAttribute("Categories", Categories);
-                    request.getRequestDispatcher("/Class/MyEnroll.jsp").forward(request, response);
+                    url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.ENROLL_SET_PAGE);
+                    request.getRequestDispatcher(url).forward(request, response);
                 }
                 if (service.equals("Star")) {
                     String Num = request.getParameter("Num");
@@ -167,7 +179,8 @@ public class ControllerMyEnroll extends HttpServlet {
                     request.setAttribute("questionSetListAll", filteredQuestionSets);
                     request.setAttribute("subjectMapAll", subjectMapAll);
                     request.setAttribute("Categories", Categories);
-                    request.getRequestDispatcher("/Class/MyEnroll.jsp").forward(request, response);
+                    url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.ENROLL_SET_PAGE);
+                    request.getRequestDispatcher(url).forward(request, response);
                 }
                 if (service.equals("enroll")) {
                     int setId = Integer.parseInt(request.getParameter("SetId"));
@@ -183,12 +196,14 @@ public class ControllerMyEnroll extends HttpServlet {
                     if (!userSetExists) {
                         daoUS.insertUserSet(userSet);
                     }
-                    response.sendRedirect("QuestionSetURL?go=setDetails&SetId=" + setId);
+                    url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.DETAIL_SET_ACTION);
+                    response.sendRedirect(url + "?SetId=" + setId);
                 }
                 if (service.equals("unenroll")) {
                     int setId = Integer.parseInt(request.getParameter("SetId"));
                     daoUS.deleteUserSet(acc.getAccountId(), setId);
-                    response.sendRedirect("MyEnrollURL");
+                    url=siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.ENROLL_SET_ACTION);
+                    response.sendRedirect(url);
                 }
             }
         }

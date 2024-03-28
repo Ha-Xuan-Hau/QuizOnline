@@ -323,6 +323,18 @@
             <c:out value="${sessionScope.messagee}" />
         </div>
     </div>
+    
+    <div id="myToast" class="toast custom-toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            Thông Báo!!!!
+            <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            <c:out value="${sessionScope.messageeaa}" />
+        </div>
+    </div>
 
 </head>
 <body>
@@ -532,9 +544,7 @@
                                     </c:url>
                                     <td>
                                         <a href="${updateUserUrl}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                        <a href="DeleteUserURL?sid=${user['AccountId']}" class="delete" title="Delete" data-toggle="tooltip" onclick="return confirm('Do you want delete?');">
-                                            <i class="material-icons" style="color: red;">&#xE5C9;</i>
-                                        </a>
+                                      
 
                                     </td>
                                 </tr>
@@ -673,7 +683,18 @@
     });
     setTimeout(function () {
         $('#myToast').toast('hide');
-    }, 6000); // 2 giây
+    }, 8000); // 2 giây
+    
+    $(document).ready(function () {
+        // Hi?n th? toast n?u session ch?a thông báo
+        var messagee = "<c:out value='${sessionScope.messageeaa}' />";
+        if (messagee.trim() !== "") {
+            $('.toast').toast('show');
+        }
+    });
+    setTimeout(function () {
+        $('#myToast').toast('hide');
+    }, 8000); // 2 giây
 </script>
 
 

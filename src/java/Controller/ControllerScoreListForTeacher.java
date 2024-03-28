@@ -48,8 +48,7 @@ public class ControllerScoreListForTeacher extends HttpServlet {
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
         
         String url = siteMaps.getProperty(MyApplicationConstants.TeacherClassFeature.TEACHER_SCORE_LIST_PAGE);
-        
-        
+               
         try ( PrintWriter out = response.getWriter()) {
             String service = request.getParameter("go");
             HttpSession session = request.getSession();

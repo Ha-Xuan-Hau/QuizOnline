@@ -208,7 +208,7 @@
 
 
                                 <!-- Nút Lưu thay đổi-->
-                                <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
                                 <button class="btn btn-primary"><a href="/QuizzesOnline/change?username=${data['Username']}">Change Password</a></button>
 
                             </form>

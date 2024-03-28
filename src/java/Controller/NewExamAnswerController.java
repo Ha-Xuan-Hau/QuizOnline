@@ -35,20 +35,20 @@ public class NewExamAnswerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        
+
         String url = siteMaps.getProperty(MyApplicationConstants.TeacherExamFeature.EDIT_EXAM_ACTION);
-        
+
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             int examId = Integer.parseInt(request.getParameter("examId"));
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             DAOQuestionExamAnswer normalQuestionAnswerDAO = new DAOQuestionExamAnswer();
             normalQuestionAnswerDAO.insertDefaultAnswer(questionId);
-            
-            response.sendRedirect(url + examId);
+
+            response.sendRedirect(url + "?examId=" + examId);
         }
     }
 

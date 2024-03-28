@@ -81,7 +81,7 @@ public class ControllerClassDetail extends HttpServlet {
                     String FullClassName = className + " " + subject;
                     daoC.updateClassName(classId, FullClassName);
                     url = siteMaps.getProperty(MyApplicationConstants.ClassFeature.CLASS_DETAIL_ACTION);
-                    response.sendRedirect(url + classId);
+                    response.sendRedirect(url + "?classId=" + classId);
                 }
             }
         }

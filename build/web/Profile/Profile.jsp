@@ -130,7 +130,7 @@
 
                                 <!-- Phone -->
                                 <div class="mb-3">
-                                    <label class="small mb-1" for="inputPhone">Điện thoại</label>
+                                    <label class="small mb-1" for="inputPhone">Phone</label>
                                     <input class="form-control" id="inputPhone" type="text" placeholder="Nhập số điện thoại"
                                            name="phone" value="${data['Phone']}">
                                     <span class="form-message text-danger" id="phone-error"></span>
@@ -138,13 +138,13 @@
 
                                 <!-- Nhóm biểu mẫu (địa chỉ email)-->
                                 <div class="mb-3">
-                                    <label class="small mb-1" for="inputEmailAddress">Địa chỉ email</label>
+                                    <label class="small mb-1" for="inputEmailAddress">Email</label>
                                     <input class="form-control" id="inputEmailAddress" type="email" name="email"
                                            placeholder="Nhập địa chỉ email" value="${data.get('Email')}" readonly>
                                 </div>
 
                                 <!-- Nút Lưu thay đổi-->
-                                <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
                             </form>
 
                         </div>

@@ -74,22 +74,23 @@ public class FlashCardController extends HttpServlet {
             Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
 
             String url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.FLASH_CARD_PAGE);
+
             DAOQuestionSet dao = new DAOQuestionSet();
             DAONormalQuestion questionDAO = new DAONormalQuestion();
             DAONormalQuestionAnswer answerDAO = new DAONormalQuestionAnswer();
 
-            request.getSession().getAttribute("acc");
-            User user = (User) request.getSession().getAttribute("acc");
-            int userId = -1;
-            if (user != null) {
-                userId = user.getAccountId();
-            }
+//            request.getSession().getAttribute("acc");
+//            User user = (User) request.getSession().getAttribute("acc");
+//            int userId = -1;
+//            if (user != null) {
+//                userId = user.getAccountId();
+//            }
             String service = request.getParameter("go");
             if (service == null) {
                 service = "listAllSets";
             }
             if (service.equals("flashCard")) {
-                ArrayList<QuestionSet> allQuesSet = dao.getDataByUsId(userId);
+                ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
 
                 int setId = Integer.parseInt(request.getParameter("SetId"));
 
@@ -99,7 +100,7 @@ public class FlashCardController extends HttpServlet {
                 request.setAttribute("data", allQuesSet);
                 request.setAttribute("question", Ques);
                 request.setAttribute("content", QuesAnswers);
-                request.getRequestDispatcher("flashcard.jsp").forward(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
             }
         }
     }

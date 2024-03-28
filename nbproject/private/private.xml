@@ -2,11 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="SP22">
-            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline/web/Home/QuizList.jsp</file>
-            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline/web/Question/practiceQuiz.jsp</file>
-            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline/web/Home/QuizListPage.jsp</file>
-        </group>
         <group>
             <file>file:/D:/QuizzesOnline/src/java/Controller/NewPassword.java</file>
             <file>file:/D:/QuizzesOnline/web/exam/exam.jsp</file>
@@ -51,6 +46,15 @@
             <file>file:/D:/QuizzesOnline/src/java/Controller/FilterSetting.java</file>
             <file>file:/D:/QuizzesOnline/web/login/newPassword.jsp</file>
             <file>file:/D:/QuizzesOnline/web/assets/js/login.js</file>
+        </group>
+        <group name="SP22">
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/src/java/Model/DAOAdmin.java</file>
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/src/java/Controller/UpdateSetting.java</file>
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/src/java/Controller/FilterSetting.java</file>
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/web/Admin/SettingList.jsp</file>
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/src/java/Controller/SearchController.java</file>
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/src/java/Controller/SettingController.java</file>
+            <file>file:/C:/Users/Asus/Desktop/QuizzesOnline12/QuizzesOnline/src/java/Controller/UpdateProfile.java</file>
         </group>
     </open-files>
 </project-private>

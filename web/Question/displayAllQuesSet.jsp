@@ -125,7 +125,7 @@
             <c:forEach items="${data}" var="content">
                 <tr>
 <!--                    <td>${content.getSetId()}</td>-->
-                    <td><a href="QuestionSetURL?go=setDetails&SetId=${content.getSetId()}" >${content.getTitle()}</a></td>
+                    <td><a href="QuestionSetDetailURL?SetId=${content.getSetId()}" >${content.getTitle()}</a></td>
                     <td>
                         <div class="action-container1">
                             <a class="btn-edit" href="EditQuestionSetURL?setId=${content.getSetId()}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>

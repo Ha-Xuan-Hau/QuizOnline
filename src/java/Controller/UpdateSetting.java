@@ -97,31 +97,26 @@ public class UpdateSetting extends HttpServlet {
         String url = siteMaps.getProperty(MyApplicationConstants.AdminFeature.ADMIN_SETTING_ACTION);
 
         DAOAdmin dao = new DAOAdmin();
-        int id = Integer.parseInt(request.getParameter("id"));
+//        int id = Integer.parseInt(request.getParameter("id"));
         String subjectCode = request.getParameter("subjectCode");
-        String type = request.getParameter("typeId");
+//        String type = request.getParameter("typeId");
         String name = request.getParameter("name");
-        if ("subject".equals(type)) {
-            if (dao.checkSubjectCodeExistence(subjectCode)) {
-                HttpSession session = request.getSession();
-                int sessionTimeoutInSeconds = 2;
-                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-                session.setAttribute("messagee", "SubjectCode " + subjectCode + " already exists.");
-            } else {
-                dao.updateSubjectNameByCode(subjectCode, name);
+        System.out.println(subjectCode);
+        System.out.println(name);
+        
+//            if (dao.checkSubjectCodeExistence(subjectCode)) {
+//                HttpSession session = request.getSession();
+//                int sessionTimeoutInSeconds = 2;
+//                session.setMaxInactiveInterval(sessionTimeoutInSeconds);
+//                session.setAttribute("messagee", "SubjectCode " + subjectCode + " already exists.");
+//            } else {
+                dao.updateSubjectCodeByName(name, subjectCode);
                 HttpSession session = request.getSession();
                 int sessionTimeoutInSeconds = 2;
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
                 session.setAttribute("messagee", "UpdateSuccess");
-            }
-        } else if ("role".equals(type)) {
-            dao.updateSettingRole(id, name);
-            HttpSession session = request.getSession();
-
-            int sessionTimeoutInSeconds = 2;
-            session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-            session.setAttribute("messagee", "UpdateSuccess");
-        }
+//            }
+        
         response.sendRedirect(url);
     }
 

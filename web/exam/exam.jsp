@@ -36,12 +36,12 @@
                             <c:when test="${time < limit}">
                                 <div class="link">
                                     <a href="ExamClassDispatchURL?examId=${exam.getExamId()}&status=1">
-                                        <c:if test="${takeExams == null}">
+                                        <c:if test="${takeExams == null || takeExams.isEmpty()}">
                                             Attempt Exam 
                                         </c:if>
-                                        <c:if test="${takeExams != null}">
+                                        <c:if test="${takeExams != null && !takeExams.isEmpty()}">
                                             Re-Attempt Exam 
-                                        </c:if>    
+                                        </c:if>     
                                     </a>
                                 </div>
                             </c:when>

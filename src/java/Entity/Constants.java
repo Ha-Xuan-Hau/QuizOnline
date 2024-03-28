@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author ACER
  */
 public class Constants implements Serializable {
-
+    
     public static String GOOGLE_CLIENT_ID = "792958604853-t1da5rg9q5fblc145j7a30814recg0js.apps.googleusercontent.com";
 
     public static String GOOGLE_CLIENT_SECRET = "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";

@@ -14,6 +14,8 @@ import Model.DAOQuestionExam;
 import Model.DAOQuestionExamAnswer;
 import Model.DAOTakeExam;
 import Utils.GradeUtils;
+import Utils.MyApplicationConstants;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,6 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  *
@@ -44,6 +47,11 @@ public class CompleteAttempt extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url = siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.ATTEMP_REVIEW_PAGE);
+
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             DAOQuestionExam daoQuestion = new DAOQuestionExam();
@@ -77,7 +85,7 @@ public class CompleteAttempt extends HttpServlet {
             }
             double score = GradeUtils.grade(questionList, useranswer);
             daoTakeExam.completeAttempt(takeExamId, useranswer, score);
-            response.sendRedirect("ClassExamReviewURL?takeExamId=" + takeExamId);
+            response.sendRedirect(url + "?takeExamId=" + takeExamId);
         }
     }
 

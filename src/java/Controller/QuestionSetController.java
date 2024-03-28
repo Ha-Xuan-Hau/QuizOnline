@@ -17,6 +17,8 @@ import Model.DAOQuestionSet;
 import Model.DAOSubject;
 import Model.DAOTeacher;
 import Model.DAOUserSet;
+import Utils.MyApplicationConstants;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -45,18 +48,23 @@ public class QuestionSetController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+
+        String url = "";
+
+        request.getSession().getAttribute("acc");
+        User user = (User) request.getSession().getAttribute("acc");
+        //call daos
         DAOQuestionSet dao = new DAOQuestionSet();
         DAONormalQuestion questionDAO = new DAONormalQuestion();
         DAONormalQuestionAnswer answerDAO = new DAONormalQuestionAnswer();
-        request.getSession().getAttribute("acc");
-        User user = (User) request.getSession().getAttribute("acc");
-        DAOTeacher daoT = new DAOTeacher();
-        DAOSubject daoS = new DAOSubject();
-        DAOUserSet daoUS = new DAOUserSet();
-        User acc = (User) request.getSession().getAttribute("acc");
+        //get user
         int userId = -1;
-        if (acc!=null)
+        if (user != null) {
             userId = user.getAccountId();
+        }
         String service = request.getParameter("go");
         if (service == null) {
             service = "listAllSets";
@@ -64,45 +72,16 @@ public class QuestionSetController extends HttpServlet {
         if (service.equals("listAllSets")) {
             ArrayList<QuestionSet> allQuesSet = dao.getDataByUsId(userId);
             request.setAttribute("data", allQuesSet);
-            request.getRequestDispatcher("Question/displayAllQuesSet.jsp").forward(request, response);
-        }
-        if (service.equals("setDetails")) {
-            int setId = Integer.parseInt(request.getParameter("SetId"));
-
-            ArrayList<QuestionSet> allQuesSet = dao.getDataByUsId(userId);
-            ArrayList<NormalQuestion> Ques = dao.getQues(setId);
-            ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
-            QuestionSet name = dao.getQuestionSetById(setId);
-            if(acc != null){
-            UserSet userSet = new UserSet(acc.getAccountId(),setId);
-            ArrayList<UserSet> checkUS = (ArrayList<UserSet>) daoUS.getAllUserSets();
-            boolean userSetExists = false;
-            for (UserSet existingUserSet : checkUS) {
-                if (existingUserSet.getUserId() == userSet.getUserId() && existingUserSet.getSetId() == userSet.getSetId()) {
-                    userSetExists = true;
-                    break;
-                }
-            }
-            request.setAttribute("userSetExists", userSetExists);
-            }
-            Teacher teacher = daoT.getTeacherByAccountId(name.getUserAccountId());
-            Subject subject = daoS.getSubject(name.getSubjectId());
-            request.setAttribute("acc", acc);
-            request.setAttribute("SetId", setId);
-            request.setAttribute("subject", subject);
-            request.setAttribute("teacher", teacher);
-            request.setAttribute("name", name);
-            request.setAttribute("data", allQuesSet);
-            request.setAttribute("question", Ques);
-            request.setAttribute("content", QuesAnswers);
-            request.getRequestDispatcher("Question/setDetail.jsp").forward(request, response);
+            url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.VIEW_MY_SET_PAGE);
+            request.getRequestDispatcher(url).forward(request, response);
         }
         if (service.equals("addNewSet")) {
             QuestionSet set = new QuestionSet("New Set", userId, 1, 0);
             dao.insertQuestionSet(set);
             QuestionSet setObj = dao.getNewest();
             //    request.getRequestDispatcher("editSet.jsp").forward(request, response);
-            response.sendRedirect("EditQuestionSetURL?setId=" + setObj.getSetId());
+            url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.EDIT_SET_ACTION);
+            response.sendRedirect(url + "?setId=" + setObj.getSetId());
         }
         if (service.equals("addNewSetDetails")) {
             String action = request.getParameter("submit");
@@ -146,13 +125,15 @@ public class QuestionSetController extends HttpServlet {
                         answerDAO.update(quesAnswer);
                     }
                 }
-                response.sendRedirect("EditQuestionSetURL?setId=" + setId);
+                url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.EDIT_SET_ACTION);
+                response.sendRedirect(url + "?setId=" + setId);
             }
         }
         if (service.equals("deleteSet")) {
             int setId = Integer.parseInt(request.getParameter("setId"));
             dao.deleteQuestionSet(setId);
-            response.sendRedirect("QuestionSetURL");
+            url=siteMaps.getProperty(MyApplicationConstants.ApplicationScope.QUESTION_SET_ACTION);
+            response.sendRedirect(url);
         }
     }
 

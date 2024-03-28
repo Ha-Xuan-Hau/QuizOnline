@@ -43,7 +43,7 @@ public class SearchUserByAD extends HttpServlet {
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
 
-        String url = siteMaps.getProperty(MyApplicationConstants.AdminFeature.ADMIN_SETTING_LIST_PAGE);
+        String url = siteMaps.getProperty(MyApplicationConstants.AdminFeature.ADMIN_MANAGER_PAGE);
 
         try ( PrintWriter out = response.getWriter()) {
              String txt = request.getParameter("txt");
@@ -83,7 +83,7 @@ public class SearchUserByAD extends HttpServlet {
             request.setAttribute("txt", txt);
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("Url", "SearchUserURL?txt="+txt+ "&");
-            request.getRequestDispatcher("Admin/AdminManager.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

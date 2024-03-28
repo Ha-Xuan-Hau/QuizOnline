@@ -13,6 +13,8 @@ import Model.DAOQuestionExam;
 import Model.DAOQuestionExamAnswer;
 import Model.DAOTakeAnswer;
 import Model.DAOTakeExam;
+import Utils.MyApplicationConstants;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  *
@@ -44,7 +47,13 @@ public class ClassExamReviewController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        ServletContext context = this.getServletContext();
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url = siteMaps.getProperty(MyApplicationConstants.ClassExamFeature.ATTEMP_REVIEW_PAGE);
+
         try ( PrintWriter out = response.getWriter()) {
+
             /* TODO output your page here. You may use following sample code. */
             int takeExamId = Integer.parseInt(request.getParameter("takeExamId"));
 
@@ -57,7 +66,7 @@ public class ClassExamReviewController extends HttpServlet {
             TakeExam takeExam = daoTakeExam.getTakeExamByTakeExamIdObj(takeExamId);
             int examId = takeExam.getExamId();
             Exam exam = daoExam.getExamById(examId);
-            
+
             List<questionExam> questions = daoQuestion.getQues(examId);
             HashMap<Integer, ArrayList<questionExamAnswer>> answers = daoQuestionExamAnswer.getAnswerMap(examId);
             Map<questionExam, questionExamAnswer> userAnswers = daoTakeAnswer.getUserAnswers(questions, takeExamId);
@@ -69,7 +78,6 @@ public class ClassExamReviewController extends HttpServlet {
             request.setAttribute("answers", answers);
             request.setAttribute("questionCount", questions.size());
             request.setAttribute("userAnswers", userAnswers);
-            String url="/exam/reviewExam.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

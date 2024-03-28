@@ -86,16 +86,16 @@ public class AddNewSetting extends HttpServlet {
                 session.setAttribute("messagee", "Added successfully");
             }
         } else if ("subject".equals(type)) {
-            if (daoS.checkSubjectCodeExistence(subjectCode)) {
+            if (daoS.checkSubjectCodeExistence(subjectCode) || daoS.checkSubjectNameExists(name)) {
                 HttpSession session = request.getSession();
                 int sessionTimeoutInSeconds = 2;
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-                session.setAttribute("messagee", "Subject Code " + name + " already exists.");
+                session.setAttribute("messagee", "Subject Code or Subject Name already exists.");
             } else {
                 HttpSession session = request.getSession();
                 int sessionTimeoutInSeconds = 2;
                 session.setMaxInactiveInterval(sessionTimeoutInSeconds);
-                session.setAttribute("messagee", "Added successfully");
+                session.setAttribute("messageeww", "Added successfully");
                 daoS.insertSubject(subjectCode, name);
             }
         }

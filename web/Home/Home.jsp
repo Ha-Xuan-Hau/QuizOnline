@@ -161,11 +161,41 @@
                     display: none;
                 }
             }
+   .toast {
+    position: fixed;
+    top: 140px; /* Điều chỉnh khoảng cách với top tùy thích */
+    right: 20px; /* Điều chỉnh khoảng cách với right tùy thích */
+    z-index: 1050;
+    max-width: 50px; /* Thay đổi giá trị của max-width tùy thích */
+    width: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: block;
+    opacity: 0;
+    border-radius: .25rem;
+    transition: opacity 0.15s linear;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+
         </style>
     </head>
 
 
     <body>
+        <div id="myToast" class="toast custom-toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        Thông Báo!!!!
+       
+    </div>
+    <div class="toast-body">
+        <c:out value="${sessionScope.messageea}" />
+    </div>
+</div>
+
         <%@include file="/Home/header.jsp" %> 
         <div class="document-center">
             <!--            <h2 class="carousel-title">Hot</h2>-->
@@ -202,7 +232,7 @@
                 <div id="list">
                     <c:forEach items="${listS}" var="item">
                         <div class="item">
-                            <a href="${pageContext.request.contextPath}/QuestionSetURL?go=setDetails&SetId=${item.getSetId()}" style="text-decoration: none">
+                            <a href="${pageContext.request.contextPath}/QuestionSetDetailURL?SetId=${item.getSetId()}" style="text-decoration: none">
                                 <div class="content">
 
                                     <table width="100%" cellspacing="0">
@@ -278,6 +308,18 @@
         // You can either copy the code from imageSlider2.js or provide its content directly.
 
     </script>
+<script>
+    $(document).ready(function () {
+        // Hiển thị toast nếu có thông báo trong session
+        var messagee = "<c:out value='${sessionScope.messageea}' />";
+        if (messagee.trim() !== "") {
+            $('.toast').toast('show');
+        }
+    });
+    setTimeout(function () {
+        $('#myToast').toast('hide');
+    }, 2000); // 8 giây
+</script>
 
     <script src="${pageContext.request.contextPath}/assets/js/imageSlider2.js"></script>
 </html>

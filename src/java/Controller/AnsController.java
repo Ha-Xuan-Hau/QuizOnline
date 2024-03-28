@@ -9,6 +9,7 @@ import Entity.NormalQuestionAnswer;
 import Entity.QuestionSet;
 import Entity.User;
 import Model.DAOQuestionSet;
+import Utils.MyApplicationConstants;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,12 +44,13 @@ public class AnsController extends HttpServlet {
 
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
-        request.getSession().getAttribute("acc");
-        User user = (User) request.getSession().getAttribute("acc");
-        int userId = user.getAccountId();
+         String url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.TEST_RESULT_PAGE);
+//        request.getSession().getAttribute("acc");
+//        User user = (User) request.getSession().getAttribute("acc");
+//        int userId = user.getAccountId();
 
         DAOQuestionSet dao = new DAOQuestionSet();
-        ArrayList<QuestionSet> allQuesSet = dao.getDataByUsId(userId);
+        ArrayList<QuestionSet> allQuesSet = dao.getData("select * from QuestionSet");
         int setId = Integer.parseInt(request.getParameter("SetId"));
         ArrayList<NormalQuestion> Ques = dao.getQues(setId);
         ArrayList<ArrayList<NormalQuestionAnswer>> QuesAnswers = dao.getAnswer(setId);
@@ -83,7 +85,7 @@ public class AnsController extends HttpServlet {
 
         request.setAttribute("question", Ques);
         request.setAttribute("content", QuesAnswers);
-        request.getRequestDispatcher("Question/answerQuiz.jsp").forward(request, response);
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

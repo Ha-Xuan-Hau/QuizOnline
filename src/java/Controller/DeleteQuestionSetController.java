@@ -36,13 +36,12 @@ public class DeleteQuestionSetController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
 
         String url = siteMaps.getProperty(MyApplicationConstants.QuestionSetFeature.EDIT_SET_ACTION);
 
-        
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String service = request.getParameter("go");
@@ -51,20 +50,17 @@ public class DeleteQuestionSetController extends HttpServlet {
             if (service.equals("deleteQuestion")) {
                 int setId = Integer.parseInt(request.getParameter("setId"));
                 int quesId = Integer.parseInt(request.getParameter("quesId"));
-                
+
                 normalQuestionDAO.delete(quesId);
-                
-                response.sendRedirect(url + setId);
+
+                response.sendRedirect(url + "?setId=" + setId);
             }
-            if (service.equals("deleteAnswer")){
+            if (service.equals("deleteAnswer")) {
                 int setId = Integer.parseInt(request.getParameter("setId"));
                 int answerId = Integer.parseInt(request.getParameter("answerId"));
                 normalQuestionAnswerDAO.delete(answerId);
-                
-                response.sendRedirect(url + setId);
-            }
-            if(service.equals("addNewSetDetails")){
-                
+
+                response.sendRedirect(url + "?setId=" + setId);
             }
         }
     }

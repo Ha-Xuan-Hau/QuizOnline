@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.DAOAdmin;
+import Utils.MyApplicationConstants;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +40,7 @@ public class SettingController extends HttpServlet {
 
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
+        String url=siteMaps.getProperty(MyApplicationConstants.AdminFeature.ADMIN_SETTING_LIST_PAGE);
 
         try ( PrintWriter out = response.getWriter()) {
             DAOAdmin dao = new DAOAdmin();
@@ -68,7 +70,7 @@ public class SettingController extends HttpServlet {
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("Ur", "SettingControllerURL?");
             request.setAttribute("data", settingList);
-            request.getRequestDispatcher("Admin/SettingList.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
 
         }
     }

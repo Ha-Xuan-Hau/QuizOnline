@@ -48,7 +48,7 @@ public class NewQuestionExamController extends HttpServlet {
 
             questionDAO.insertDefaultQuestion(examId);
 
-            response.sendRedirect(url + examId);
+            response.sendRedirect(url + "?examId=" + examId);
         }
     }
 

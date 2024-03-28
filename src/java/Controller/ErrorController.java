@@ -38,11 +38,12 @@ public class ErrorController extends HttpServlet {
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAPS");
 
-    //    String url = siteMaps.getProperty(MyApplicationConstants.ErrorHandle.ACCOUNT_FEATURE_CONSTRAINT_ERROR_PAGE);
+        String url = siteMaps.getProperty(MyApplicationConstants.ApplicationScope.ERROR_PAGE);
 
+        //    String url = siteMaps.getProperty(MyApplicationConstants.ErrorHandle.ACCOUNT_FEATURE_CONSTRAINT_ERROR_PAGE);
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            request.getRequestDispatcher("AccessDenied.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

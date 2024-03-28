@@ -657,7 +657,7 @@ public class DAOUser extends DBConnect {
                     + "FROM [User] AS u "
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 3"; // Lấy người dùng với RoleId = 3 (sinh viên)
+                    + "WHERE u.RoleId = 1"; // Lấy người dùng với RoleId = 3 (sinh viên)
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -687,7 +687,7 @@ public class DAOUser extends DBConnect {
                     + "LEFT JOIN Student AS s ON u.AccountId = s.AccountId "
                     + "LEFT JOIN Teacher AS t ON u.AccountId = t.AccountId "
                     + "LEFT JOIN Admin AS a ON u.AccountId = a.AccountId "
-                    + "WHERE u.RoleId = 1"; // Lọc ra những user có RoleId = 1 (Admin)
+                    + "WHERE u.RoleId = 3"; // Lọc ra những user có RoleId = 1 (Admin)
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
