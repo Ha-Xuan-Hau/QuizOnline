@@ -53,7 +53,7 @@
             .back {
                 width: 600px; /* Increase width */
                 height: 300px; /* Increase height */
-                line-height: 50px; /* Match height for vertical centering */
+                line-height: 13px; /* Match height for vertical centering */
                 text-align: center;
                 border-radius: 5px;
                 vertical-align: middle; /* Align text vertically */
