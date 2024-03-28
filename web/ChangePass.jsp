@@ -54,30 +54,40 @@
                 font-size: 14px;
                 margin-bottom: 10px;
             }
+
         </style>
+        <script>
+            function validateForm() {
+                var newPassword = document.getElementsByName("npass")[0].value;
+                if (newPassword.length < 8) {
+                    alert("New password must be at least 8 characters long.");
+                    return false;
+                } else if (newPassword.length > 32) {
+                    alert("New password cannot exceed 32 characters.");
+                    return false;
+                }
+            }
+        </script>
+         <a style="text-decoration: none; font-weight: bold;margin-left: 50px" href="HomeController"> Back to home</a>
     </head>
     <body>
+    
+               
+          
         <div class="container">
             <h1>Change Password</h1>
             <%
                 String us = (String) session.getAttribute("username");
             %>
-            <form action="change" method="POST">
+            <form action="change" method="POST" onsubmit="return validateForm()">
                 <input type="hidden" name="username" value="<%=us%>">
                 Old Password <input type="password" name="opass"><br>
                 <% 
                 String op = (String)request.getAttribute("op");
-                if(op != null) {
-                    out.println("<p class='error-message'>" + op + "</p>");
+                if(op != null) {out.println("<p class='error-message'>" + op + "</p>");
                 }
                 %>
                 New Password <input type="password" name="npass"><br>
-                <% 
-                String np = (String)request.getAttribute("np");
-                if(np != null) {
-                    out.println("<p class='error-message'>" + np + "</p>");
-                }
-                %>
                 Confirm New Password <input type="password" name="cnpass"><br>
                 <% 
                 String rp = (String)request.getAttribute("rp");

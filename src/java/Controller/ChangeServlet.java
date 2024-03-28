@@ -35,7 +35,7 @@ public class ChangeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -56,18 +56,9 @@ public class ChangeServlet extends HttpServlet {
             request.setAttribute("op", "Old password can not be null");
             check = false;
         }
-        if (newPassword == null || newPassword.length() == 0) {
-            request.setAttribute("np", "New password can not be null");
-            check = false;
-        }
-        if (rePassword == null || rePassword.length() == 0) {
-            request.setAttribute("rp", "Confirm password can not be null");
-            check = false;
-        }
         if (rePassword != null && newPassword != null && !rePassword.equals(newPassword)) {
             request.setAttribute("rp", "Confirm password is not equal to new password!");
             check = false;
-
         }
         if (!check) {
             request.getRequestDispatcher("ChangePass.jsp").forward(request, response);
@@ -81,7 +72,9 @@ public class ChangeServlet extends HttpServlet {
             request.getRequestDispatcher("ChangePass.jsp").forward(request, response);
         } else {
             User newUser = new User(users, newPassword);
+            if(newPassword.equals(rePassword)){
             daoUser.ChangePass(newUser);
+            }
             String successMessage = "Change Successfully!";
             request.setAttribute("successMessage", successMessage);
             session.setAttribute("username", users);
